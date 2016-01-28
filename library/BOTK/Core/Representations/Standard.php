@@ -12,8 +12,8 @@ use BOTK\Core\WebLinks;
  * N.B redefine $priority to change the default rendering choice when  a request does not
  * specify a preferred media in content negotiation.
  */
-class Standard extends AbstractContentNegotiationPolicy
-{    
+class Standard extends AbstractContentNegotiationPolicy {
+	    
     protected static $renderers = array(
         'application/json'          => 'jsonRenderer',
         //'application/xml'           => 'xmlStandardRenderer', 
@@ -59,8 +59,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * if data does not support saveJSON,  serializes data structure using 
      * json_serialize() standard php function
      */
-    public static function jsonRenderer($data)
-    {
+    public static function jsonRenderer($data) {
         static::setContentType('application/json');
         // in php 5.4 you can use JsonSerializable to customize json_encode 
         return json_encode($data);
@@ -68,22 +67,10 @@ class Standard extends AbstractContentNegotiationPolicy
 
 
     /**
-     * if data does not support saveXML, create a valid xml using xmlSerializer(). 
-     * If defined  static::$xmlCSS and static::$xmlXSLT vars, use them  to drive serializer. 
-     */
-    //public static function xmlStandardRenderer($data)
-    //{
-    //    static::setContentType('application/standard+xml');
-    //    return static::xmlSerializer(static::getResourceState($data), static::$xmlProcessingInstruction);
-    //} 
-
-
-    /**
      * if data does not support __toHml,  serializes data structure using htmlSerializer(). 
      * If  use static::$htmlMetadata static array , use it to drive serializer.
      */
-    public static function htmlRenderer($data)
-    {
+    public static function htmlRenderer($data) {
         static::setContentType('text/html');
         $isHtmlFragment=false;
         if( is_object($data) ){
@@ -107,8 +94,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * Method, use textSerializer(). Nothe that __toString is used at serializin level
      * in this case.
      */
-    public static function plaintextRenderer($data)
-    {
+    public static function plaintextRenderer($data) {
         static::setContentType('text/plain');
         return (is_object($data) && method_exists($data,'__toString'))
             ? (string) $data
@@ -120,8 +106,7 @@ class Standard extends AbstractContentNegotiationPolicy
     /*
      * This implement "code on demand" RESTful requirement for php
      */
-    public static function serialphpRenderer($data)
-    {
+    public static function serialphpRenderer($data) {
         static::setContentType('application/x-php');
         return serialize(static::getResourceState($data));
     }
@@ -130,8 +115,7 @@ class Standard extends AbstractContentNegotiationPolicy
     /*
      * This implement "code on demand" RESTful requirement for php
      */
-    public static function phpRenderer($data)
-    {
+    public static function phpRenderer($data) {
         static::setContentType('text/x-php');
         return var_export(static::getResourceState($data), true);
     }
@@ -141,8 +125,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * ia very simple template engine to  reneder html using a custom php script. 
      * The template is in the file pointed by Standard::$htmlTemplate that defaults to 'templates/html_template.php'.
      */
-    public static function htmlTemplateRenderer($data)
-    {
+    public static function htmlTemplateRenderer($data) {
         static::setContentType('text/html');
         return static::templateSerializer($data, static::$htmlTemplate);
     }
@@ -159,8 +142,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * Serialize data structure using Xmlon class.
      * 
      */
-    public static function xmlSerializer($data, array $processingInstructions=array(),$rootElement=null)
-    {
+    public static function xmlSerializer($data, array $processingInstructions=array(),$rootElement=null) {
         if (is_null($rootElement)) $rootElement = 'data';
         $encoder = new \Paranoiq\Xmlon\XmlonEncoder; // for xml serializing
         $encoder->addXmlHeader = false;
@@ -173,8 +155,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * 
      * @link http://datatracker.ietf.org/doc/rfc4287 chapter 4.2.7
      */
-    public static function htmlWebLinkSerializer(\BOTK\Core\WebLink $link)
-    {
+    public static function htmlWebLinkSerializer(\BOTK\Core\WebLink $link) {
         $tag = '<link href="'.$link->href.'"';
         foreach (array('rel', 'type','hreflang') as $attribute) {
             if( $value = $link->$attribute) $tag .= " $attribute='$value'";
@@ -189,8 +170,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * Helper to render a nice view of Web link as html fragment
      * 
      */
-    public static function htmlWebLinks(array $links)
-    {
+    public static function htmlWebLinks(array $links) {
         $html = "<dl>\n";
          $alternateLinks = array();
          foreach($links as $link ){
@@ -225,8 +205,7 @@ class Standard extends AbstractContentNegotiationPolicy
             $type  = null,         
             $header = null,
             $footer = null,
-            $dataIsHtmlFragment=null)
-    {
+            $dataIsHtmlFragment=null) {
         //set defaults
         if (is_null($meta)) {$meta=array();}
         if (is_null($type)) {$type= is_object($data)?get_class($data):gettype($data);}
@@ -294,14 +273,13 @@ $htmlDataRepresentation
      * an super simple template engine!
      * 
      */
-    public static function templateSerializer($data, $template)
-    {
+    public static function templateSerializer($data, $template) {
         if(ob_start()){
             @require $template;
             $result = ob_get_contents();
             ob_end_clean();
         }
-        return $result;
+        return true;
     }    
 
 }
