@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>Core package documentation template</title>
+    <link rel="stylesheet" type="text/css" href="http://ontology.it/tools/bofw/v4/css/doc.css">
+  </head>
+  <body>
+    <header>
+      <div class="jumbotron">
+        <h1>BOTK Core package samples</h1>
+        <p id="subject"> </p>
+      </div>
+      <div class="metadata">
+        <dl id="metadata">
+        </dl>
+      </div>
+      <section>
+        <h2>Running samples</h2>
+        To execute samples in this dir:<br>
+        <ol style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 20px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+          <li style="box-sizing: border-box;">If not already done, download and
+            install dependencies in project home:<span class="Apple-converted-space">&nbsp;</span><br
+              style="box-sizing: border-box;">
+            <code style="box-sizing: border-box; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; font-size: 13px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); white-space: nowrap; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;">cd
+              ..; curl -s http://getcomposer.org/installer | php;</code><code style="box-sizing: border-box; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; font-size: 13px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); white-space: nowrap; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;">php
+              composer.phar install</code></li>
+          <li>Configure a php enabled web server to publish <code>samples</code>
+            directory and point browser to it. This file should be shown.</li>
+          <li>Click links to run examples.</li>
+          <li>See sources.</li>
+          <li>Play with http headers (i.e. Accepts) and http methods using an
+            interactive&nbsp; REST client compatible with your browser (<a href="http://restforchrome.blogspot.fr/">here
+              an example for chrome</a>).</li>
+        </ol>
+        <h2>simple_helloword.php</h2>
+        <p>This script is a minimal standalone endpoint implementation just to
+          demonstrate how to build autocontained web service using&nbsp; just
+          Core classes.</p>
+        <p>It manages HTTP content negotiation supporting following formats:</p>
+        <ul>
+          <li>application/json</li>
+          <li>application/xml</li>
+          <li>text/html</li>
+          <li>application/x-php</li>
+          <li>text/x-php</li>
+          <li>text/plain</li>
+        </ul>
+        <p>It manages http error according providing <a href="http://tools.ietf.org/html/draft-nottingham-http-problem-05">ietf
+            error model</a> in following formats:</p>
+        <ul>
+          <li>application/api-problem+json</li>
+          <li>application/api-problem+xml</li>
+          <li>text/html</li>
+          <li>application/x-php</li>
+          <li>text/x-php</li>
+          <li>text/plain</li>
+        </ul>
+        <p><a href="simple_helloworld.php">click here to
+            execute&nbsp;&nbsp;&nbsp; <br>
+          </a></p>
+      </section>
+      <section>
+        <h2>restful_helloworld.php</h2>
+        <p>This script is a complete standalone endpoint implementation just to
+          demonstrate how to build autocontained RESTful using Core
+          classes.Similar to simple_helloworld.php but shows usage of hypermedia
+          links.</p>
+        <a href="restful_helloworld.php">click here to execute</a><br>
+        <section id="status">
+          <h2>reusable_helloworld.php</h2>
+          <p>It shows how easy is to develop a web application that reuse an
+            existing end-point. Reused endpoint is contained in a single file (
+            in mylibrary\SimpleHelloEndPoint.php file)</p>
+          <p>This end point exposes these resources:</p>
+          <dl>
+            <dt>GET /</dt>
+            <dd> it will print on browser 'Hello to everybody'. <a href="reusable_helloworld.php/">Try
+                it</a>.</dd>
+            <dt>GET /&lt;name&gt;</dt>
+            <dd> it will print on browser 'Hello to &lt;name&gt;'.&nbsp; <a href="reusable_helloworld.php/name_in_url">Try
+                it</a>.</dd>
+            <dt>GET /botk</dt>
+            <dd> it will print on browser 'Thank you!!!'<a href="file:///C:/Workspaces/botk/core/samples/reusable_helloworld.php/name_in_url">'.&nbsp;
+                </a><a href="reusable_helloworld.php/botk">Try it</a>.</dd>
+            <dt> POST /botk</dt>
+            <dt><span style="font-weight: normal;">it will print on browser
+                'Thank you posting me!!!'<br>
+              </span>
+              <form method="POST" action="reusable_helloworld.php/botk" name="poster1">
+                <button type="submit">Try it</button> </form>
+            </dt>
+          </dl>
+          <h2>structured_helloworld.php</h2>
+          <p>Like reusable_helloword but the code is more complex and splitted
+            in serveral files ( in mylibrary\HelloEndPoint directory)</p>
+          <p>This end point exposes these resources:</p>
+          <dl>
+            <dt>GET /about</dt>
+            <dd>shows a data structured structure. <a href="structured_helloworld.php/about">Try
+                it</a>.</dd>
+            <dt>GET /about/version</dt>
+            <dd>shows an attribute of about data structure . <a href="structured_helloworld.php/about/version">Try
+                it</a>.</dd>
+            <dt>GET /about?process=sum</dt>
+            <dd>shows a dinamic method od a data structure. <a href="structured_helloworld.php/about?process=sum">Try
+                it</a>.</dd>
+            <dt>ANY /&lt;name&gt;</dt>
+            <dd>supports GET,POST,PUT,DELETE,OPTIONS,HEAD methods) Try it using
+              an REST client </dd>
+          </dl>
+          <h2>structured_helloworld.php</h2>
+          This example shows a simple application that mounts two reusable
+          end-points:<br>
+          <ul>
+            <li>the first is attached to resource '<strong>/hi</strong>' and
+              provides&nbsp; same resources in reusable_helloworld.php example;</li>
+            <li>the second is attached to resource '/<strong>hello</strong>' and
+              provides&nbsp; same resourcesin structured_helloworld.php example;
+            </li>
+          </ul>
+          For example<br>
+          <ul>
+            <li>&nbsp; <a href="composed_helloworld.php/hi/enrico">/hi/enrico</a></li>
+            <li>&nbsp; <a href="composed_helloworld.php/hi/botk">/hi/botk</a>
+              (supports GET &amp; POST http Method)</li>
+            <li>&nbsp; <a href="composed_helloworld.php/hello/about">/hello/about</a>
+              (supports content management)</li>
+            <li>&nbsp; .. see other options in structured_helloworld.php example</li>
+          </ul>
+          Note that the 'hello' end-point supports content negotiation, while
+          'hi' does not: 'hello' end-point recognizes following media requests:
+          'text/html', 'text/plain', 'application/json', 'application/x-php',
+          'text/x-php' . Default media representation is 'text/html'.<br>
+          <dl>
+          </dl>
+        </section>
+      </section>
+    </header>
+    <footer> </footer>
+  </body>
+</html>

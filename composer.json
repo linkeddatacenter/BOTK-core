@@ -1,0 +1,25 @@
+{
+	"name": "botk/core",
+    "description": "Super lightweight classes for developing cool RESTful APIs.",
+    "type": "library",
+    "license": "mit",
+    "homepage": "http://ontology.it/tools/botk4/core/",
+    "keywords": ["E-Artspace", "LinkedData.Center", "BOTK", "REST", "RESTful"],
+    "autoload": {
+        "psr-0": {
+            "BOTK\\Core": "library/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Enrico fagnoni",
+            "email": "e.fagnoni@e-artspace.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+		"respect/rest": "dev-master",
+		"bitworking/mimeparse": "*",
+		"paranoiq/xmlon-encoder": "dev-master"
+    }
+}
