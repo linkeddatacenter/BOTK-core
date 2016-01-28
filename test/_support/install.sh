@@ -4,7 +4,7 @@ PROJECT="BOTK-core"
 REPO="https://github.com/linkeddatacenter/BOTK-core.git" 
 # Install apache 2 and php  on an ubunto box
 apt-get update
-apt-get -y install git subversion apache2 php5-common libapache2-mod-php5 php5-cli curl phpunit
+apt-get -y install git subversion apache2 php5-common libapache2-mod-php5 php5-cli curl
 
 
 # Clone  project in /opt (or use vagrant)

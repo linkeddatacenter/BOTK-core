@@ -5,12 +5,9 @@ language:
   php
 
 php:
-  - 5.3
-  - 5.4
   - 5.5
   - 5.6
   - hhvm
-  - hhvm-nightly
 
 cache:
   directories:
@@ -29,4 +26,3 @@ after_script:
 matrix:
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
