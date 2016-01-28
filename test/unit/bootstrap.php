@@ -1,5 +1,5 @@
 <?php 
-$loader =require '../vendor/autoload.php';
+$loader =require 'vendor/autoload.php';
 
 use BOTK\Core\EndPoint;
 final class EndPointStub extends EndPoint 

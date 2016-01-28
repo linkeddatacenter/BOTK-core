@@ -1,6 +1,6 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false" 
-         bootstrap="bootstrap.php"
+         bootstrap="test/unit/bootstrap.php"
          cacheTokens="true"
          colors="true"
          convertErrorsToExceptions="true"
@@ -11,12 +11,11 @@
          syntaxCheck="false"
          verbose="false">
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="false">
-            <directory>../library/BOTK/</directory>
+        <whitelist>
+            <directory>library/</directory>
         </whitelist>
     </filter>
-    <testsuite name="BOTK\Core Test Suite">
-        <directory>.</directory>
+    <testsuite >
+        <directory>test/unit/</directory>
     </testsuite>
 </phpunit>
-

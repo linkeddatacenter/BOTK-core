@@ -4,10 +4,6 @@ use BOTK\Core\EndPointFactory,
     BOTK\Core\EndPoint,
     BOTK\Core\HttpErrorException;
 
-/**
- * @covers BOTK\Core\Application
- * @covers BOTK\Core\EndPoint
- */
 class ApplicationTest extends PHPUnit_Framework_TestCase
 {
 

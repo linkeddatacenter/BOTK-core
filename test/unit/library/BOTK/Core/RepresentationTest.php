@@ -15,7 +15,6 @@ class RepresentationTest extends PHPUnit_Framework_TestCase
         $array= $r->renderers();
         $this->assertEquals(array_keys($array),array(
         'application/json',
-        'application/xml', 
         'text/html',
         'application/x-php',
         'text/x-php',

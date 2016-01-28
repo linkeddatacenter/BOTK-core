@@ -16,7 +16,7 @@ class Standard extends AbstractContentNegotiationPolicy
 {    
     protected static $renderers = array(
         'application/json'          => 'jsonRenderer',
-        'application/xml'           => 'xmlStandardRenderer', 
+        //'application/xml'           => 'xmlStandardRenderer', 
         'text/html'                 => 'htmlRenderer',
         'application/x-php'         => 'serialphpRenderer',
         'text/x-php'                => 'phpRenderer',
@@ -40,7 +40,7 @@ class Standard extends AbstractContentNegotiationPolicy
      * Allow htmlRenderer to personalize html headers
      */
     public static $htmlMetadata = array(
-        '<link rel="stylesheet" type="text/css" href="http://ontology.it/tools/bofw/v4/css/doc.css" />'
+        '<link rel="stylesheet" type="text/css" href="http://linkeddata.center/resources/v4/css/doc.css" />'
     );
 
     /**
@@ -71,11 +71,11 @@ class Standard extends AbstractContentNegotiationPolicy
      * if data does not support saveXML, create a valid xml using xmlSerializer(). 
      * If defined  static::$xmlCSS and static::$xmlXSLT vars, use them  to drive serializer. 
      */
-    public static function xmlStandardRenderer($data)
-    {
-        static::setContentType('application/standard+xml');
-        return static::xmlSerializer(static::getResourceState($data), static::$xmlProcessingInstruction);
-    } 
+    //public static function xmlStandardRenderer($data)
+    //{
+    //    static::setContentType('application/standard+xml');
+    //    return static::xmlSerializer(static::getResourceState($data), static::$xmlProcessingInstruction);
+    //} 
 
 
     /**
@@ -265,14 +265,8 @@ class Standard extends AbstractContentNegotiationPolicy
 <html>
     <head>
         <meta charset='utf-8'>
-        <title>$type response</title>
+        <title>$type</title>
         $head
-    <style type='text/css'>
-        main {
-            font-family: monospace;
-            white-space: pre;
-        }
-    </style>
     </head>
     <body>
         <header>
@@ -281,11 +275,11 @@ class Standard extends AbstractContentNegotiationPolicy
                <div id=botkHyperlinks>
                 $navLinks
                </div>
-            <nav>
+            </nav>
         </header>
 <!-- main tag contains a php html encoded representation of public data --> 
 <!-- the class property contains the name of the data model from whom public data are extracted -->       
-<main class='$type'>$htmlDataRepresentation</main>
+$htmlDataRepresentation
         <footer>
             $footer
         </footer>

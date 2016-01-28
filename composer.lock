@@ -1,31 +1,39 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "99c14d0f987b5b0cf7c4f16f73192c1b",
+    "hash": "ff57a91bdb73cf0ff2a1bd876dd1c7d0",
+    "content-hash": "479597f5b88fa8f758ba1f3492f1cd1d",
     "packages": [
         {
             "name": "bitworking/mimeparse",
-            "version": "2.0.0",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ramsey/mimeparse.git",
-                "reference": "4de509f93d9aa9af3ec9d05f882a26fcd569d3f7"
+                "url": "https://github.com/conneg/mimeparse-php.git",
+                "reference": "db3f7be1ab4d9bfff5764e56ad84872eb3b87c1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/mimeparse/zipball/4de509f93d9aa9af3ec9d05f882a26fcd569d3f7",
-                "reference": "4de509f93d9aa9af3ec9d05f882a26fcd569d3f7",
+                "url": "https://api.github.com/repos/conneg/mimeparse-php/zipball/db3f7be1ab4d9bfff5764e56ad84872eb3b87c1c",
+                "reference": "db3f7be1ab4d9bfff5764e56ad84872eb3b87c1c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "0.8.*",
+                "phpunit/phpunit": "~4.5",
+                "satooshi/php-coveralls": "0.6.*",
+                "squizlabs/php_codesniffer": "~2.2"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Bitworking": "src/"
+                "psr-4": {
+                    "Bitworking\\": "src/Bitworking/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -46,73 +54,37 @@
                 }
             ],
             "description": "Basic functions for handling mime-types, forked from Joe Gregorio's mimeparse library <http://code.google.com/p/mimeparse/>.",
-            "homepage": "http://code.google.com/p/mimeparse/",
             "keywords": [
                 "accept",
                 "http",
                 "mime"
             ],
-            "time": "2012-09-18 16:55:34"
-        },
-        {
-            "name": "paranoiq/xmlon-encoder",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paranoiq/XmlonEncoder.git",
-                "reference": "e5b8c97c882e6984ed35f2a899304fd19eae9e1a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paranoiq/XmlonEncoder/zipball/e5b8c97c882e6984ed35f2a899304fd19eae9e1a",
-                "reference": "e5b8c97c882e6984ed35f2a899304fd19eae9e1a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 5.3.0"
-            },
-            "require-dev": {
-                "nette/nette": "@dev",
-                "nette/tester": "@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Vlasta Neubauer",
-                    "homepage": "http://paranoiq.cz"
-                }
-            ],
-            "description": "Serialize variables to simple XML format, just like JSON",
-            "homepage": "http://paranoiq.cz",
-            "time": "2013-10-13 13:06:25"
+            "time": "2015-04-25 17:28:31"
         },
         {
             "name": "respect/rest",
-            "version": "dev-master",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Rest.git",
-                "reference": "94862d39202747c4ce0128ceea8ebab20acdc48d"
+                "reference": "4f60aa199623d738a3391ca1e80bafb754bc9308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Rest/zipball/94862d39202747c4ce0128ceea8ebab20acdc48d",
-                "reference": "94862d39202747c4ce0128ceea8ebab20acdc48d",
+                "url": "https://api.github.com/repos/Respect/Rest/zipball/4f60aa199623d738a3391ca1e80bafb754bc9308",
+                "reference": "4f60aa199623d738a3391ca1e80bafb754bc9308",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Respect\\Rest": "library/"
+                "psr-4": {
+                    "Respect\\": "library/Respect"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -121,74 +93,27 @@
             ],
             "authors": [
                 {
-                    "name": "Henrique Moody",
-                    "email": "henriquemoody@gmail.com",
-                    "homepage": "http://henriquemoody.com/"
-                },
-                {
                     "name": "Alexandre Gaigalas",
                     "email": "alexandre@gaigalas.net"
                 },
                 {
-                    "name": "kleberhs007",
-                    "email": "kleberhs007@yahoo.com"
-                },
-                {
-                    "name": "Leandro",
-                    "email": "lleitep3@gmail.com"
-                },
-                {
-                    "name": "Rogerio Prado de Jesus",
-                    "email": "rogeriopradoj@gmail.com"
-                },
-                {
-                    "name": "Anderson Casimiro",
-                    "email": "duodraco@gmail.com"
-                },
-                {
-                    "name": "Augusto Pascutti",
-                    "email": "augusto@phpsp.org.br"
-                },
-                {
-                    "name": "Ben Ramsey",
-                    "email": "ben@benramsey.com"
-                },
-                {
-                    "name": "eduardomarcate",
-                    "email": "eduardo@marcate.info"
-                },
-                {
-                    "name": "Nick Rawe",
-                    "email": "nickrawe2@gmail.com"
-                },
-                {
-                    "name": "Pablo Lacerda de Miranda",
-                    "email": "pablolmiranda@gmail.com"
-                },
-                {
-                    "name": "wesleyvicthor",
-                    "email": "w.v.mendes.s@gmail.com"
+                    "name": "Respect/Data Contributors",
+                    "homepage": "https://github.com/Respect/Data/graphs/contributors"
                 }
             ],
             "description": "Thin controller for RESTful applications",
-            "time": "2012-12-17 09:48:14"
+            "homepage": "http://respect.li/",
+            "time": "2015-01-12 09:55:16"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "respect/rest": 20,
-        "paranoiq/xmlon-encoder": 20
-    },
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3"
+        "php": ">=5.5.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
