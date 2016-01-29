@@ -1,8 +1,6 @@
 <?php
 namespace BOTK\Core\Representations;
 
-use BOTK\Core\Http;
-use BOTK\Core\WebLinks;
 
 
 /*
@@ -29,6 +27,7 @@ class Standard extends AbstractContentNegotiationPolicy {
         'application/x-php'         => 'serialphpParser',
     ); 
 
+
     /**
      * Allow to personalize xml header in xmlStandardRenderer
      */
@@ -36,6 +35,7 @@ class Standard extends AbstractContentNegotiationPolicy {
         '<?xml version="1.0" encoding="UTF8"?>',
     );
      
+	 
     /**
      * Allow htmlRenderer to personalize html headers
      */
@@ -73,6 +73,12 @@ class Standard extends AbstractContentNegotiationPolicy {
     public static function htmlRenderer($data) {
         static::setContentType('text/html');
         $isHtmlFragment=false;
+		$metadata = array(
+				'title'			=> null,
+				'htmlMetadata'	=> static::$htmlMetadata,
+				'header'		=> null,
+				'footer'		=> null,
+		);			
         if( is_object($data) ){
             if (method_exists($data,'__toHtml')) {
                 $resourceState =  $data->__toHtml();
@@ -80,13 +86,16 @@ class Standard extends AbstractContentNegotiationPolicy {
             } else {
                 $resourceState = static::getResourceState($data);
             }
-            $title = get_class($data);
+			if (method_exists($data,'__metadata')){
+				$metadata= array_merge($metadata, $data->__metadata());
+			} else {
+				$metadata['title'] = get_class($data);
+			}
         } else {
             $resourceState = $data;
-            $title = gettype($data);
         }
-        
-        return static::htmlSerializer( $resourceState, static::$htmlMetadata, $title, null, null, $isHtmlFragment);
+     
+        return static::htmlSerializer( $resourceState, $metadata['htmlMetadata'], $metadata['title'], $metadata['header'], $metadata['footer'], $isHtmlFragment);
     }
 
     
@@ -134,9 +143,7 @@ class Standard extends AbstractContentNegotiationPolicy {
 
     /*************************************************************************
      *  Standard Serializers
-     *************************************************************************/
-
-     
+     *************************************************************************/  
      
     /**
      * Serialize data structure using Xmlon class.
@@ -147,139 +154,6 @@ class Standard extends AbstractContentNegotiationPolicy {
         $encoder = new \Paranoiq\Xmlon\XmlonEncoder; // for xml serializing
         $encoder->addXmlHeader = false;
         return implode("\n",$processingInstructions)."\n".$encoder->encode($data,$rootElement);
-    }
- 
-
-    /**
-     * Serializ an Web link in htm head section
-     * 
-     * @link http://datatracker.ietf.org/doc/rfc4287 chapter 4.2.7
-     */
-    public static function htmlWebLinkSerializer(\BOTK\Core\WebLink $link) {
-        $tag = '<link href="'.$link->href.'"';
-        foreach (array('rel', 'type','hreflang') as $attribute) {
-            if( $value = $link->$attribute) $tag .= " $attribute='$value'";
-        }
-        $tag .= ' />'; 
-        
-        return $tag;       
-    }
-
-
-    /**
-     * Helper to render a nice view of Web link as html fragment
-     * 
-     */
-    public static function htmlWebLinks(array $links) {
-        $html = "<dl>\n";
-         $alternateLinks = array();
-         foreach($links as $link ){
-            $linkName = $link->rel?$link->rel:'Link';
-            $href=$link->href;
-            if(0===strcasecmp($linkName,'alternate')){
-                $type = $link->type?$link->type:'unspecfified type';
-                // manage antipatter to make alternate format ccallable from browser
-                $glue=(false===strpos($href, '?'))?'?':'&amp';
-                $forceOutput=$glue.'_output='.urlencode($type);
-                $alternateLinks[] = "<a href='$href{$forceOutput}'>$type</a> ";
-            } else {
-                $html .= "<dt>$linkName:</dt><dd><a href='$href'>$href</a></dd>\n";
-            }
-         }
-         if (count($alternateLinks)){
-            $html .= "<dt>alternate:</dt><dd>".implode(', ',$alternateLinks)."</dd>\n"; 
-         }
-        $html .= "</dl>\n";
-        
-        return $html;
-    }
-    
-    
-    /**
-     * if $useCustomFields use an xml representation for fields.. Not yet standarized in html5
-     * 
-     * This render use html5 semantic tagging.
-     */
-    public static function htmlSerializer($data, 
-            $meta = null,
-            $type  = null,         
-            $header = null,
-            $footer = null,
-            $dataIsHtmlFragment=null) {
-        //set defaults
-        if (is_null($meta)) {$meta=array();}
-        if (is_null($type)) {$type= is_object($data)?get_class($data):gettype($data);}
-        if (is_null($header)) {$header="<h1>$type</h1>";}
-        if (is_null($footer)) {$footer='';}
-        if (is_null($dataIsHtmlFragment)) {$dataIsHtmlFragment=false;}
-         
-        // initilalize metadata
-        $metadata = array();       
-        if (is_string($meta) && ($meta=trim($meta))){
-            $metadata[] = "<link rel='stylesheet' type='text/css' href='$meta'/>";
-        } elseif( is_array($metadata)){
-            $metadata = $meta;
-        }
-         
-               
-        // prepare hyperlinks
-        $links = Http::getResponseLinks();
-        foreach ($links as $link) {
-            $metadata[] = self::htmlWebLinkSerializer($link);
-        }
-        $navLinks = empty($links)?'':static::htmlWebLinks($links);
-        
-        // prepare head    
-        $head = implode("\n",$metadata);
-            
-       // Prepare data content
-        $text = is_scalar($data)
-            ? ((string)$data)
-            : var_export($data, true);          
-        $htmlDataRepresentation = $dataIsHtmlFragment?$text:htmlspecialchars($text);
-         
-        return is_null($meta)  // if meta is null render just data as html fragment
-            ?  $htmlDataRepresentation
-            : ( "<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <title>$type</title>
-        $head
-    </head>
-    <body>
-        <header>
-            $header
-            <nav>
-               <div id=botkHyperlinks>
-                $navLinks
-               </div>
-            </nav>
-        </header>
-<!-- main tag contains a php html encoded representation of public data --> 
-<!-- the class property contains the name of the data model from whom public data are extracted -->       
-$htmlDataRepresentation
-        <footer>
-            $footer
-        </footer>
-    </body>
-</html>
-"
-            );
-    }
-
-
-    /**
-     * an super simple template engine!
-     * 
-     */
-    public static function templateSerializer($data, $template) {
-        if(ob_start()){
-            @require $template;
-            $result = ob_get_contents();
-            ob_end_clean();
-        }
-        return true;
-    }    
+    }  
 
 }

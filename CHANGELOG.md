@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [changelog format](http://keepachangelog.com/)
 
 ## [Unreleased]
-
+### Changed
+- refactory of Standard Representation
 
 ## [5.0.1] - 2016-01-29
 ### Fixed
