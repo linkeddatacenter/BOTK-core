@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [5.1.1] - 2016-01-29
+### Fixed
+- bug in AbstractCOntentNegotiation
+
 ## [5.1.0] - 2016-01-29
 ### Changed
 - refactory of Standard Representation
@@ -42,7 +46,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...HEAD
+[5.1.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...5.1.0
 [5.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.0.1...5.1.0
 [5.0.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.0.0...5.0.1
 [5.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/4.0.1...5.0.0

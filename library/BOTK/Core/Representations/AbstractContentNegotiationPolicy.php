@@ -186,13 +186,12 @@ abstract class AbstractContentNegotiationPolicy
         if (is_null($dataIsHtmlFragment)) {$dataIsHtmlFragment=false;}
          
         // initilalize metadata
-               
+        
+        $metadata = array();       
         if (is_string($meta) && ($meta=trim($meta))){
             $metadata[] = "<link rel='stylesheet' type='text/css' href='$meta'/>";
         } elseif( is_array($metadata)){
             $metadata = $meta;
-        } else {
-        	$metadata = array();
         }
          
                
