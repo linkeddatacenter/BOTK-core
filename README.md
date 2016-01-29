@@ -35,11 +35,13 @@ This package require [composer](http://getcomposer.org/).
 
 Add following dependance to **composer.json** file in your project root:
 
+```
     {
         "require": {
             "botk/core": "*"
         }
     }
+```
 
 # Overview
 
@@ -50,8 +52,7 @@ Core package libraries are designed to implement [RESTful
 
 You can use Core Package to develop:
 
-*   **web applications** : just PHP [CGI 1.1 interface](http://www.ietf.org/rfc/rfc3875)
-              scripts.
+*   **web applications** : just PHP [CGI 1.1 interface](http://www.ietf.org/rfc/rfc3875)scripts.
 *   **RESTful APIs**: web applications that accept the RESTfull architectural constraints.
 *   **BOful APIs**: RESTFul APIs using Semantic Web Architecture according [BOTK
                 specifications](../overview/).
@@ -65,6 +66,7 @@ The following code snippet is a simple RESTful API that represents the string '"
           proposal](http://tools.ietf.org/html/draft-nottingham-http-problem-04) RFC, rendering _http problem_ as:&nbsp; application/api-problem+json,
         application/api-problem+xml, text/html, application/x-php, text/x-php, text/plain.
 
+```
     require '../vendor/autoload.php';
     use BOTK\Core\EndPoint, BOTK\Core\EndPointFactory, BOTK\Core\ErrorManager,
         BOTK\Core\Representations\Standard;
@@ -80,9 +82,11 @@ The following code snippet is a simple RESTful API that represents the string '"
     } catch ( Exception $e) {
         echo ErrorManager::getInstance()->render($e); 
     }
+```
 
-      Core package is designed around the endpoint concept:
-      > An endpoint&nbsp; is a Web service that provides server side [RESTful
+Core package is designed around the endpoint concept:
+
+> An endpoint&nbsp; is a Web service that provides server side [RESTful
 >             web API](http://en.wikipedia.org/wiki/Representational_state_transfer#RESTful_web_APIs). An endpoint can be described with [URI templates](http://tools.ietf.org/html/rfc6570)
 >           and implemented in a [CGI](http://www.ietf.org/rfc/rfc3875) script.
 > 
@@ -91,26 +95,25 @@ The following code snippet is a simple RESTful API that represents the string '"
 Core package implements endpoints inEndpoint[ class](#EndPoint).
 
 The Core package is a killer one, i.e. it is a really sophisticated package which provides a powerful way to
-        implement web services. Even if the Core package is focused to [server-side
-          APIs](http://en.wikipedia.org/wiki/Web_API#Server-side), with it you can do nearly all types of web application you ever dreamed about. The price you have to
-        pay is to accept complexity, because Core package major drawback is that it is not easy to understand and to use
-        at the beginning. 
+		implement web services. Even if the Core package is focused to [server-side
+		  APIs](http://en.wikipedia.org/wiki/Web_API#Server-side), with it you can do nearly all types of web application you ever dreamed about. The price you have to
+		pay is to accept complexity, because Core package major drawback is that it is not easy to understand and to use
+		at the beginning. 
 
-        In other words: with Core Package you either shoot yourself in the foot the first time and never use it again or
-        love it for the rest of your life because of its power.
+In other words: with Core Package you either shoot yourself in the foot the first time and never use it again or
+love it for the rest of your life because of its power.
 
 Core package follows the BOTK "non framework" philosophy, that is that grants you the freedom to adopt or
         reject BOTK guidelines and/or best practices. Find your way to use Core Package!
 
 ## Architecture
 
-Like in many PHP frameworks, Core package adopts [Model–view–controller](http://en.wikipedia.org/wiki/Model_view_controller)
-        (MVC) design pattern adapting it to RESTful architecture.
+Like in many PHP frameworks, Core package adopts [Model–view–controller](http://en.wikipedia.org/wiki/Model_view_controller) (MVC)
+design pattern adapting it to RESTful architecture.
 
 Classical MVC design pattern separates the application into three parts:
 
-*   The **Model** models your business objects, the "things" in your application, wrapping up
-              data handling and logic. 
+*   The **Model** models your business objects, the "things" in your application, wrapping updata handling and logic. 
 *   The **View** manages the application output. 
 *   The **Controller** manages the application flow manipulating data from the Model and driving
               views.
@@ -147,10 +150,10 @@ Parsers and renderers are defined in [Content Negotiation Policies](contentNegot
 Core package enforces a strict [separation for
           concerns](http://en.wikipedia.org/wiki/Separation_of_concerns) between Applications,Endpoints, Controllers and Content Negotiation Policies:
 
-![Core as MVC implementation](images_file/png_1.png) Core classes
-          vs MVC
+![Core as MVC implementation](doc/images_file/png_1.png) 
 
 This approach allows you to write reusable endpoints as in this RESTful web service example:
+
 
     require '../vendor/autoload.php';
 
@@ -204,6 +207,7 @@ This approach allows you to write reusable endpoints as in this RESTful web serv
         echo ErrorManager::getInstance()->render($e); 
     }
 
+
 This simple implementation provides json, html, xml, PHP and text representation of a web resource, whose
         state is modeled as a simple PHP object. It advertises the next resource you can visit after getting its
         representation in any format. The web service informs the client that it can safely cache it for at least 30
@@ -233,7 +237,7 @@ Request parsing splits an HTTP request in pieces of manageable information.Core 
           applications** you are discouraged to use cookies and session variables**. In core Package ther
           is no support for such HTTP protocol parts. Here is a summary of Core supported HTTP request parts:
 
-![Http request parsing](images_file/png_3.png)
+![Http request parsing](doc/images_file/png_3.png)
 
 BOTK [Context package](../context/) add some facility and helpers to access to PHP HTTP
           variables together with configuration and environment information.
@@ -252,7 +256,7 @@ TheEndpoint workflow objective is to route an HTTP request to a function that ma
 
 Here a simplified picture of internal dataflow for aEndpoint class:
 
-![EndPoin tDataflow](images_file/png_4.png)
+![EndPoin tDataflow](doc/images_file/png_4.png)
 
 ### Resource Controller workflow
 
@@ -267,7 +271,7 @@ The controller workflow objective is to provide an implementation for HTTP metho
 
 Here a simplified picture of internal dataflow for a controller class:
 
-Controller dataflow![Controller dataflow](doc/images_file/png_5.png)
+![Controller dataflow](doc/images_file/png_5.png)
 
 ### HTTP Response emission
 
@@ -336,10 +340,10 @@ Core package does not impose a uniform content type for response but supports di
           representation (json, xml, html, etc.) through content negotiation .Both for requests and responses.
 
 Beside this, **Roy T. Fielding stressed that [REST
-              APIs must be hypertext driven](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)**. Unfortunately many formats typically used to serialize the
+          APIs must be hypertext driven](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)**. Unfortunately many formats typically used to serialize the
           status odf web resources (i.e, json, plain xml, plain text) do not support hyperlinks and metadata. **BOTK
-            suggests RDF as preferred hypermedia data model**. The BOTK support to [RDF is
-            available as a separate package](../rdf/).&nbsp; By the way, [Core\Controller](#Controller) use Web
+          suggests RDF as preferred hypermedia data model**. The BOTK support to [RDF is
+          available as a separate package](../rdf/).&nbsp; By the way, [Core\Controller](#Controller) use Web
           Links in HTTP header to provide an Uniform hypermedia&nbsp; interface between client and server for all non
           hypermedial formats .
 
@@ -550,9 +554,10 @@ Content negotiation policies contains _representations_ that are associative arr
           with a content processor function that translate language content elements in Resource Model according the
           language id. Content negotiation policy provide the public ` translators() ` function that
           returns $translators variable. </dd></dl>
-      All Content negotiation policies provide the static method ` render()` that renders a Resource model.
-      This method is normally called by endpoint runtime engine, but you can call it by yourself (see above). Core
-      package provides a set of "ready to use" content negotiation policies detailed above. 
+          
+All Content negotiation policies provide the static method ` render()` that renders a Resource model.
+This method is normally called by endpoint runtime engine, but you can call it by yourself (see above). Core
+package provides a set of "ready to use" content negotiation policies detailed above. 
 
 ## Negotiating contents in Response
 
@@ -597,9 +602,9 @@ In this example there are three different routes with different controllers that
     $this->**always('Accept',Standard::renderers())**;
 
 The content negotiation policy by accept processing can be _forced_ to select a particular
-        representation bypassing HTTP protocol specifying a medium in resource uri the client request in variable *_output*
-        . For instance to force xml rendering of a resource ignoring the content preferences specified in HTTP header
-        you can use : ` HTTP://...endpoint_uri?_output=application/xml ` .
+representation bypassing HTTP protocol specifying a medium in resource uri the client request in variable *_output*
+. For instance to force xml rendering of a resource ignoring the content preferences specified in HTTP header
+you can use : ` HTTP://...endpoint_uri?_output=application/xml ` .
 
 You can also define dynamically representations
 

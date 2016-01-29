@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
 PROJECT="BOTK-core"
-REPO="https://github.com/linkeddatacenter/BOTK-core.git" 
+REPO="https://github.com/linkeddatacenter/$PROJECT.git" 
+WEB_ROOT="/opt/$PROJECT/samples"
 
+###########################################################################
+# This scripts install all needed component in a fresh ubuntu 14.04 server
+###########################################################################
 if [ ! -f /tmp/install.lock ]; then
 	apt-get update
 	echo "apt-get update done" > /tmp/install.lock
-	apt-get -y install git apache2 php5-common php5-curl libapache2-mod-php5 php5-cli curl php5-xdebug
+	apt-get -y install git apache2 php5-common php5-curl libapache2-mod-php5 php5-cli curl phpunit
 
 	curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -21,11 +25,11 @@ if [ ! -f /tmp/install.lock ]; then
 	cat > /etc/apache2/sites-available/$PROJECT.apache.conf <<EOF
 	<VirtualHost *:80>
 		ServerAdmin webmaster@localhost
-		DocumentRoot /opt/$PROJECT/samples
+		DocumentRoot $WEB_ROOT
 		ErrorLog ${APACHE_LOG_DIR}/error.log
 		CustomLog ${APACHE_LOG_DIR}/access.log combined
 	
-	 <Directory /opt/$PROJECT/samples >
+	 <Directory $WEB_ROOT >
 	    Options "FollowSymLinks"
 	    AllowOverride All
 	    Require all granted
