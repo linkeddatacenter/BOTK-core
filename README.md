@@ -11,8 +11,6 @@ Super lightweight classes for developing cool RESTful APIs. Based on Respect/Res
  * Don't try to change PHP, small learning curve.
  * Completely RESTful, the right way to build apps.
 
-This is a BOTK package. Please refer to http://ontology.it/tools/botk for more info
-about BOTK project.
 
 ## quickstart
 
