@@ -1,3 +1,11 @@
+WARNING
+=======
+
+The support to this project is now discontinued.
+Update your links.
+
+Find the old version as tagged branch. 
+
 # BOTK\Core
 [![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/BOTK-core)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/BOTK-core.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core)
