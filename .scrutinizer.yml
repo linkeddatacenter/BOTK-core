@@ -3,7 +3,10 @@ filter:
         - 'test/*'
         - 'vendor/*'
         - 'samples/*'
-
+        
+environment:
+        php: 7.0
+        
 checks:
     php: true
     
