@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/packagist/l/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 
 Super lightweight classes for developing smart gateways to populate a business knowlege base 
-compliant with [KEES](http://linkeddata.center/kees/) model.
+compliant with [KEES](http://linkeddata.center/kees) model.
 
 ## quickstart
 
