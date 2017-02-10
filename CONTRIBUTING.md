@@ -1,7 +1,7 @@
 Contributing to BOTK-core
 ====================================
 
-Contributions to geocodingit are always welcome. You make our lives easier by
+Contributions to BOTK-core are always welcome. You make our lives easier by
 sending us your contributions through pull requests.
 
 Pull requests for bug fixes must be based on the current stable branch whereas

@@ -1,6 +1,6 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false" 
-         bootstrap="test/unit/bootstrap.php"
+         bootstrap="tests/unit/bootstrap.php"
          cacheTokens="true"
          colors="true"
          convertErrorsToExceptions="true"
@@ -12,10 +12,10 @@
          verbose="false">
     <filter>
         <whitelist>
-            <directory>library/</directory>
+            <directory>src/</directory>
         </whitelist>
     </filter>
     <testsuite >
-        <directory>test/unit/</directory>
+        <directory>tests/unit/</directory>
     </testsuite>
 </phpunit>
