@@ -13,8 +13,8 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 			'datamapper'	=> function(array $rawdata){
 				$data = array();
 				$data['id'] = $rawdata[0];
-				$data['alternateName'][] = $rawdata[2] . ' ' . $rawdata[1];
-				$data['alternateName'][] = $rawdata[2];
+				$data['businessName'][] = $rawdata[2] . ' ' . $rawdata[1];
+				$data['businessName'][] = $rawdata[2];
 				$data['vatID'] = $rawdata[3];
 				$data['email'] = $rawdata[4];
 				$data['addressLocality'] = $rawdata[5];
@@ -51,7 +51,7 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 		$structuredData = $facts->asArray();
 		
 		$this->assertInstanceOf('\BOTK\Model\LocalBusiness', $facts);
-		$this->assertEquals(1, count($structuredData['alternateName']));
+		$this->assertEquals(1, count($structuredData['businessName']));
 		$this->assertEquals($structuredData['vatID'], '01209991007');
 		$this->assertEquals($structuredData['id'], '10042650');
 		$this->assertEquals($structuredData['long'], '12.464163');

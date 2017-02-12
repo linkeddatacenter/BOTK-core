@@ -42,7 +42,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'taxID'				=> 'fgn nrc 63S0 6F205 A',
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'Test  soc srl',
-					'alternateName'		=> 'Test  soc srl',
+					'businessName'		=> 'Test  soc srl',
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
@@ -63,7 +63,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'taxID'				=> 'FGNNRC63S06F205A',
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'TEST SOC SRL',
-					'alternateName'		=> array('Test  soc srl'),
+					'businessName'		=> array('Test  soc srl'),
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
@@ -96,6 +96,12 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	public function testGetDefaultOptions()
 	{	
 		$expectedOptions =  array (
+			'businessType'			=> array(		
+								// additional types  for schema:Place
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^\w+:\w+$/'),
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
 			'base'				=> array(
 									'default'	=> 'http://linkeddata.center/botk/resource/',
 									'filter'    => FILTER_SANITIZE_URL,
@@ -131,7 +137,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
-			'alternateName'		=> array(
+			'businessName'		=> array(
 									'filter'    => FILTER_DEFAULT,
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 								   ),
@@ -275,7 +281,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'lat'				=> '43.23456',
 					'long'				=> '35.23444',
 				),
-    			'<urn:abc> a schema:Organization;schema:location <urn:abc_place>; . <geo:43.23456,35.23444> a schema:GeoCoordinates;wgs:lat 43.23456 ;wgs:long 35.23444 ; . <urn:abc_place> a schema:LocalBusiness;schema:geo <geo:43.23456,35.23444>; . ',
+    			'<urn:abc> a schema:Organization;schema:location <urn:abc_place>; . <geo:43.23456,35.23444> a schema:GeoCoordinates;wgs:lat 43.23456 ;wgs:long 35.23444 ; . <urn:abc_place> a schema:Place,schema:LocalBusiness;schema:geo <geo:43.23456,35.23444>; . ',
     			7,
 			),
 		);

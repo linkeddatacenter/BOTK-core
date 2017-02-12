@@ -96,6 +96,7 @@ This class can be specialized  to state the reason of interest (e.g. see schema:
 
 Following properties/annotations supported: 
 
+- rdf:type	with cardinality >= 0 , additional type in the form of prefix:classname
 - schema:address  with cardinality >= 0 , contact info for this place
 - schema:geo with cardinality <= 1
 

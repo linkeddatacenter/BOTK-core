@@ -32,27 +32,30 @@ abstract class AbstractModel
 	 *		                   ),
 	 * )
 	 */
-	static protected $DEFAULT_OPTIONS = array(
-			'base'				=> array(
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'uri'				=> array(
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'id'				=> array(		
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
+	protected static $DEFAULT_OPTIONS  = array(
+		'base'				=> array(
+								'default'	=> 'http://linkeddata.center/botk/resource/',
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'uri'				=> array(
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'lang'				=> array(
+								'default'	=> 'it',		
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'id'				=> array(		
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^\w+$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
 	);
 	
-	protected $data;
-	protected $options;
-	protected $rdf =null; //lazy created
-	protected $tripleCount=0; //lazy created
-	protected $uniqueIdGenerator=null; // dependency injections
+	protected $options ;
 	protected $vocabulary = array(
 		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
 		'schema'	=> 'http://schema.org/',
@@ -61,27 +64,34 @@ abstract class AbstractModel
 		'dct' 		=> 'http://purl.org/dc/terms/',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
 	);
+	protected $data;
+	protected $rdf =null; //lazy created
+	protected $tripleCount=0; //lazy created
+	protected $uniqueIdGenerator=null; // dependency injections
 	
 	abstract public function asTurtle();
 
+	protected function mergeOptions( array $options1, array $options2 )
+	{
+    	foreach($options2 as $property=>$option){
+    		assert(is_array($option));
+			
+			$options1[$property]=isset($options1[$property])
+				?array_merge($options1[$property], $option)
+				:$option;
+    	}
+		
+		return $options1;
+	}
 
     public function __construct(array $data = array(), array $customOptions = array()) 
     {
-    	// merge options with default options or create new ones
-    	$options = static::$DEFAULT_OPTIONS;
-    	foreach($customOptions as $property=>$option){
-    		assert(is_array($option));
-    		if(isset($options[$property])){
-    			$options[$property] = array_merge($options[$property], $option);
-    		} else {
-    			$options[$property] = $option;
-    		}
-    	}
+		$options = $this->mergeOptions(self::$DEFAULT_OPTIONS,$customOptions);
 		
 		// set default values
 		foreach( $options as $property=>$option){	
-			if(empty($data[$property]) && isset($options[$property]['default'])){
-				$data[$property] = $options[$property]['default'];
+			if(empty($data[$property]) && isset($option['default'])){
+				$data[$property] = $option['default'];
 			}
 		}
 

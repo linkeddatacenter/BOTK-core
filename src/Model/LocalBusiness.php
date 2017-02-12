@@ -11,29 +11,12 @@ use BOTK\ModelInterface;
  */
 class LocalBusiness extends AbstractModel implements ModelInterface 
 {
-		// use uniqid as default generator
-	protected $uniqueIdGenerator = null;
-
-	static protected $DEFAULT_OPTIONS = array (
-		'base'				=> array(
-								'default'	=> 'http://linkeddata.center/botk/resource/',
-								'filter'    => FILTER_SANITIZE_URL,
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'uri'				=> array(
-								'filter'    => FILTER_SANITIZE_URL,
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'lang'				=> array(
-								'default'	=> 'it',		
+	protected static $DEFAULT_OPTIONS = array (
+		'businessType'			=> array(		
+								// additional types  for schema:Place
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'id'				=> array(		
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^\w+$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+		                        'options' 	=> array('regexp'=>'/^\w+:\w+$/'),
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'taxID'				=> array(	
 								'filter'    => FILTER_CALLBACK,
@@ -50,7 +33,8 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
-		'alternateName'		=> array(
+		'businessName'		=> array(
+								// a schema:alternateName for schema:PostalAddress
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 							   ),
@@ -99,7 +83,8 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'geoDescription'	=> array(	
+		'geoDescription'	=> array(
+								// a schema:alternateName for schema:GeoCoordinates	
 								'filter'    => FILTER_CALLBACK,	
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
@@ -116,6 +101,11 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			                   ),
 	);
 
+	public function __construct(array $data = array(), array $customOptions = array()) 
+    {
+    	$options = $this->mergeOptions(self::$DEFAULT_OPTIONS,$customOptions);
+    	parent::__construct($data, $options);
+	}
 	
 	/**
 	 * Create a normalized address from wollowing datam properties
@@ -197,7 +187,7 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			// serialize schema:PostalAddress 
 			if( !$skippAddress){
 				$_('<%s> a schema:PostalAddress;', $addressUri);
-					!empty($alternateName) 		&& $_('schema:alternateName """%s"""@%s;', $addressCountry);
+					!empty($businessName) 		&& $_('schema:alternateName """%s"""@%s;', $businessName);
 					!empty($streetAddress) 		&& $_('schema:streetAddress """%s"""@%s;', $streetAddress);
 					!empty($postalCode) 		&& $_('schema:postalCode "%s"@%s;', $postalCode);
 					!empty($addressLocality) 	&& $_('schema:addressLocality """%s"""@%s;', $addressLocality);
@@ -216,7 +206,6 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 				$geoDescription = $this->buildNormalizedAddress();
 		
 				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
-					!empty($geoLabel) 			&& $_('schema:alternateLabel ""%s""@%s;', $geoLabel);
 					!empty($geoDescription) 	&& $_('schema:alternateLabel ""%s""@%s;', $geoDescription);
 					!empty($lat) 				&& $_('wgs:lat %s ;', $lat);
 					!empty($long) 				&& $_('wgs:long %s ;', $long);
@@ -225,7 +214,8 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 
 			// serialize schema:Place
 			if( !$skippPlace){
-				$_('<%s> a schema:LocalBusiness;', $placeUri);
+				$_('<%s> a schema:Place,schema:LocalBusiness;', $placeUri);
+					!empty($businessType) 			&& $_('a %s ;', $placeType);
 					!$skippAddress 				&& $_('schema:address <%s>;', $addressUri);
 					!$skippGeo 					&& $_('schema:geo <%s>;', $geoUri);
 				$rdf.=' . ';

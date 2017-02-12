@@ -72,7 +72,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	public function uris()
     {
     	return array( 
-	    	array( array(),	'urn:local:botk:abc'),
+	    	array( array(),	'http://linkeddata.center/botk/resource/abc'),
 	    	array( array('base'=>'http://example.com/resource/'),	'http://example.com/resource/abc'),
 	    	array( array('base'=>'http://example.com/resource/', 'id'=>'efg'),	'http://example.com/resource/efg'),
 	    	array( array('uri'=>'http://example.com/resource/ijk'),	'http://example.com/resource/ijk'),	
