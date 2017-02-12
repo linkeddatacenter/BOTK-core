@@ -91,6 +91,9 @@ ex:org1 a schema:Organization ;
 
 ### https://schema.org/Place
 
+known subtypes:
+- https://schema.org/LocalBusiness to be used to link a POS to an organization.
+
 Captures the POI (Point Of Interest) concept, that is a geographic point near witch there is something contactable.	
 This class can be specialized  to state the reason of interest (e.g. see schema:LocalBusiness classifications).
 
@@ -102,7 +105,7 @@ Following properties/annotations supported:
 
 Example (in rdf turtle):
 ```
-ex:org1_pos1 a schema:Place, schema:HealthAndBeautyBusiness, botk:RegisteredOffice ;	
+ex:org1_pos1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness, botk:RegisteredOffice ;	
 	schema:address ex:org1_address1;
 	schema:geo <geo:41.914001,12.464163>;
 .
@@ -113,7 +116,7 @@ ex:org1_pos1 a schema:Place, schema:HealthAndBeautyBusiness, botk:RegisteredOffi
 
 Captures a contact point with a postal address, telephone, fax, e-mail.
 
-- schema:alternateName with cardinality >= 0 with the name of the  contact point (e.g. the shop name)
+- schema:alternateName with cardinality >= 0 with the  business name of the  contact point (e.g. the shop name)
 - schema:addressCountry with cardinality <= 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
 - schema:addressLocality with cardinality <= 1, The locality. For example, Mountain View. Sholud be present in country adminstrative db as SKOS:primaryName
 - schema:addressRegion	with cardinality <= 1, The region. Sholud be present in country adminstrative db as SKOS:primaryName

@@ -66,4 +66,23 @@ class Filters {
 		return  $value?strtoupper($value):false;		
 	}
 	
+	
+	static function FILTER_SANITIZE_ID($value)
+	{
+		$value = strtolower($value);
+		$value = preg_replace('/[^a-z0-9]+/', ' ', $value);
+		$value = preg_replace('/[^a-z0-9]+/', ' ', $value);
+		$value = preg_replace('/[\s]{1,}/', '_', trim($value));
+		return $value?:false;
+	}
+	
+	
+	static function FILTER_SANITIZE_LAT_LONG($value)
+	{
+		// http://www.regexlib.com/REDetails.aspx?regexp_id=2728
+		$value = preg_replace('/,/', '.', $value);
+		$value = sprintf('%01.6f',floatval($value));
+		return preg_match('/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/', $value)?$value:false;
+	}
+	
 }

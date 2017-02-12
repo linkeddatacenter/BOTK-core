@@ -12,10 +12,9 @@ use BOTK\ModelInterface;
 class LocalBusiness extends AbstractModel implements ModelInterface 
 {
 	protected static $DEFAULT_OPTIONS = array (
-		'businessType'			=> array(		
-								// additional types  for schema:Place
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^\w+:\w+$/'),
+		'businessType'		=> array(		
+								// additional types  as extension of schema:LocalBusiness
+								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'taxID'				=> array(	
@@ -89,15 +88,13 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'lat'				=> array( // http://www.regexlib.com/REDetails.aspx?regexp_id=2728
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+		'lat'				=> array( 
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
 			                   ),
-		'long'				=> array( // http://stackoverflow.com/questions/3518504/regular-expression-for-matching-latitude-longitude-coordinates
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+		'long'				=> array( 
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
 			                   ),
 	);
 
@@ -191,10 +188,10 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 					!empty($streetAddress) 		&& $_('schema:streetAddress """%s"""@%s;', $streetAddress);
 					!empty($postalCode) 		&& $_('schema:postalCode "%s"@%s;', $postalCode);
 					!empty($addressLocality) 	&& $_('schema:addressLocality """%s"""@%s;', $addressLocality);
-					!empty($addressRegion) 		&& $_('schema:addressRegion """%s"""@%s;', $addressRegion);
+					!empty($addressRegion) 		&& $_('schema:addressRegion "%s"@%s;', $addressRegion);
 					!empty($addressCountry) 	&& $_('schema:addressCountry "%s";', $addressCountry);
-					!empty($telephone) 			&& $_('schema:telephone """%s"""@%s;', $telephone);
-					!empty($faxNumber) 			&& $_('schema:faxNumber """%s"""@%s;', $faxNumber);
+					!empty($telephone) 			&& $_('schema:telephone "%s"@%s;', $telephone);
+					!empty($faxNumber) 			&& $_('schema:faxNumber "%s"@%s;', $faxNumber);
 					!empty($page) 				&& $_('schema:page <%s>;', $page);
 					!empty($email) 				&& $_('schema:email "%s";', $email);
 				$rdf.=' . ';
@@ -206,7 +203,7 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 				$geoDescription = $this->buildNormalizedAddress();
 		
 				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
-					!empty($geoDescription) 	&& $_('schema:alternateLabel ""%s""@%s;', $geoDescription);
+					!empty($geoDescription) 	&& $_('schema:alternateLabel """%s"""@%s;', $geoDescription);
 					!empty($lat) 				&& $_('wgs:lat %s ;', $lat);
 					!empty($long) 				&& $_('wgs:long %s ;', $long);
 				$rdf.=' . ';
@@ -214,8 +211,8 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 
 			// serialize schema:Place
 			if( !$skippPlace){
-				$_('<%s> a schema:Place,schema:LocalBusiness;', $placeUri);
-					!empty($businessType) 			&& $_('a %s ;', $placeType);
+				$_('<%s> a schema:LocalBusiness;', $placeUri);
+					!empty($businessType) 		&& $_('a %s;', $businessType);
 					!$skippAddress 				&& $_('schema:address <%s>;', $addressUri);
 					!$skippGeo 					&& $_('schema:geo <%s>;', $geoUri);
 				$rdf.=' . ';

@@ -43,6 +43,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'Test  soc srl',
 					'businessName'		=> 'Test  soc srl',
+					'businessType'		=> 'schema:MedicalOrganization',
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
@@ -60,6 +61,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'base'				=> 'http://linkeddata.center/botk/resource/',	
 					'lang'				=> 'it',
 	    			'id'				=> '1234567890',
+					'businessType'		=> array('schema:MedicalOrganization'),
 					'taxID'				=> 'FGNNRC63S06F205A',
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'TEST SOC SRL',
@@ -96,12 +98,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	public function testGetDefaultOptions()
 	{	
 		$expectedOptions =  array (
-			'businessType'			=> array(		
-								// additional types  for schema:Place
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^\w+:\w+$/'),
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
 			'base'				=> array(
 									'default'	=> 'http://linkeddata.center/botk/resource/',
 									'filter'    => FILTER_SANITIZE_URL,
@@ -122,6 +118,11 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			                        'options' 	=> array('regexp'=>'/^\w+$/'),
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
+			'businessType'		=> array(		
+									// additional types  as extension of schema:LocalBusiness
+									'filter'    => FILTER_DEFAULT,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
 			'taxID'				=> array(	
 									'filter'    => FILTER_CALLBACK,
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
@@ -138,6 +139,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'businessName'		=> array(
+									// a schema:alternateName for schema:PostalAddress
 									'filter'    => FILTER_DEFAULT,
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 								   ),
@@ -186,20 +188,19 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
-			'geoDescription'	=> array(	
+			'geoDescription'	=> array(
+									// a schema:alternateName for schema:GeoCoordinates	
 									'filter'    => FILTER_CALLBACK,	
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
-			'lat'				=> array( // http://www.regexlib.com/REDetails.aspx?regexp_id=2728
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'lat'				=> array( 
+									'filter'    => FILTER_CALLBACK,
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
 				                   ),
-			'long'				=> array( // http://stackoverflow.com/questions/3518504/regular-expression-for-matching-latitude-longitude-coordinates
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'long'				=> array( 
+									'filter'    => FILTER_CALLBACK,
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
 				                   ),
 		);
 		
@@ -281,7 +282,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'lat'				=> '43.23456',
 					'long'				=> '35.23444',
 				),
-    			'<urn:abc> a schema:Organization;schema:location <urn:abc_place>; . <geo:43.23456,35.23444> a schema:GeoCoordinates;wgs:lat 43.23456 ;wgs:long 35.23444 ; . <urn:abc_place> a schema:Place,schema:LocalBusiness;schema:geo <geo:43.23456,35.23444>; . ',
+    			'<urn:abc> a schema:Organization;schema:location <urn:abc_place>; . <geo:43.234560,35.234440> a schema:GeoCoordinates;wgs:lat 43.234560 ;wgs:long 35.234440 ; . <urn:abc_place> a schema:LocalBusiness;schema:geo <geo:43.234560,35.234440>; . ',
     			7,
 			),
 		);
@@ -359,7 +360,8 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			array(array('postalCode'		=> '234992')),					//toolong
 			array(array('email'				=> 'ENRICO')),
 			array(array('lat'				=> '90.12345')),				//invalid lat
-			array(array('long'				=> '12,123456'))	
+			array(array('lat'				=> '-90.12345')),				//invalid lat
+				
 		);
    	}	
 }

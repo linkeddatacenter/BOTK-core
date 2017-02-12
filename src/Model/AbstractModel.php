@@ -98,7 +98,8 @@ abstract class AbstractModel
 		// ensure data are sanitized and validated
 		$sanitizedData = array_filter( filter_var_array($data, $options), function($value,$property) use($data,$options){
 			if ($value===false && isset($data[$property]) && $data[$property]!==false){
-				throw new DataModelException("Invalid property value for $property");
+				$id = empty($data['id'])?'unknown':$data['id'];
+				throw new DataModelException("failed validation of '$property' property of subject with id '$id'. Record dropped.");
 			}
 			return !is_null($value);
 		} , ARRAY_FILTER_USE_BOTH);
