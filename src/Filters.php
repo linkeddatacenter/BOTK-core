@@ -66,31 +66,4 @@ class Filters {
 		return  $value?strtoupper($value):false;		
 	}
 	
-
-	/**
-	 * Create a normalizzed addres from a propery list.
-	 * Property list can contain follwin fields:
-	 * 		'addressCountry',
-	 * 		'addressLocality',
-	 * 		'addressRegion',
-	 * 		'streetAddress',
-	 * 		'postalCode',
-	 */
-	static function buildNormalizedAddress(array $properties)
-	{	
-		extract($properties);
-		
-		// veryfy that at least a minimum set of information are present
-		if(empty($streetAddress) || empty($addressCountry) || (empty($addressLocality) && empty($postalCode))){
-			return false;
-		}
-
-		$geolabel = "$streetAddress ,";
-		if(!empty($postalCode)) { $geolabel.= " $postalCode";}
-		if(!empty($addressLocality)) { $geolabel.= " $addressLocality"; }
-		if(!empty($addressRegion)) { $geolabel.= " ($addressRegion)"; }
-		$geolabel.= " - $addressCountry";
-		
-		return self::FILTER_SANITIZE_ADDRESS($geolabel);
-	}
 }

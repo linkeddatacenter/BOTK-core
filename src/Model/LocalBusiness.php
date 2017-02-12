@@ -11,6 +11,8 @@ use BOTK\ModelInterface;
  */
 class LocalBusiness extends AbstractModel implements ModelInterface 
 {
+		// use uniqid as default generator
+	protected $uniqueIdGenerator = null;
 
 	static protected $DEFAULT_OPTIONS = array (
 		'base'				=> array(
@@ -113,6 +115,34 @@ class LocalBusiness extends AbstractModel implements ModelInterface
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 	);
+
+	
+	/**
+	 * Create a normalized address from wollowing datam properties
+	 * 		'addressCountry',
+	 * 		'addressLocality',
+	 * 		'addressRegion',
+	 * 		'streetAddress',
+	 * 		'postalCode',
+	 *  If data is not sufficient to create a good addess, false is returned.
+	 */	
+	public function buildNormalizedAddress()
+	{	
+		extract($this->data);
+		
+		// veryfy that at least a minimum set of information are present
+		if(empty($streetAddress) || empty($addressCountry) || (empty($addressLocality) && empty($postalCode))){
+			return false;
+		}
+
+		$geolabel = "$streetAddress ,";
+		if(!empty($postalCode)) { $geolabel.= " $postalCode";}
+		if(!empty($addressLocality)) { $geolabel.= " $addressLocality"; }
+		if(!empty($addressRegion)) { $geolabel.= " ($addressRegion)"; }
+		$geolabel.= " - $addressCountry";
+		
+		return \BOTK\Filters::FILTER_SANITIZE_ADDRESS($geolabel);
+	}
 	
 	
 	public function asTurtle()
@@ -121,14 +151,12 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			extract($this->data);
 
 			// create uris
-			$organizationUri = empty($uri)?($base. (empty($id)?uniqid():$id)):$uri;
+			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
 			$placeUri = $organizationUri.'_place';
 			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":($organizationUri.'_geo'); 
-
-			
+		
 			// define the minimum condition to skipp the rdf generation
-			
 			$skippAddress = 	empty($alternateName) &&
 								empty($addressLocality) &&
 								empty($streetAddress) &&
@@ -184,7 +212,9 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 
 			// serialize schema:GeoCoordinates
 			if( !$skippGeo){
-				$geoLabel = \BOTK\Filters::buildNormalizedAddress($this->data);
+
+				$geoDescription = $this->buildNormalizedAddress();
+		
 				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
 					!empty($geoLabel) 			&& $_('schema:alternateLabel ""%s""@%s;', $geoLabel);
 					!empty($geoDescription) 	&& $_('schema:alternateLabel ""%s""@%s;', $geoDescription);

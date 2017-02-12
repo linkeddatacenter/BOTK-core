@@ -8,6 +8,8 @@ abstract class AbstractModel
 {
 	
 	/**
+	 * 
+	 * MUST be redefined by concrete class with the model schema 
 	 * Each array element is composed by a propery name and and property options.
 	 * Property option is an array with following (optional) fields:
 	 * 		'default' 	a value to be used for the propery
@@ -30,12 +32,27 @@ abstract class AbstractModel
 	 *		                   ),
 	 * )
 	 */
-	static protected $DEFAULT_OPTIONS = array();
+	static protected $DEFAULT_OPTIONS = array(
+			'base'				=> array(
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
+			'uri'				=> array(
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
+			'id'				=> array(		
+									'filter'    => FILTER_VALIDATE_REGEXP,
+			                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
+	);
 	
 	protected $data;
 	protected $options;
 	protected $rdf =null; //lazy created
 	protected $tripleCount=0; //lazy created
+	protected $uniqueIdGenerator=null; // dependency injections
 	protected $vocabulary = array(
 		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
 		'schema'	=> 'http://schema.org/',
@@ -45,7 +62,9 @@ abstract class AbstractModel
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
 	);
 	
-	
+	abstract public function asTurtle();
+
+
     public function __construct(array $data = array(), array $customOptions = array()) 
     {
     	// merge options with default options or create new ones
@@ -76,9 +95,42 @@ abstract class AbstractModel
 
 		$this->options = $options;
 		$this->data = $sanitizedData;
+		$this->setIdGenerator(function($data){return uniqid();});
     }
 
 	
+	/**
+	 * dependecy injection setter 
+	 */
+	public function setIdGenerator($generator)
+	{
+		assert( is_callable($generator));
+		$this->uniqueIdGenerator = $generator;
+		
+		return $this;
+	}
+
+
+	/**
+	 * a generic implementation that use uri, base and id property (all optionals)
+	 */
+	public function getUri()
+	{
+		if(!empty($this->data['uri'])){
+			$uri =  $this->data['uri'];
+		} elseif(!empty($this->data['base'])) {
+			$idGenerator=$this->uniqueIdGenerator;
+			$uri = $this->data['base'];
+			$uri.=empty($this->data['id'])?$idGenerator($this->data):$this->data['id'];
+		} else{
+			$idGenerator=$this->uniqueIdGenerator;
+			$uri = 'urn:local:botk:'.$idGenerator($this->data);
+		}
+		
+		return $uri;
+	}
+		
+
 	public function asArray()
 	{
 		return $this->data;
@@ -118,9 +170,6 @@ abstract class AbstractModel
 		
 		return $header;
 	}
-
-	
-	abstract public function asTurtle();
 
 	
 	public function getTripleCount()

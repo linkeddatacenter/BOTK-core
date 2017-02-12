@@ -3,6 +3,7 @@ namespace BOTK;
 
 Interface ModelInterface 
 {
+	public function getUri();
 	public function getOptions();
 	public function getVocabulary();
 	public function setVocabulary($prefix,$ns);

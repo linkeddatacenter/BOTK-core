@@ -34,7 +34,6 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	}
 	
 	
-	
 	public function testSetVocabulary()
 	{
 		$vocabulary = $this->vocabulary;
@@ -45,7 +44,6 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals($vocabulary,  $obj->getVocabulary());
 	}
-	
 	
 	
 	public function testUnsetVocabulary()
@@ -60,17 +58,48 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	}
 	
 
+    /**
+     * @dataProvider uris
+     */	
+	public function testGetUri($data, $expectedData)
+	{
+		$obj = new DummyModel($data);
+		$obj->setIdGenerator(function($d){return'abc';});
+		$this->assertEquals($expectedData, $obj->getUri());
+	}
+
+	
+	public function uris()
+    {
+    	return array( 
+	    	array( array(),	'urn:local:botk:abc'),
+	    	array( array('base'=>'http://example.com/resource/'),	'http://example.com/resource/abc'),
+	    	array( array('base'=>'http://example.com/resource/', 'id'=>'efg'),	'http://example.com/resource/efg'),
+	    	array( array('uri'=>'http://example.com/resource/ijk'),	'http://example.com/resource/ijk'),	
+		);
+   	}
+
 	public function testTurtleHeader()
 	{		
 		$obj = new DummyModel(array());
-		$s = "@prefix botk: <http://http://linkeddata.center/botk/v1#> .\n";
-		$s.= "@prefix schema: <http://schema.org/> .\n";
-		$s.= "@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n";
-		$s.= "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n";
-		$s.= "@prefix dct: <http://purl.org/dc/terms/> .\n";
-		$s.= "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n";
+		$s ="";
+		foreach( $this->vocabulary as $p=>$v){
+			$s.= "@prefix $p: <$v> .\n";
+		}
 		
 		$this->assertEquals($s,  $obj->getTurtleHeader());
+	}
+	
+	
+	public function testTurtleHeaderWithBase()
+	{		
+		$obj = new DummyModel(array());
+		$s ="@base <urn:a:b> .\n";
+		foreach( $this->vocabulary as $p=>$v){
+			$s.= "@prefix $p: <$v> .\n";
+		}
+		
+		$this->assertEquals($s,  $obj->getTurtleHeader('urn:a:b'));
 	}
 	
 	

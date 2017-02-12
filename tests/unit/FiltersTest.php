@@ -72,52 +72,5 @@ class FiltersTest extends PHPUnit_Framework_TestCase
 		);
    	}
 	
-	
-    /**
-     * @dataProvider structuredAdresses
-     */	
-	public function testBuildNormalizedAddress($data, $expectedData)
-	{
-		$this->assertEquals($expectedData, BOTK\Filters::buildNormalizedAddress($data));
-	}
-	
-	public function structuredAdresses()
-    {
-    	return array( 
-    		array( 
-    			array(
-    				'streetAddress'		=> 'Lungolario Luigi Cadorna, 1',
-    				'addressLocality'	=> 'Lecco',
-    				'addressRegion'		=> 'LC',
-    				'addressCountry'	=> 'IT',
-    				'postalCode'		=> '23900',	
-				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, 23900 LECCO (LC) - IT'
-			),
-    		array( 
-    			array(
-    				'streetAddress'		=> 'Lungolario Luigi Cadorna, 1',
-    				'addressLocality'	=> 'Lecco',
-    				'addressCountry'	=> 'IT',	
-				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, LECCO - IT'
-			),
-    		array( 
-    			array(
-    				'streetAddress'		=> 'Lungolario Luigi Cadorna, 1',
-    				'addressCountry'	=> 'IT',
-    				'postalCode'		=> '23900',	
-				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, 23900 - IT'
-			),
-    		array( 
-    			array(
-    				'addressCountry'	=> 'IT',
-    				'postalCode'		=> '23900',	
-				),	
-				false
-			),
-		);
-   	}
 }
 
