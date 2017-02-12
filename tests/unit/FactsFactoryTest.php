@@ -8,7 +8,7 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 		$profile = array(
 			'model'			=> 'LocalBusiness',
 			'options'		=> array(
-				'base' => 'urn:test'
+				'base' => array( 'default'=> 'urn:test')
 			),
 			'datamapper'	=> function(array $rawdata){
 				$data = array();

@@ -16,79 +16,101 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		'base'				=> array(
 								'default'	=> 'http://linkeddata.center/botk/resource/',
 								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'uri'				=> array(
 								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'lang'				=> array(
 								'default'	=> 'it',		
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/')
+		                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'id'				=> array(		
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[\w]+$/')
+		                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'taxID'				=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeToken'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'vatID'				=> array(	// italian rules
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/')
+		                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'legalName'			=> array(
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
-		'alternateName'		=> array(),
+		'alternateName'		=> array(
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+							   ),
 		'addressCountry'	=> array(
 								'default'	=> 'IT',		
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/')
+		                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'addressLocality'	=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'addressRegion'		=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'streetAddress'		=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'postalCode'		=> array(	// italian rules
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/')
+		                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'page'				=> array(	
-								'filter'    => FILTER_SANITIZE_URL
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'telephone'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeItTelephone'
+								'filter'    => FILTER_CALLBACK,	
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'faxNumber'			=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeItTelephone'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'email'				=> array(	
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeEmail'
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'geoDescription'	=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+								'filter'    => FILTER_CALLBACK,	
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'lat'				=> array( // http://www.regexlib.com/REDetails.aspx?regexp_id=2728
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/')
+		                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'long'				=> array( // http://stackoverflow.com/questions/3518504/regular-expression-for-matching-latitude-longitude-coordinates
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/')
+		                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 	);
 	
@@ -96,8 +118,6 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 	public function asTurtle()
 	{
 		if(is_null($this->rdf)) {
-			$tc =0;
-			$rdf='';
 			extract($this->data);
 
 			// create uris
@@ -126,51 +146,59 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			$skippPlace = $skippGeo && $skippAddress;
 			
 			$skippOrganization = $skippPlace && empty($id)&& empty($vatID) && empty($taxID) && empty($legalName) ;
-
+			
+			// define $_ as a macro to write simple rdf
+			$tc =0;
+			$rdf='';
+			$_= function($format, $var) use(&$lang, &$rdf, &$tc){
+				if(!is_array($var)) { $var = (array) $var;}
+				foreach((array)$var as $v){$rdf.= sprintf($format,$v,$lang);$tc++;}
+			};
+				
 	 		// serialize schema:Organization
 	 		if( !$skippOrganization){
-				$rdf.= sprintf( '<%s> a schema:Organization;', $organizationUri); $tc++;
-				if(!empty($id)) { $rdf.= sprintf( 'dct:identifier "%s";', $id); $tc++; }
-				if(!empty($vatID)) { $rdf.= sprintf( 'schema:vatID "%s"@%s;', $vatID, $lang); $tc++; }
-				if(!empty($taxtID)) { $rdf.= sprintf( 'schema:taxtID "%s"@%s;', $taxID, $lang); $tc++; }
-				if(!empty($legalName)) { $rdf.= sprintf( 'schema:legalName """%s"""@%s;', $legalName, $lang); $tc++; }
-				if( !$skippPlace) { $rdf.= sprintf( 'schema:location <%s>;', $placeUri); $tc++; }
-				$rdf.= " . ";
+	 			$_('<%s> a schema:Organization;', $organizationUri);
+					!empty($id) 				&& $_('dct:identifier "%s";', $id);
+					!empty($vatID) 				&& $_('schema:vatID "%s"@%s;', $vatID); 
+					!empty($taxtID) 			&& $_('schema:taxtID "%s"@%s;', $taxID);
+					!empty($legalName)			&& $_('schema:legalName """%s"""@%s;', $legalName);
+					!$skippPlace				&& $_('schema:location <%s>;', $placeUri);
+				$rdf.=' . ';
 			}	
 			
 			// serialize schema:PostalAddress 
 			if( !$skippAddress){
-				$rdf.= sprintf( '<%s> a schema:PostalAddress;', $addressUri); $tc++;
-				if(!empty($alternateName)) { $rdf.= sprintf( 'schema:alternateName """%s"""@%;', $addressCountry,$lang); $tc++; }
-				if(!empty($streetAddress)) { $rdf.= sprintf( 'schema:streetAddress """%s"""@%s;', $streetAddress, $lang); $tc++; }
-				if(!empty($postalCode)) { $rdf.= sprintf( 'schema:postalCode "%s"@%s;', $postalCode, $lang); $tc++; }
-				if(!empty($addressLocality)) { $rdf.= sprintf( 'schema:addressLocality """%s"""@%s;', $addressLocality, $lang); $tc++; }
-				if(!empty($addressRegion)) { $rdf.= sprintf( 'schema:addressRegion """%s"""@%s;', $addressRegion, $lang); $tc++; }
-				if(!empty($addressCountry)) { $rdf.= sprintf( 'schema:addressCountry "%s";', $addressCountry); $tc++; }
-				if(!empty($telephone)) { $rdf.= sprintf( 'schema:telephone """%s"""@%s;', $telephone, $lang); $tc++; }
-				if(!empty($faxNumber)) { $rdf.= sprintf( 'schema:faxNumber """%s"""@%s;', $faxNumber, $lang); $tc++; }
-				if(!empty($page)) { $rdf.= sprintf( 'schema:page <%s>;', $page); $tc++; }
-				if(!empty($email)) { $rdf.= sprintf( 'schema:email "%s";', $email); $tc++; }
-				$rdf.= " . ";
+				$_('<%s> a schema:PostalAddress;', $addressUri);
+					!empty($alternateName) 		&& $_('schema:alternateName """%s"""@%s;', $addressCountry);
+					!empty($streetAddress) 		&& $_('schema:streetAddress """%s"""@%s;', $streetAddress);
+					!empty($postalCode) 		&& $_('schema:postalCode "%s"@%s;', $postalCode);
+					!empty($addressLocality) 	&& $_('schema:addressLocality """%s"""@%s;', $addressLocality);
+					!empty($addressRegion) 		&& $_('schema:addressRegion """%s"""@%s;', $addressRegion);
+					!empty($addressCountry) 	&& $_('schema:addressCountry "%s";', $addressCountry);
+					!empty($telephone) 			&& $_('schema:telephone """%s"""@%s;', $telephone);
+					!empty($faxNumber) 			&& $_('schema:faxNumber """%s"""@%s;', $faxNumber);
+					!empty($page) 				&& $_('schema:page <%s>;', $page);
+					!empty($email) 				&& $_('schema:email "%s";', $email);
+				$rdf.=' . ';
 			}
 
 			// serialize schema:GeoCoordinates
 			if( !$skippGeo){
 				$geoLabel = \BOTK\Filters::buildNormalizedAddress($this->data);
-				$rdf.= sprintf( '<%s> a schema:GeoCoordinates;', $geoUri); $tc++;
-				if(!empty($geoLabel)) { $rdf.= sprintf( 'schema:alternateLabel ""%s""@%s;', $geoLabel, $lang); $tc++; }
-				if(!empty($geoDescription)) { $rdf.= sprintf( 'schema:alternateLabel ""%s""@%s;', $geoDescription, $lang); $tc++; }
-				if(!empty($lat)) { $rdf.= sprintf( 'wgs:lat %s ;', $lat); $tc++; }
-				if(!empty($long)) { $rdf.= sprintf( 'wgs:long %s ;', $long); $tc++; }
-				$rdf.= " . ";	
+				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
+					!empty($geoLabel) 			&& $_('schema:alternateLabel ""%s""@%s;', $geoLabel);
+					!empty($geoDescription) 	&& $_('schema:alternateLabel ""%s""@%s;', $geoDescription);
+					!empty($lat) 				&& $_('wgs:lat %s ;', $lat);
+					!empty($long) 				&& $_('wgs:long %s ;', $long);
+				$rdf.=' . ';
 			}
 
 			// serialize schema:Place
 			if( !$skippPlace){
-				$rdf.= sprintf( '<%s> a schema:LocalBusiness;', $placeUri); $tc++;
-				if(!$skippAddress) { $rdf.= sprintf( 'schema:address <%s>;', $addressUri); $tc++; }
-				if(!$skippGeo) { $rdf.= sprintf( 'schema:geo <%s>;', $geoUri); $tc++; }
-				$rdf.= " . ";
+				$_('<%s> a schema:LocalBusiness;', $placeUri);
+					!$skippAddress 				&& $_('schema:address <%s>;', $addressUri);
+					!$skippGeo 					&& $_('schema:geo <%s>;', $geoUri);
+				$rdf.=' . ';
 			}
 	
 			$this->rdf = $rdf;

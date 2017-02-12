@@ -51,7 +51,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'page'				=> 'http://linkeddata.center/',
 					'telephone'			=> '+39 3356382949',
 					'faxNumber'			=> '0341 255188 ',
-					'email'				=> 'enrico@fagnoni.com',
+					'email'				=> array('enrico@fagnoni.com'),
 					'geoDescription'	=> 'Via  F. Valsecchi,124-23900 Lecco (LC)',
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
@@ -63,16 +63,16 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'taxID'				=> 'FGNNRC63S06F205A',
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'TEST SOC SRL',
-					'alternateName'		=> 'Test  soc srl',
+					'alternateName'		=> array('Test  soc srl'),
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
 					'streetAddress'		=> 'VIA F.VALSECCHI, 124',
 					'postalCode'		=> '23900',
-					'page'				=> 'http://linkeddata.center/',
+					'page'				=> array('http://linkeddata.center/'),
 					'telephone'			=> '3356382949',
 					'faxNumber'			=> '0341255188',
-					'email'				=> 'ENRICO@FAGNONI.COM',
+					'email'				=> array('ENRICO@FAGNONI.COM'),
 					'geoDescription'	=> 'VIA F.VALSECCHI, 124 - 23900 LECCO (LC)',
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
@@ -81,10 +81,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     		array(
 	    		array(
 	    			'id'				=> '1234567890',
-					'taxID'				=> '',
-					'vatID'				=> '',
-					'legalName'			=> null,
-					'alternateName'		=> '',
 					'addressCountry'	=> null,
 				),
 	    		array(
@@ -98,95 +94,139 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
    	}
 
 	public function testGetDefaultOptions()
-	{
-		$options = array (
-			'base'				=> array(),
-			'lang'				=> array(
-									'default'	=> 'en',		
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/')
+	{	
+		$expectedOptions =  array (
+			'base'				=> array(
+									'default'	=> 'http://linkeddata.center/botk/resource/',
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
-		);
-		
-		$expectedOptions =array (
-			'base'				=> array(),
 			'uri'				=> array(
 									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'lang'				=> array(
-									'default'	=> 'en',		
+									'default'	=> 'it',		
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/')
+			                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'id'				=> array(		
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[\w]+$/')
+			                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'taxID'				=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeToken'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'vatID'				=> array(	// italian rules
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/')
+			                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'legalName'			=> array(
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
-			'alternateName'		=> array(),
+			'alternateName'		=> array(
+									'filter'    => FILTER_DEFAULT,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+								   ),
 			'addressCountry'	=> array(
 									'default'	=> 'IT',		
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/')
+			                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'addressLocality'	=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'addressRegion'		=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'streetAddress'		=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'postalCode'		=> array(	// italian rules
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/')
+			                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'page'				=> array(	
-									'filter'    => FILTER_SANITIZE_URL
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'telephone'			=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeItTelephone'
+									'filter'    => FILTER_CALLBACK,	
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'faxNumber'			=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeItTelephone'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'email'				=> array(	
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeEmail'
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'geoDescription'	=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::normalizeAddress'
+									'filter'    => FILTER_CALLBACK,	
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'lat'				=> array( // http://www.regexlib.com/REDetails.aspx?regexp_id=2728
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/')
+			                        'options' 	=> array('regexp'=>'/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'long'				=> array( // http://stackoverflow.com/questions/3518504/regular-expression-for-matching-latitude-longitude-coordinates
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/')
+			                        'options' 	=> array('regexp'=>'/-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/'),
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 		);
 		
-		$localBusiness = new BOTK\Model\LocalBusiness(array(),$options);
+		$localBusiness = new BOTK\Model\LocalBusiness(array());
 		$this->assertEquals($expectedOptions, $localBusiness->getOptions());
+	}
+
+
+
+	public function testChangeDefaultOptions()
+	{
+		$localBusiness = new BOTK\Model\LocalBusiness(array(), array (
+			'lang'	=> array('default'	=> 'en'),
+			'vatID' => array('options' 	=> array('regexp'=>'/^IT[0-9]{11}$/')),
+		));
+		$options = $localBusiness->getOptions();
+		$this->assertEquals(
+			array(
+				'default'	=> 'en',		
+				'filter'    => FILTER_VALIDATE_REGEXP,
+	            'flags'  	=> FILTER_REQUIRE_SCALAR,
+	            'options' 	=> array('regexp'=>'/^[a-z]{2}$/')
+			),
+			$options['lang']
+		);
+		$this->assertEquals(
+			array(
+				'filter'    => FILTER_VALIDATE_REGEXP,
+	            'flags'  	=> FILTER_REQUIRE_SCALAR,
+	            'options' 	=> array('regexp'=>'/^IT[0-9]{11}$/')
+	        ),
+			$options['vatID']
+		);
 	}
 
 
@@ -196,8 +236,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	public function testRdfGeneration($data, $rdf, $tripleCount)
 	{
 		$localBusiness = new BOTK\Model\LocalBusiness($data);		
-		$this->assertEquals($rdf, (string) $localBusiness);
-		$this->assertEquals($localBusiness->asTurtle(), (string) $localBusiness, "equivalence with __tostring");
+		$this->assertEquals($rdf, $localBusiness->asTurtle());
 		$this->assertEquals($tripleCount,  $localBusiness->getTripleCount());
 	}
 	
@@ -240,6 +279,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     			7,
 			),
 		);
+		
 	}
 }
 

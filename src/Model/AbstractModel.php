@@ -4,58 +4,77 @@ namespace BOTK\Model;
 use BOTK\Exceptions\DataModelException;
 
 
-/**
- * An ibrid class that merge the semantic of schema:organization, schema:place and schema:geo, 
- * it is similar to schema:LocalBusiness.
- * Allows the bulk setup of properties
- */
 abstract class AbstractModel 
 {
-
-	static protected $DEFAULT_OPTIONS = array (
-	);
 	
+	/**
+	 * Each array element is composed by a propery name and and property options.
+	 * Property option is an array with following (optional) fields:
+	 * 		'default' 	a value to be used for the propery
+	 * 		'filter' 	a php filter 
+	 * 		'options' 	php filter options
+	 * 		'flags'		php filter flags
+	 * 
+	 * Example:array (
+	 *	'legalName'			=> array(
+	 *							'filter'    => FILTER_CALLBACK,	
+	 *	                        'options' 	=> '\BOTK\Filters::FILTER_NORMALIZZE_ADDRESS',
+	 *		                   ),
+	 *	'alternateName'		=> array(		
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+	 * 						),
+	 * 	'postalCode'		=> array(	// italian rules
+	 *							'filter'    => FILTER_VALIDATE_REGEXP,	
+	 *	                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
+	 *                      	'flags'  	=> FILTER_REQUIRE_SCALAR,
+	 *		                   ),
+	 * )
+	 */
+	static protected $DEFAULT_OPTIONS = array();
 	
 	protected $data;
 	protected $options;
 	protected $rdf =null; //lazy created
 	protected $tripleCount=0; //lazy created
+	protected $vocabulary = array(
+		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
+		'schema'	=> 'http://schema.org/',
+		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+		'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
+		'dct' 		=> 'http://purl.org/dc/terms/',
+		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
+	);
 	
 	
-    public function __construct(array $data = array(), array $options = array()) 
+    public function __construct(array $data = array(), array $customOptions = array()) 
     {
-    	// ensure  proper defaults exists
-    	$this->options = array_merge(static::$DEFAULT_OPTIONS, $options);
-
+    	// merge options with default options or create new ones
+    	$options = static::$DEFAULT_OPTIONS;
+    	foreach($customOptions as $property=>$option){
+    		assert(is_array($option));
+    		if(isset($options[$property])){
+    			$options[$property] = array_merge($options[$property], $option);
+    		} else {
+    			$options[$property] = $option;
+    		}
+    	}
+		
 		// set default values
-		foreach( $this->options as $property=>$option){	
-			if(empty($data[$property]) && isset($this->options[$property]['default'])){
-				$data[$property] = $this->options[$property]['default'];
+		foreach( $options as $property=>$option){	
+			if(empty($data[$property]) && isset($options[$property]['default'])){
+				$data[$property] = $options[$property]['default'];
 			}
 		}
 
 		// ensure data are sanitized and validated
-		$sanitizedData = array();
-		foreach( $data as $property=>$value) {
-			
-			// property must exist
-			if(!isset($this->options[$property])){
-				throw new DataModelException("Unknown property $property");
+		$sanitizedData = array_filter( filter_var_array($data, $options), function($value,$property) use($data,$options){
+			if ($value===false && isset($data[$property]) && $data[$property]!==false){
+				throw new DataModelException("Invalid property value for $property");
 			}
-			
-			// apply filters to not empty variables
-			if( $value  ){
-				if(isset($this->options[$property]['filter'])){
-					$sanitizedValue = filter_var($value, $this->options[$property]['filter'], $this->options[$property]);
-					if(!$sanitizedValue){
-						throw new DataModelException("Invalid property value for $property ($value)");
-					}
-					$sanitizedData[$property]=$sanitizedValue;					
-				} else {
-					$sanitizedData[$property]=$value;
-				}
-			}
-		}
+			return !is_null($value);
+		} , ARRAY_FILTER_USE_BOTH);
+
+		$this->options = $options;
 		$this->data = $sanitizedData;
     }
 
@@ -71,9 +90,38 @@ abstract class AbstractModel
 		return $this->options;
 	}
 
+
+	public function getVocabulary()
+	{
+		return $this->vocabulary;
+	}
+	
+	
+	public function setVocabulary($prefix,$ns)
+	{
+		$this->vocabulary[$prefix] = $ns;
+	}
+	
+	
+	public function unsetVocabulary($prefix)
+	{
+		unset($this->vocabulary[$prefix]);
+	}	
+	
+	
+	public function getTurtleHeader($base=null)
+	{
+		$header = empty($base)?'': "@base <$base> .\n";
+		foreach( $this->vocabulary as $prefix=>$ns ){
+			$header.="@prefix $prefix: <$ns> .\n";
+		}
+		
+		return $header;
+	}
+
 	
 	abstract public function asTurtle();
-	
+
 	
 	public function getTripleCount()
 	{
@@ -88,6 +136,6 @@ abstract class AbstractModel
 		
 	public function __toString() 
 	{
-		return $this->asTurtle();
+		return $this->getTurtleHeader() ."\n". $this->asTurtle();
 	}
 }

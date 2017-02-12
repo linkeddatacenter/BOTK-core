@@ -7,7 +7,7 @@ class FiltersTest extends PHPUnit_Framework_TestCase
      */	
 	public function testItTelephoneFilter($data, $expectedData)
 	{
-		$this->assertEquals($expectedData, BOTK\Filters::normalizeItTelephone($data));
+		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_TELEPHONE($data));
 	}
 	
 	public function telephones()
@@ -31,8 +31,8 @@ class FiltersTest extends PHPUnit_Framework_TestCase
 	
 	public function testEmailFilter()
 	{
-		$this->assertEquals('ABC@EXAMPLE.COM', BOTK\Filters::normalizeEmail('abC@Example.com'));
-		$this->assertTrue(empty(BOTK\Filters::normalizeEmail('invalid email')));
+		$this->assertEquals('ABC@EXAMPLE.COM', BOTK\Filters::FILTER_SANITIZE_EMAIL('abC@Example.com'));
+		$this->assertTrue(empty(BOTK\Filters::FILTER_SANITIZE_EMAIL('invalid email')));
 	}
 
     /**
@@ -40,7 +40,7 @@ class FiltersTest extends PHPUnit_Framework_TestCase
      */	
 	public function testTokenFilter($data, $expectedData)
 	{
-		$this->assertEquals($expectedData, BOTK\Filters::normalizeToken($data));
+		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_TOKEN($data));
 	}
 	
 	public function tokens()
@@ -59,7 +59,7 @@ class FiltersTest extends PHPUnit_Framework_TestCase
      */	
 	public function testAddressFilter($data, $expectedData)
 	{
-		$this->assertEquals($expectedData, BOTK\Filters::normalizeAddress($data));
+		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_ADDRESS($data));
 	}
 	
 	public function adresses()

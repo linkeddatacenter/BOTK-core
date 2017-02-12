@@ -47,6 +47,7 @@ Following vocabularies are partially supported:
 | [WGS 84](http://www.w3.org/2003/01/geo/)		| wgs:  	| <http://www.w3.org/2003/01/geo/wgs84_pos#> 	|
 | [FOAF](http://xmlns.com/foaf/spec/)			| foaf:  	| <http://xmlns.com/foaf/0.1/> 					|
 | [BOTK](http://linkeddata.center/botk/)		| foaf:  	| <http://linkeddata.center/botk/v1#> 			|
+| [Dublin Core](http://purl.org/dc/terms/) 		| dct:  	| <http://purl.org/dc/terms/> 					|
 
 
 This picture summarize the main concepts managed:

@@ -13,13 +13,11 @@ class FactsFactory implements FactsFactoryInterface {
 		$this->profile = $profile;
 	}
 	
-	public function factualize( array $rawData){
-		$data = array();
-		$numOfRawData = count($rawData);
+	public function factualize( array $rawData)
+	{
 		$datamapper = $this->profile['datamapper'];
 		$class = '\BOTK\Model\\'.$this->profile['model'];
-		$data = $datamapper($rawData);
-		
+		$data = array_filter($datamapper($rawData));
 		return new $class($data,$this->profile['options']);
 	}
 

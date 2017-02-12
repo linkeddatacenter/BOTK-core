@@ -10,9 +10,9 @@ class Filters {
 	/**
 	 * uppercase, no trailing and ending blancs, no multiple spaces, no "strange" strings, no blanks after dot., a single blanc after comma
 	 */
-	static function normalizeAddress($value)
+	static function FILTER_SANITIZE_ADDRESS($value)
 	{
-		$value = filter_var($value, FILTER_SANITIZE_STRING); 	// no "strange" strings
+		//$value = filter_var($value, FILTER_SANITIZE_STRING); 	// no "strange" strings
 		$value = preg_replace('/\s*([,;])/', '$1 ', $value);	// a single blanc after comma and semicolon, no space before
 		$value = preg_replace('/\-/', ' - ', $value);			// a single blanc after and before dash
 		$value = preg_replace('/\s*\.\s*/', '.', $value);		// no blanks before and after dot 
@@ -22,21 +22,22 @@ class Filters {
 		$value = preg_replace('/\-\s\-\s/', '- ', $value);		// remove multiple dash
 		$value = preg_replace('/^\s*[\,\;]/', '', $value);		// remove  comma and semicolon at start
 		$value = trim($value); 									// no trailing and ending blancs
-		return mb_strtoupper($value,'UTF-8');					// uppercase
+		
+		return $value?mb_strtoupper($value,'UTF-8'):false;		// uppercase
 	}
 	
 
-	static function normalizeToken($value)
+	static function FILTER_SANITIZE_TOKEN($value)
 	{
 		$value = preg_replace('/[^\w]/', '', $value);
-		return strtoupper($value);
+		return $value?strtoupper($value):false;
 	}
 
 
 	/**
 	 * Normalize an italian telephone number
 	 */
-	static function normalizeItTelephone($value)
+	static function FILTER_SANITIZE_TELEPHONE($value)
 	{
 		$value = preg_replace('/^[^0-9\+]+/', '', $value);  	// remove all from beginning execept numbers and +
 		$value = preg_replace('/^\+39/', '', $value);  			// remove +39 prefix		
@@ -52,17 +53,17 @@ class Filters {
 			}			
 		}					
 
-		return $value;		
+		return $value?:false;		
 	}
 	
 	
 	/**
 	 * Normalize email
 	 */
-	static function normalizeEmail($value)
+	static function FILTER_SANITIZE_EMAIL($value)
 	{
-		$value =  	filter_var($value, FILTER_VALIDATE_EMAIL);
-		return strtoupper($value);		
+		$value =  filter_var($value, FILTER_VALIDATE_EMAIL);
+		return  $value?strtoupper($value):false;		
 	}
 	
 
@@ -90,8 +91,6 @@ class Filters {
 		if(!empty($addressRegion)) { $geolabel.= " ($addressRegion)"; }
 		$geolabel.= " - $addressCountry";
 		
-		return self::normalizeAddress($geolabel);
+		return self::FILTER_SANITIZE_ADDRESS($geolabel);
 	}
-
-	
 }
