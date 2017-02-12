@@ -3,10 +3,7 @@ filter:
         - 'test/*'
         - 'vendor/*'
         - 'samples/*'
-        
-environment:
-        php: 7.0
-        
+                
 checks:
     php: true
     
@@ -17,7 +14,7 @@ build:
     tests:
         override:
             -
-                command: 'phpunit --coverage-clover=coverage.clover'
+                command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
                 coverage:
                     file: 'coverage.clover'
                     format: 'php-clover'

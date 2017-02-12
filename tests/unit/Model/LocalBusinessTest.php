@@ -50,7 +50,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'postalCode'		=> '23900',
 					'page'				=> 'http://linkeddata.center/',
 					'telephone'			=> '+39 3356382949',
-					'faxNumber'			=> '0341 255188 ',
+					'faxNumber'			=> '+39 3356382949',
 					'email'				=> array('enrico@fagnoni.com'),
 					'geoDescription'	=> array('Via  F. Valsecchi,124-23900 Lecco (LC)'),
 					'lat'				=> '1.12345',
@@ -71,7 +71,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'postalCode'		=> '23900',
 					'page'				=> array('http://linkeddata.center/'),
 					'telephone'			=> '3356382949',
-					'faxNumber'			=> '0341255188',
+					'faxNumber'			=> '3356382949',
 					'email'				=> array('ENRICO@FAGNONI.COM'),
 					'geoDescription'	=> array('VIA F.VALSECCHI, 124 - 23900 LECCO (LC)'),
 					'lat'				=> '1.12345',
@@ -113,7 +113,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 				                   ),
 			'id'				=> array(		
 									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
+			                        'options' 	=> array('regexp'=>'/^\w+$/'),
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'taxID'				=> array(	
@@ -330,6 +330,31 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			),
 		);
    	}
-	
+
+
+    /**
+	 * @expectedException \BOTK\Exceptions\DataModelException
+     * @dataProvider badLocalBusiness
+	 * 
+     */	
+    public  function testBadLocalBusiness($data)
+	{
+		$localBusiness = new BOTK\Model\LocalBusiness($data);
+	}
+
+	public function badLocalBusiness()
+    {
+    	return array( 
+			array(array('lang'				=> 'IT')),
+			array(array('id'				=> 'invalid id')),
+			array(array('vatID'				=> '012345678901')),			//too long
+			array(array('addressCountry'	=> 'italy')),					//too long
+			array(array('addressCountry'	=> 'it')),						//lowercase
+			array(array('postalCode'		=> '234992')),					//toolong
+			array(array('email'				=> 'ENRICO')),
+			array(array('lat'				=> '90.12345')),				//invalid lat
+			array(array('long'				=> '12,123456'))	
+		);
+   	}	
 }
 

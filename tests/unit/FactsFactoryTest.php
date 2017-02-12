@@ -13,8 +13,8 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 			'datamapper'	=> function(array $rawdata){
 				$data = array();
 				$data['id'] = $rawdata[0];
-				$data['legalName'] = $rawdata[2] . ' ' . $rawdata[1];
-				$data['alternateName'] = $rawdata[2];
+				$data['alternateName'][] = $rawdata[2] . ' ' . $rawdata[1];
+				$data['alternateName'][] = $rawdata[2];
 				$data['vatID'] = $rawdata[3];
 				$data['email'] = $rawdata[4];
 				$data['addressLocality'] = $rawdata[5];
@@ -51,11 +51,37 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 		$structuredData = $facts->asArray();
 		
 		$this->assertInstanceOf('\BOTK\Model\LocalBusiness', $facts);
+		$this->assertEquals(1, count($structuredData['alternateName']));
 		$this->assertEquals($structuredData['vatID'], '01209991007');
 		$this->assertEquals($structuredData['id'], '10042650');
 		$this->assertEquals($structuredData['long'], '12.464163');
 		$this->assertEquals($structuredData['streetAddress'], 'VIA ANTONIO MORDINI, 3');
 	}
 
+	public function testRemoveEmpty()
+	{
+		$profile = array(
+			'model'			=> 'LocalBusiness',
+			'options'		=> array(),
+			'datamapper'	=> function(array $rawdata){return array();},
+		);
+		$data = array(
+			'one'	=> 'notempty',
+			'two'	=> null,
+			'three'	=> false,
+			'four'	=> 0,
+			'five'	=> array(),
+			'seven'	=> array(''),
+			'eight'	=> array('notempy'),
+			'nine'	=> array('notempy','',''),
+		);
+		$expectedData = array(
+			'one'	=> 'notempty',
+			'eight'	=> array('notempy'),
+			'nine'	=> array('notempy'),
+		);
+		$factsFactory = new \BOTK\FactsFactory($profile);
+		$this->assertEquals($expectedData, $factsFactory->removeEmpty($data));
+	}
 }
 

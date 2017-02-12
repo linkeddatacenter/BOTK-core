@@ -32,7 +32,7 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			                   ),
 		'id'				=> array(		
 								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[\w]+$/'),
+		                        'options' 	=> array('regexp'=>'/^\w+$/'),
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'taxID'				=> array(	
