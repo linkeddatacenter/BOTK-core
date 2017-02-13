@@ -18,7 +18,7 @@ You can install it using [Composer](http://getcomposer.org).
 composer require botk/core
 ```
 
-Some code examples in samples directory.
+Some code examples in exsamples directory.
 
 
 ## Installation
@@ -35,6 +35,9 @@ Add following dependance to **composer.json** file in your project root:
     }
 ```
 
+## Usage
+
+See [examples](examples/RREADME.md) directory.
 
 ## BOTK Language profile
 
