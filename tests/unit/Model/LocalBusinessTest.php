@@ -358,9 +358,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			array(array('addressCountry'	=> 'italy')),					//too long
 			array(array('addressCountry'	=> 'it')),						//lowercase
 			array(array('postalCode'		=> '234992')),					//toolong
-			array(array('email'				=> 'ENRICO')),
-			array(array('lat'				=> '90.12345')),				//invalid lat
-			array(array('lat'				=> '-90.12345')),				//invalid lat
 				
 		);
    	}	

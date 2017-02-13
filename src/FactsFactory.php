@@ -125,7 +125,7 @@ EOT;
 	{
 		if( $this->entityCount < 100){ return false; }  // if less than 100 entity do not check
 		
-		return ($this->errorCount/$this->entityCount) > $this->profile['reslience'];
+		return ($this->errorCount/$this->entityCount) > $this->profile['resilience'];
 	}
 
 

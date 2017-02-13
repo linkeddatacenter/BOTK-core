@@ -25,6 +25,9 @@ $options = array(
 			
 			return $data;
 		},
+		'rawDataValidationFilter' => function( $rawdata){
+			return !empty($rawdata['16']);
+		},	
 	),
 	'skippFirstLine'	=> false,
 	'fieldDelimiter' => '|'

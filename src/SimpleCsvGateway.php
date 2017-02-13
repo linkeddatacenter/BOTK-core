@@ -48,7 +48,7 @@ class SimpleCsvGateway
 		    	try{
 		    		$facts =$this->factsFactory->factualize($rawdata);
 		    		echo $facts->asTurtle(), "\n";
-		    	}catch (Exception $e) {
+		    	}catch (\Exception $e) {
 					$this->factsFactory->addError($e->getMessage());
 				    echo "\n# Caught exception: " ,  $e->getMessage(), "\n";
 				}	    		

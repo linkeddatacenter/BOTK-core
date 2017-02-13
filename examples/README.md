@@ -5,7 +5,7 @@ the SimpleCsvGateway class is an example of a simple gateway that reads csv file
 
 Examples:
 ```
-php sample1.php < sample_input/sample1.txt > sample_output/sample1.ttl
-php sample2.php < sample_input/sample2.csv > sample_output/sample2.ttl
-php sample3.php < sample_input/sample3.CSV > sample_output/sample3.ttl
+php sample1.php < input/sample1.txt > output/sample1.ttl
+php sample2.php < input/sample2.csv > output/sample2.ttl
+php sample3.php < input/sample3.CSV > output/sample3.ttl
 ```

@@ -4,11 +4,14 @@ namespace BOTK;
 
 /**
  * A collection of filetr to be used as callback with php filters
+ * allow empty values  if filter returns null the field shoud be considered empty 
+ * deny empty values if the filter returns false the validation fails and the data was invalid
  */
 class Filters {
 
 	/**
 	 * uppercase, no trailing and ending blancs, no multiple spaces, no "strange" strings, no blanks after dot., a single blanc after comma
+	 * empty allowed
 	 */
 	static function FILTER_SANITIZE_ADDRESS($value)
 	{
@@ -23,10 +26,12 @@ class Filters {
 		$value = preg_replace('/^\s*[\,\;]/', '', $value);		// remove  comma and semicolon at start
 		$value = trim($value); 									// no trailing and ending blancs
 		
-		return $value?mb_strtoupper($value,'UTF-8'):false;		// uppercase
+		return $value?mb_strtoupper($value,'UTF-8'):null;		// uppercase
 	}
 	
-
+	/**
+	 * not empty token
+	 */
 	static function FILTER_SANITIZE_TOKEN($value)
 	{
 		$value = preg_replace('/[^\w]/', '', $value);
@@ -36,6 +41,7 @@ class Filters {
 
 	/**
 	 * Normalize an italian telephone number
+	 * empty allowed
 	 */
 	static function FILTER_SANITIZE_TELEPHONE($value)
 	{
@@ -53,20 +59,23 @@ class Filters {
 			}			
 		}					
 
-		return $value?:false;		
+		return $value?:null;		
 	}
 	
 	
 	/**
 	 * Normalize email
+	 * empty allowed
 	 */
 	static function FILTER_SANITIZE_EMAIL($value)
 	{
 		$value =  filter_var($value, FILTER_VALIDATE_EMAIL);
-		return  $value?strtoupper($value):false;		
+		return  $value?strtoupper($value):null;		
 	}
 	
-	
+	/**
+	 * not null rdfzable id
+	 */
 	static function FILTER_SANITIZE_ID($value)
 	{
 		$value = strtolower($value);
@@ -76,13 +85,16 @@ class Filters {
 		return $value?:false;
 	}
 	
-	
+	/**
+	 * latitude and longitude coordinates
+	 * empty allowed
+	 */
 	static function FILTER_SANITIZE_LAT_LONG($value)
 	{
 		// http://www.regexlib.com/REDetails.aspx?regexp_id=2728
 		$value = preg_replace('/,/', '.', $value);
 		$value = sprintf('%01.6f',floatval($value));
-		return preg_match('/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/', $value)?$value:false;
+		return preg_match('/^-?([1-8]?[0-9]\.{1}\d{1,6}$|90\.{1}0{1,6}$)/', $value)?$value:null;
 	}
 	
 }
