@@ -74,8 +74,6 @@ abstract class AbstractModel
 	protected function mergeOptions( array $options1, array $options2 )
 	{
     	foreach($options2 as $property=>$option){
-    		//ignore options that are not filters definition
-    		if(!is_array($option) || empty($option['filter'])) continue;
 			
 			$options1[$property]=isset($options1[$property])
 				?array_merge($options1[$property], $option)
