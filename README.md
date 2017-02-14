@@ -50,6 +50,8 @@ Following vocabularies are partially supported:
 | [rdfs](http://www.w3.org/2000/01/rdf-schema) 								| rdfs:		| <http://www.w3.org/2000/01/rdf-schema#>		|
 | [owl](http://www.w3.org/2002/07/owl) 										| owl:		| <http://www.w3.org/2002/07/owl#> 				|
 | [Dublin Core](http://purl.org/dc/terms/) 									| dct:  	| <http://purl.org/dc/terms/> 					|
+| [VoiD](https://www.w3.org/TR/vocab-data-cube/#bib-void)					| void:  	| <http://rdfs.org/ns/void#> 					|
+| [PROV](https://www.w3.org/TR/prov-o/)										| prov:  	| <	http://www.w3.org/ns/prov#> 				|
 | [schema.org](http://schema.org) 											| schema:	| <http://schema.org/>							|
 | [WGS 84](http://www.w3.org/2003/01/geo/)									| wgs:  	| <http://www.w3.org/2003/01/geo/wgs84_pos#> 	|
 | [FOAF](http://xmlns.com/foaf/spec/)										| foaf:  	| <http://xmlns.com/foaf/0.1/> 					|

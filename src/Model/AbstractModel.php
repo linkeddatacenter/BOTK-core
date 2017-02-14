@@ -66,6 +66,8 @@ abstract class AbstractModel
 		'owl'		=> 'http://www.w3.org/2002/07/owl#',
 		'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
 		'dct' 		=> 'http://purl.org/dc/terms/',
+		'void' 		=> 'http://rdfs.org/ns/void#',
+		'prov' 		=> 'http://www.w3.org/ns/prov#',
 		'schema'	=> 'http://schema.org/',
 		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
