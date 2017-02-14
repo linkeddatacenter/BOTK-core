@@ -1,15 +1,13 @@
 <?php
 namespace BOTK\Model;
 
-use BOTK\Exceptions\DataModelException;
-use BOTK\ModelInterface;
 
 /**
  * An ibrid class that merge the semantic of schema:organization, schema:place and schema:geo, 
  * it is similar to schema:LocalBusiness.
  * Allows the bulk setup of properties
  */
-class LocalBusiness extends AbstractModel implements ModelInterface 
+class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface 
 {
 	protected static $DEFAULT_OPTIONS = array (
 		'businessType'		=> array(		
@@ -37,6 +35,11 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 							   ),
+		'addressDescription'=> array(	//	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
 		'addressCountry'	=> array(
 								'default'	=> 'IT',		
 								'filter'    => FILTER_VALIDATE_REGEXP,
@@ -63,10 +66,6 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
-		'page'				=> array(	
-								'filter'    => FILTER_SANITIZE_URL,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
 		'telephone'			=> array(	
 								'filter'    => FILTER_CALLBACK,	
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
@@ -82,19 +81,13 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'geoDescription'	=> array(
-								// a schema:alternateName for schema:GeoCoordinates	
-								'filter'    => FILTER_CALLBACK,	
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
 		'lat'				=> array( 
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 			                   ),
 		'long'				=> array( 
 								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 			                   ),
 	);
 
@@ -102,33 +95,37 @@ class LocalBusiness extends AbstractModel implements ModelInterface
     {
     	$options = $this->mergeOptions(self::$DEFAULT_OPTIONS,$customOptions);
     	parent::__construct($data, $options);
+		$this->addAddressDescription();
 	}
 	
+	
 	/**
-	 * Create a normalized address from wollowing datam properties
-	 * 		'addressCountry',
+	 * If not existing, create an address description as a normalized address from following data properties:
 	 * 		'addressLocality',
 	 * 		'addressRegion',
 	 * 		'streetAddress',
 	 * 		'postalCode',
-	 *  If data is not sufficient to create a good addess, false is returned.
-	 */	
-	public function buildNormalizedAddress()
+	 */
+	private function addAddressDescription()
 	{	
 		extract($this->data);
-		
-		// veryfy that at least a minimum set of information are present
-		if(empty($streetAddress) || empty($addressCountry) || (empty($addressLocality) && empty($postalCode))){
-			return false;
-		}
 
-		$geolabel = "$streetAddress ,";
-		if(!empty($postalCode)) { $geolabel.= " $postalCode";}
-		if(!empty($addressLocality)) { $geolabel.= " $addressLocality"; }
-		if(!empty($addressRegion)) { $geolabel.= " ($addressRegion)"; }
-		$geolabel.= " - $addressCountry";
+		if(empty($addressDescription)){
+			if( !empty($streetAddress) && ( !empty($addressLocality) || !empty($postalCode))){
+				$addressDescription = "$streetAddress ,";
+				if(!empty($postalCode)) { $addressDescription.= " $postalCode";}
+				if(!empty($addressLocality)) { $addressDescription.= " $addressLocality"; }
+				if(!empty($addressRegion)) { $addressDescription.= " ($addressRegion)"; }
+			} else {
+				$addressDescription = null;
+			}
+		}
 		
-		return \BOTK\Filters::FILTER_SANITIZE_ADDRESS($geolabel);
+		$addressDescription = \BOTK\Filters::FILTER_SANITIZE_ADDRESS($addressDescription);
+		
+		if(!empty($addressDescription)){
+			$this->data['addressDescription']=$addressDescription;
+		}
 	}
 	
 	
@@ -140,86 +137,56 @@ class LocalBusiness extends AbstractModel implements ModelInterface
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
-			$placeUri = $organizationUri.'_place';
-			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":($organizationUri.'_geo'); 
-		
-			// define the minimum condition to skipp the rdf generation
-			$skippAddress = 	empty($alternateName) &&
-								empty($addressLocality) &&
-								empty($streetAddress) &&
-								empty($postalCode) &&
-								empty($page) &&
-								empty($telephone) &&
-								empty($faxNumber) &&
-								empty($email)
-			;
-			$skippGeo = empty($geoDescription) &&
-						empty($addressLocality) &&
-						empty($streetAddress) &&
-						empty($lat) && 
-						empty($long) ;
-			$skippPlace = $skippGeo && $skippAddress;
+			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":null;
 			
-			$skippOrganization = $skippPlace && empty($id)&& empty($vatID) && empty($taxID) && empty($legalName) ;
+			$tripleCounter =0;
+			$turtleString='';
 			
 			// define $_ as a macro to write simple rdf
-			$tc =0;
-			$rdf='';
-			$_= function($format, $var) use(&$lang, &$rdf, &$tc){
-				if(!is_array($var)) { $var = (array) $var;}
-				foreach((array)$var as $v){$rdf.= sprintf($format,$v,$lang);$tc++;}
+			$_= function($format, $var) use(&$turtleString, &$tripleCounter){
+				foreach((array)$var as $v){
+					if($var){
+						$turtleString.= sprintf($format,$v);
+						$tripleCounter++;
+					}
+				}
 			};
 				
-	 		// serialize schema:Organization
-	 		if( !$skippOrganization){
-	 			$_('<%s> a schema:Organization;', $organizationUri);
-					!empty($id) 				&& $_('dct:identifier "%s";', $id);
-					!empty($vatID) 				&& $_('schema:vatID "%s"@%s;', $vatID); 
-					!empty($taxtID) 			&& $_('schema:taxtID "%s"@%s;', $taxID);
-					!empty($legalName)			&& $_('schema:legalName """%s"""@%s;', $legalName);
-					!$skippPlace				&& $_('schema:location <%s>;', $placeUri);
-				$rdf.=' . ';
-			}	
+	 		// serialize schema:LocalBusiness
+ 			$_('<%s> a schema:LocalBusiness;', $organizationUri);
+			!empty($businessType) 		&& $_('a %s;', $businessType);
+			!empty($id) 				&& $_('dct:identifier "%s";', $id);
+			!empty($vatID) 				&& $_('schema:vatID "%s";', $vatID); 
+			!empty($taxtID) 			&& $_('schema:taxtID "%s";', $taxID);
+			!empty($legalName)			&& $_('schema:legalName "%s";', $legalName);
+			!empty($businessName) 		&& $_('schema:alternateName "%s";', $businessName);
+			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
+			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
+			!empty($page) 				&& $_('schema:page <%s>;', $page);
+			!empty($email) 				&& $_('schema:email "%s";', $email);
+			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage);
+			!empty($mailbox) 			&& $_('foaf:mailbox <mailto:%s>;', $mailbox);
+			!empty($geoUri) 			&& $_('schema:geo <%s>;', $geoUri);
+			$_('schema:address <%s>. ', $addressUri);
 			
 			// serialize schema:PostalAddress 
-			if( !$skippAddress){
-				$_('<%s> a schema:PostalAddress;', $addressUri);
-					!empty($businessName) 		&& $_('schema:alternateName """%s"""@%s;', $businessName);
-					!empty($streetAddress) 		&& $_('schema:streetAddress """%s"""@%s;', $streetAddress);
-					!empty($postalCode) 		&& $_('schema:postalCode "%s"@%s;', $postalCode);
-					!empty($addressLocality) 	&& $_('schema:addressLocality """%s"""@%s;', $addressLocality);
-					!empty($addressRegion) 		&& $_('schema:addressRegion "%s"@%s;', $addressRegion);
-					!empty($addressCountry) 	&& $_('schema:addressCountry "%s";', $addressCountry);
-					!empty($telephone) 			&& $_('schema:telephone "%s"@%s;', $telephone);
-					!empty($faxNumber) 			&& $_('schema:faxNumber "%s"@%s;', $faxNumber);
-					!empty($page) 				&& $_('schema:page <%s>;', $page);
-					!empty($email) 				&& $_('schema:email "%s";', $email);
-				$rdf.=' . ';
-			}
+			$_('<%s> a schema:PostalAddress;', $addressUri);
+			!empty($addressDescription) && $_('schema:description "%s";', $addressDescription);
+			!empty($streetAddress) 		&& $_('schema:streetAddress "%s";', $streetAddress);
+			!empty($postalCode) 		&& $_('schema:postalCode "%s";', $postalCode);
+			!empty($addressLocality) 	&& $_('schema:addressLocality "%s";', $addressLocality);
+			!empty($addressRegion) 		&& $_('schema:addressRegion "%s";', $addressRegion);
+			$_('schema:addressCountry "%s". ', $addressCountry);
 
 			// serialize schema:GeoCoordinates
-			if( !$skippGeo){
-
-				$geoDescription = $this->buildNormalizedAddress();
-		
+			if( !empty($geoUri)){
 				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
-					!empty($geoDescription) 	&& $_('schema:alternateLabel """%s"""@%s;', $geoDescription);
-					!empty($lat) 				&& $_('wgs:lat %s ;', $lat);
-					!empty($long) 				&& $_('wgs:long %s ;', $long);
-				$rdf.=' . ';
+				$_('wgs:lat "%s"^^xsd:float;', $lat);
+				$_('wgs:long "%s"^^xsd:float . ', $long); 
 			}
 
-			// serialize schema:Place
-			if( !$skippPlace){
-				$_('<%s> a schema:LocalBusiness;', $placeUri);
-					!empty($businessType) 		&& $_('a %s;', $businessType);
-					!$skippAddress 				&& $_('schema:address <%s>;', $addressUri);
-					!$skippGeo 					&& $_('schema:geo <%s>;', $geoUri);
-				$rdf.=' . ';
-			}
-	
-			$this->rdf = $rdf;
-			$this->tripleCount  = $tc;
+			$this->rdf = $turtleString;
+			$this->tripleCount = $tripleCounter;
 		}
 		
 		return $this->rdf;

@@ -1,9 +1,6 @@
 <?php
 namespace BOTK\Model;
 
-use BOTK\Exceptions\DataModelException;
-
-
 abstract class AbstractModel 
 {
 	
@@ -33,41 +30,55 @@ abstract class AbstractModel
 	 * )
 	 */
 	protected static $DEFAULT_OPTIONS  = array(
+		'uri'				=> array(
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
 		'base'				=> array(
 								'default'	=> 'http://linkeddata.center/botk/resource/',
 								'filter'    => FILTER_SANITIZE_URL,
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
-		'uri'				=> array(
-								'filter'    => FILTER_SANITIZE_URL,
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'lang'				=> array(
-								'default'	=> 'it',		
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
 		'id'				=> array(		
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^\w+$/'),
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'page'				=> array(	
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'homepage'			=> array(	
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'mailbox'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 	);
 	
 	protected $options ;
 	protected $vocabulary = array(
-		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
-		'schema'	=> 'http://schema.org/',
-		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
+		'owl'		=> 'http://www.w3.org/2002/07/owl#',
 		'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
 		'dct' 		=> 'http://purl.org/dc/terms/',
+		'schema'	=> 'http://schema.org/',
+		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
+		'dq'		=> 'http://purl.org/linked-data/cube#',
+		'daq'		=> 'http://purl.org/eis/vocab/daq#',
+		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
 	);
+	
 	protected $data;
 	protected $rdf =null; //lazy created
 	protected $tripleCount=0; //lazy created
 	protected $uniqueIdGenerator=null; // dependency injections
+	protected $droppedFields = array();
 	
 	abstract public function asTurtle();
 
@@ -95,18 +106,25 @@ abstract class AbstractModel
 		}
 
 		// ensure data are sanitized and validated
-		$sanitizedData = array_filter( filter_var_array($data, $options), function($value,$property) use($data,$options){
-			if ($value===false && isset($data[$property]) && $data[$property]!==false){
-				$id = empty($data['id'])?'unknown':$data['id'];
-				throw new DataModelException("failed validation of '$property' property of subject with id '$id'. Record dropped.");
+		$sanitizedData = array_filter( filter_var_array($data, $options));
+		
+		// find and register dropped fields
+		foreach($data as $property=>$value){
+			if($value && empty($sanitizedData[$property])){
+				$this->droppedFields[]=$property;
 			}
-			return !is_null($value);
-		} , ARRAY_FILTER_USE_BOTH);
+		}
 
 		$this->options = $options;
 		$this->data = $sanitizedData;
 		$this->setIdGenerator(function($data){return uniqid();});
     }
+	
+	
+	public function getDroppedFields()
+	{
+		return $this->droppedFields;
+	}
 
 	
 	/**
@@ -153,7 +171,7 @@ abstract class AbstractModel
 	}
 
 
-	public function getVocabulary()
+	public function getVocabularies()
 	{
 		return $this->vocabulary;
 	}

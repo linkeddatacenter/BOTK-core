@@ -5,33 +5,29 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider goodLocalBusiness
      */	
-	public function testDataFilteringWithValidDataAndDefaultOptions($data, $expectedData)
+	public function testConstructor($data, $expectedData)
 	{
 		$localBusiness = new BOTK\Model\LocalBusiness($data);		
 		$this->assertEquals($expectedData, $localBusiness->asArray());
 	}
-	
 	public function goodLocalBusiness()
     {
     	return array( 
     		array(
 	    		array(),
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource/',	
-					'lang'				=> 'it',
+					'base'				=> 'http://linkeddata.center/botk/resource/',
 					'addressCountry'	=> 'IT',
 				),
 			),
 			
     		array(
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource#',
-					'lang'				=> 'en',
+					'base'				=> 'urn:a:',
 					'addressCountry'	=> 'US',
 				),
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource#',
-					'lang'				=> 'en',
+					'base'				=> 'urn:a:',
 					'addressCountry'	=> 'US',
 				),
 			),
@@ -41,82 +37,79 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	    			'id'				=> '1234567890',
 					'taxID'				=> 'fgn nrc 63S0 6F205 A',
 					'vatID'				=> '01234567890',
-					'legalName'			=> 'Test  soc srl',
-					'businessName'		=> 'Test  soc srl',
+					'legalName'			=> 'Example srl',
+					'businessName'		=> 'Example',
 					'businessType'		=> 'schema:MedicalOrganization',
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
-					'streetAddress'		=> 'Via  F. Valsecchi,124',
+					'streetAddress'		=> 'Via  Fausto Valsecchi,124',
 					'postalCode'		=> '23900',
 					'page'				=> 'http://linkeddata.center/',
 					'telephone'			=> '+39 3356382949',
-					'faxNumber'			=> '+39 3356382949',
-					'email'				=> array('enrico@fagnoni.com'),
-					'geoDescription'	=> array('Via  F. Valsecchi,124-23900 Lecco (LC)'),
+					'faxNumber'			=> '+39 335 63 82 949',
+					'email'				=> array('admin@fagnoni.com'),
+					'mailbox'			=> 'info@example.com',
+					'addressDescription'=> 'Via  F. Valsecchi,124-23900 Lecco (LC)',
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
 				),
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource/',	
-					'lang'				=> 'it',
+					'base'				=> 'http://linkeddata.center/botk/resource/',
 	    			'id'				=> '1234567890',
 					'businessType'		=> array('schema:MedicalOrganization'),
 					'taxID'				=> 'FGNNRC63S06F205A',
 					'vatID'				=> '01234567890',
-					'legalName'			=> 'TEST SOC SRL',
-					'businessName'		=> array('Test  soc srl'),
+					'legalName'			=> 'EXAMPLE SRL',
+					'businessName'		=> array('Example'),
 					'addressCountry'	=> 'IT',
 					'addressLocality'	=> 'LECCO',
 					'addressRegion'		=> 'LC',
-					'streetAddress'		=> 'VIA F.VALSECCHI, 124',
+					'streetAddress'		=> 'VIA FAUSTO VALSECCHI, 124',
 					'postalCode'		=> '23900',
 					'page'				=> array('http://linkeddata.center/'),
 					'telephone'			=> '3356382949',
 					'faxNumber'			=> '3356382949',
-					'email'				=> array('ENRICO@FAGNONI.COM'),
-					'geoDescription'	=> array('VIA F.VALSECCHI, 124 - 23900 LECCO (LC)'),
+					'email'				=> array('ADMIN@FAGNONI.COM'),
+					'mailbox'			=> 'INFO@EXAMPLE.COM',
+					'addressDescription'=> 'VIA F.VALSECCHI, 124 - 23900 LECCO (LC)',
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
 				),
 			),
-    		array(
-	    		array(
-	    			'id'				=> '1234567890',
-					'addressCountry'	=> null,
-				),
-	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource/',	
-					'lang'				=> 'it',
-	    			'id'				=> '1234567890',
-					'addressCountry'	=> 'IT',
-	    		),
-			),			
 		);
    	}
+
 
 	public function testGetDefaultOptions()
 	{	
 		$expectedOptions =  array (
+			'uri'				=> array(
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
 			'base'				=> array(
 									'default'	=> 'http://linkeddata.center/botk/resource/',
 									'filter'    => FILTER_SANITIZE_URL,
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
-			'uri'				=> array(
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'lang'				=> array(
-									'default'	=> 'it',		
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[a-z]{2}$/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
 			'id'				=> array(		
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^\w+$/'),
+									'filter'    => FILTER_CALLBACK,
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
+			'page'				=> array(	
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
+			'homepage'			=> array(	
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
+			'mailbox'			=> array(	
+									'filter'    => FILTER_CALLBACK,
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'businessType'		=> array(		
 									// additional types  as extension of schema:LocalBusiness
@@ -143,6 +136,11 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 									'filter'    => FILTER_DEFAULT,
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 								   ),
+			'addressDescription'=> array(	//	
+									'filter'    => FILTER_CALLBACK,
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+				                   ),
 			'addressCountry'	=> array(
 									'default'	=> 'IT',		
 									'filter'    => FILTER_VALIDATE_REGEXP,
@@ -169,10 +167,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
-			'page'				=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
 			'telephone'			=> array(	
 									'filter'    => FILTER_CALLBACK,	
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
@@ -188,19 +182,13 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
-			'geoDescription'	=> array(
-									// a schema:alternateName for schema:GeoCoordinates	
-									'filter'    => FILTER_CALLBACK,	
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
 			'lat'				=> array( 
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 				                   ),
 			'long'				=> array( 
 									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_LAT_LONG',
+			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 				                   ),
 		);
 		
@@ -210,32 +198,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 
 
 
-	public function testChangeDefaultOptions()
-	{
-		$localBusiness = new BOTK\Model\LocalBusiness(array(), array (
-			'lang'	=> array('default'	=> 'en'),
-			'vatID' => array('options' 	=> array('regexp'=>'/^IT[0-9]{11}$/')),
-		));
-		$options = $localBusiness->getOptions();
-		$this->assertEquals(
-			array(
-				'default'	=> 'en',		
-				'filter'    => FILTER_VALIDATE_REGEXP,
-	            'flags'  	=> FILTER_REQUIRE_SCALAR,
-	            'options' 	=> array('regexp'=>'/^[a-z]{2}$/')
-			),
-			$options['lang']
-		);
-		$this->assertEquals(
-			array(
-				'filter'    => FILTER_VALIDATE_REGEXP,
-	            'flags'  	=> FILTER_REQUIRE_SCALAR,
-	            'options' 	=> array('regexp'=>'/^IT[0-9]{11}$/')
-	        ),
-			$options['vatID']
-		);
-	}
-
 
     /**
      * @dataProvider goodRdf
@@ -244,61 +206,66 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	{
 		$localBusiness = new BOTK\Model\LocalBusiness($data);		
 		$this->assertEquals($rdf, $localBusiness->asTurtle());
-		$this->assertEquals($tripleCount,  $localBusiness->getTripleCount());
+		$this->assertEquals($tripleCount, $localBusiness->getTripleCount());
 	}
-	
 	public function goodRdf()
     {
     	return array(
-    		array(
-    			array(),
-    			'',
-    			0,
-			),
-    		array(
-    			array(
-    				'base'				=> 'urn:',
-    				'id'				=> 'abc',
-					'vatID'				=> '01234567890',
-					'legalName'			=> 'Calenda chiodi snc',
-				),
-    			'<urn:abc> a schema:Organization;dct:identifier "abc";schema:vatID "01234567890"@it;schema:legalName """CALENDA CHIODI SNC"""@it; . ',
+    		array( 
+    			array('uri'=>'urn:test:a'),
+    			'<urn:test:a> a schema:LocalBusiness;schema:address <urn:test:a_address>. <urn:test:a_address> a schema:PostalAddress;schema:addressCountry "IT". ',
     			4,
 			),
-			
     		array(
     			array(
-    				'uri'				=> 'urn:abc',
+    				'base'				=> 'urn:test:',
+    				'id'				=> 'b',
 					'vatID'				=> '01234567890',
 					'legalName'			=> 'Calenda chiodi snc',
 				),
-    			'<urn:abc> a schema:Organization;schema:vatID "01234567890"@it;schema:legalName """CALENDA CHIODI SNC"""@it; . ',
-    			3,
+    			'<urn:test:b> a schema:LocalBusiness;dct:identifier "b";schema:vatID "01234567890";schema:legalName "CALENDA CHIODI SNC";schema:address <urn:test:b_address>. <urn:test:b_address> a schema:PostalAddress;schema:addressCountry "IT". ',
+    			7,
 			),
 			
     		array(
     			array(
-    				'uri'				=> 'urn:abc',
-					'lat'				=> '43.23456',
-					'long'				=> '35.23444',
+	    			'id'				=> '1234567890',
+					'taxID'				=> 'fgn nrc 63S0 6F205 A',
+					'vatID'				=> '01234567890',
+					'legalName'			=> 'Example srl',
+					'businessName'		=> 'Example',
+					'businessType'		=> 'schema:MedicalOrganization',
+					'addressCountry'	=> 'IT',
+					'addressLocality'	=> 'LECCO',
+					'addressRegion'		=> 'LC',
+					'streetAddress'		=> 'Via  Fausto Valsecchi,124',
+					'postalCode'		=> '23900',
+					'page'				=> 'http://linkeddata.center/',
+					'telephone'			=> '+39 3356382949',
+					'faxNumber'			=> '+39 335 63 82 949',
+					'email'				=> array('admin@fagnoni.com'),
+					'mailbox'			=> 'info@example.com',
+					'addressDescription'=> 'Via  F. Valsecchi,124-23900 Lecco (LC)',
+					'lat'				=> '1.12345',
+					'long'				=> '2.123456',
 				),
-    			'<urn:abc> a schema:Organization;schema:location <urn:abc_place>; . <geo:43.234560,35.234440> a schema:GeoCoordinates;wgs:lat 43.234560 ;wgs:long 35.234440 ; . <urn:abc_place> a schema:LocalBusiness;schema:geo <geo:43.234560,35.234440>; . ',
-    			7,
+    			'<http://linkeddata.center/botk/resource/1234567890> a schema:LocalBusiness;a schema:MedicalOrganization;dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:page <http://linkeddata.center/>;schema:email "ADMIN@FAGNONI.COM";foaf:mailbox <mailto:INFO@EXAMPLE.COM>;schema:geo <geo:1.12345,2.123456>;schema:address <http://linkeddata.center/botk/resource/1234567890_address>. <http://linkeddata.center/botk/resource/1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
+    			23,
 			),
 		);
 	}
 
 
+
     /**
      * @dataProvider structuredAdresses
      */	
-	public function testBuildNormalizedAddress($data, $expectedData)
+	public function testBuildNormalizedAddress($rawdata, $expectedData)
 	{
-		$localBusiness = new BOTK\Model\LocalBusiness($data);
-		$this->assertEquals($expectedData, $localBusiness->buildNormalizedAddress($data));
+		$localBusiness = new BOTK\Model\LocalBusiness($rawdata);
+		$data=$localBusiness->asArray();
+		$this->assertEquals($expectedData, $data['addressDescription']);
 	}
-
-	
 	public function structuredAdresses()
     {
     	return array( 
@@ -310,7 +277,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     				'addressCountry'	=> 'IT',
     				'postalCode'		=> '23900',	
 				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, 23900 LECCO (LC) - IT'
+				'LUNGOLARIO LUIGI CADORNA, 1, 23900 LECCO (LC)'
 			),
     		array( 
     			array(
@@ -318,7 +285,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     				'addressLocality'	=> 'Lecco',
     				'addressCountry'	=> 'IT',	
 				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, LECCO - IT'
+				'LUNGOLARIO LUIGI CADORNA, 1, LECCO'
 			),
     		array( 
     			array(
@@ -326,40 +293,29 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     				'addressCountry'	=> 'IT',
     				'postalCode'		=> '23900',	
 				),	
-				'LUNGOLARIO LUIGI CADORNA, 1, 23900 - IT'
+				'LUNGOLARIO LUIGI CADORNA, 1, 23900'
 			),
     		array( 
     			array(
-    				'addressCountry'	=> 'IT',
-    				'postalCode'		=> '23900',	
+    				'addressDescription'	=> 'test address',
 				),	
-				false
+				'TEST ADDRESS'
 			),
 		);
    	}
 
 
-    /**
-	 * @expectedException \BOTK\Exceptions\DataModelException
-     * @dataProvider badLocalBusiness
-	 * 
-     */	
-    public  function testBadLocalBusiness($data)
+    public  function testBadLocalBusiness()
 	{
-		$localBusiness = new BOTK\Model\LocalBusiness($data);
+		$badData = array(
+			'vatID'				=>	'not a vat',
+			'addressCountry'	=>  'ITALY', 	// should be a two character ISO country code
+			'postalCode'		=>  '234992',	// too long
+			'email'				=>  'not an e mail',
+		);
+		$localBusiness = new BOTK\Model\LocalBusiness($badData);
+		$this->assertEquals(array_keys($badData), $localBusiness->getDroppedFields());
 	}
 
-	public function badLocalBusiness()
-    {
-    	return array( 
-			array(array('lang'				=> 'IT')),
-			array(array('id'				=> 'invalid id')),
-			array(array('vatID'				=> '012345678901')),			//too long
-			array(array('addressCountry'	=> 'italy')),					//too long
-			array(array('addressCountry'	=> 'it')),						//lowercase
-			array(array('postalCode'		=> '234992')),					//toolong
-				
-		);
-   	}	
 }
 
