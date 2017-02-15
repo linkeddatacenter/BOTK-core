@@ -12,7 +12,7 @@ class Filters {
 	/**
 	 * empty allowed
 	 */
-	static function FILTER_SANITIZE_ADDRESS($value)
+	public static function FILTER_SANITIZE_ADDRESS($value)
 	{
 		$value = preg_replace('/\s*([,;])/', '$1 ', $value);	// a single blanc after comma and semicolon, no space before
 		$value = preg_replace('/\-/', ' - ', $value);			// a single blanc after and before dash
@@ -34,7 +34,7 @@ class Filters {
 	/**
 	 * not empty token
 	 */
-	static function FILTER_SANITIZE_TOKEN($value)
+	public static function FILTER_SANITIZE_TOKEN($value)
 	{
 		$value = preg_replace('/[^\w]/', '', $value);
 		$value = strtoupper($value);
@@ -47,7 +47,7 @@ class Filters {
 	 * Normalize an italian telephone number
 	 * empty allowed
 	 */
-	static function FILTER_SANITIZE_TELEPHONE($value)
+	public static function FILTER_SANITIZE_TELEPHONE($value)
 	{
 		$value = preg_replace('/^[^0-9\+]+/', '', $value);  	// remove all from beginning execept numbers and +
 		$value = preg_replace('/^\+39/', '', $value);  			// remove +39 prefix		
@@ -71,7 +71,7 @@ class Filters {
 	 * Normalize email
 	 * empty allowed
 	 */
-	static function FILTER_SANITIZE_EMAIL($value)
+	public static function FILTER_SANITIZE_EMAIL($value)
 	{
 		$value =  filter_var($value, FILTER_VALIDATE_EMAIL);
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
@@ -84,7 +84,7 @@ class Filters {
 	/**
 	 * not null lowercase id
 	 */
-	static function FILTER_SANITIZE_ID($value)
+	public static function FILTER_SANITIZE_ID($value)
 	{
 		$value = mb_strtolower($value, 'UTF-8');
 		$value = preg_replace('/[^\p{L}0-9]+/u', ' ', $value);
@@ -98,7 +98,7 @@ class Filters {
 	 * latitude and longitude coordinates (only dot as decimal place) trunked to 6 decimals
 	 * empty allowed
 	 */
-	static function FILTER_SANITIZE_GEO($value)
+	public static function FILTER_SANITIZE_GEO($value)
 	{
 		// http://www.regexlib.com/REDetails.aspx?regexp_id=2728
 		$value = preg_replace('/,/', '.', $value);
@@ -111,7 +111,7 @@ class Filters {
 	 * quote quotes and backslash
 	 * empty allowed
 	 */
-	static function FILTER_SANITIZE_TURTLE_STRING($value)
+	public static function FILTER_SANITIZE_TURTLE_STRING($value)
 	{
 		$value = preg_replace('/"/', '\\"', $value);
 		$value = preg_replace('/\{1,}/', '\\\\', $value);
