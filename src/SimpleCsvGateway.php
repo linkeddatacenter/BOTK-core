@@ -9,6 +9,7 @@ class SimpleCsvGateway
 	
 	protected $options;
 	protected $factsFactory;
+	protected $currentRow = 0;
 	
 	
 	public static function factory(array $options)
@@ -34,6 +35,7 @@ class SimpleCsvGateway
 	{
 		if( $this->factsFactory->tooManyErrors()) return false;
 		
+		$this->currentRow++;
 		return fgetcsv(STDIN, $this->options['bufferSize'], $this->options['fieldDelimiter']);
 	}
 	
@@ -45,13 +47,16 @@ class SimpleCsvGateway
 	
 	    while ($rawdata = $this->readRawData()) {
 	    	if($this->factsFactory->acceptable($rawdata)){
-		    	try{
-		    		$facts =$this->factsFactory->factualize($rawdata);
-		    		echo $facts->asTurtle(), "\n";
-		    	}catch (\Exception $e) {
-					$this->factsFactory->addError($e->getMessage());
-				    echo "\n# Caught exception: " ,  $e->getMessage(), "\n";
+	    		$facts =$this->factsFactory->factualize($rawdata);
+	    		echo $facts->asTurtle(), "\n";
+				$droppedFields = $facts->getDroppedFields();
+		    	if(!empty($droppedFields)) {
+		    		$msg = "on row {$this->currentRow} dropped ".implode(",", $droppedFields);
+					$this->factsFactory->addError($msg);
+				    echo "\n# WARNING: $msg\n";
 				}	    		
+	    	} else {
+	    		echo "\n# WARNING: row {$this->currentRow} ignored.\n";
 	    	}
 	    }
 		

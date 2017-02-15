@@ -7,6 +7,7 @@ $options = array(
 		'options'		=> array(
 			'base' => array( 'default'=> 'http://salute.gov.it/resource/farmacie#')
 		),
+		'source'	=> 'http://example.com/',
 		'datamapper'	=> function(array $rawdata){
 			$data = array();
 			$data['id'] = $rawdata[2];

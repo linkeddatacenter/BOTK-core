@@ -70,7 +70,7 @@ class FactsFactory implements FactsFactoryInterface {
 		// add  provenance info
 		$verb=$this->tooManyErrors()?'invalidated':'generated';
 		$rdf .= "prov:{$verb}AtTime \"$now\"^^xsd:dateTime;";
-		if(empty($this->profile['source'])){
+		if(!empty($this->profile['source'])){
 			$rdf.= "prov:wasDerivedFrom <{$this->profile['source']}>;";	
 			$this->tripleCount++;
 		}

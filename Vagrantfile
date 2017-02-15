@@ -24,8 +24,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = "bento/ubuntu-16.04" 
 	config.vm.box_version = "~>2.3.0"
 	config.vm.provision "shell", inline: $script
-	config.vm.network "forwarded_port", guest: 80, host: 8080
-	config.vm.provider "virtualbox" do |v|
-	  v.memory = 1536
-	end
 end
