@@ -7,12 +7,11 @@ $options = array(
 		'options'		=> array(
 			'base' => array( 'default'=> 'urn:sample1:')
 		),
-		'landingPage' => 'https://mail.google.com/mail/u/0/?ui=2&ik=cb29cb291d&view=om&th=15a04fdc5100230f',
 		'datamapper'	=> function($rawdata){
 			$data = array();
 			$data['id'] = $rawdata[0];
-			$data['businessType'] = 'schema:botk_'.\BOTK\Filters::FILTER_SANITIZE_ID($rawdata[16]);
-			$data['businessName'][] = trim($rawdata[2] . ' ' . $rawdata[1]);
+			$data['businessType'] = 'schema:'.\BOTK\Filters::FILTER_SANITIZE_ID($rawdata[16]);
+			$data['businessName'][] = $rawdata[1];
 			$data['businessName'][] = $rawdata[2];
 			$data['vatID'] = $rawdata[3];
 			$data['email'] = $rawdata[4];

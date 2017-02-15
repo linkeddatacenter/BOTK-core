@@ -7,7 +7,6 @@ $options = array(
 		'options'		=> array(
 			'base' => array( 'default'=> 'http://salute.gov.it/resource/farmacie#')
 		),
-		'landingPage' => 'https://www.dati.lombardia.it/Sanit-/Farmacie/cf6w-iiw9',
 		'datamapper'	=> function(array $rawdata){
 			$data = array();
 			$data['id'] = $rawdata[2];

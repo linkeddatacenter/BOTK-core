@@ -29,14 +29,6 @@
 <http://salute.gov.it/resource/farmacie#3487> a schema:LocalBusiness;a schema:botk_farmacie;dct:identifier "3487";schema:alternateName "Farmacia Nuova Snc";schema:telephone "039481430";schema:faxNumber "039481430";schema:email "NUOFO@TISCALI.IT";schema:geo <geo:45.612632,9.238887>;schema:address <http://salute.gov.it/resource/farmacie#3487_address>. <http://salute.gov.it/resource/farmacie#3487_address> a schema:PostalAddress;schema:description "VIA DON MINZONI, 28, LISSONE";schema:streetAddress "VIA DON MINZONI, 28";schema:addressLocality "LISSONE";schema:addressCountry "IT". <geo:45.612632,9.238887> a schema:GeoCoordinates;wgs:lat "45.612632"^^xsd:float;wgs:long "9.238887"^^xsd:float . 
 <http://salute.gov.it/resource/farmacie#2359> a schema:LocalBusiness;a schema:botk_farmacie;dct:identifier "2359";schema:alternateName "Farmacia Turconi Dr. Pierangelo";schema:telephone "0341980332";schema:faxNumber "0341980332";schema:email "FARMACIA.TURCONI@FEDERFARMA.LECCO.IT";schema:geo <geo:45.97627,9.45032>;schema:address <http://salute.gov.it/resource/farmacie#2359_address>. <http://salute.gov.it/resource/farmacie#2359_address> a schema:PostalAddress;schema:description "VIA VITTORIO EMANUELE, 31/D, INTROBIO";schema:streetAddress "VIA VITTORIO EMANUELE, 31/D";schema:addressLocality "INTROBIO";schema:addressCountry "IT". <geo:45.97627,9.45032> a schema:GeoCoordinates;wgs:lat "45.97627"^^xsd:float;wgs:long "9.45032"^^xsd:float . 
 <http://salute.gov.it/resource/farmacie#18064> a schema:LocalBusiness;a schema:botk_farmacie;dct:identifier "18064";schema:alternateName "Farmacia Giugliano";schema:telephone "0266405749";schema:faxNumber "026131354";schema:email "FARMACIA.GIUGLIANO@TISCALI.IT";schema:geo <geo:45.55614,9.185949>;schema:address <http://salute.gov.it/resource/farmacie#18064_address>. <http://salute.gov.it/resource/farmacie#18064_address> a schema:PostalAddress;schema:description "VIA C.SORMANI, 89, CUSANO MILANINO";schema:streetAddress "VIA C.SORMANI, 89";schema:addressLocality "CUSANO MILANINO";schema:addressCountry "IT". <geo:45.55614,9.185949> a schema:GeoCoordinates;wgs:lat "45.55614"^^xsd:float;wgs:long "9.185949"^^xsd:float . 
-<> foaf:primaryTopic [
-	a void:Dataset;
-	prov:wasDerivedFrom <https://www.dati.lombardia.it/Sanit-/Farmacie/cf6w-iiw9>;
-	prov:generatedAtTime "2017-02-14T18:57:38+00:00"^^xsd:dateTime;
-	void:triples 309 ;
-	void:entities 18 ;
-] .
+<> prov:generatedAtTime "2017-02-15T18:53:48+00:00"^^xsd:dateTime;prov:wasDerivedFrom <>;foaf:primaryTopic [a void:Dataset; void:datadump <>;void:triples 310 ;void:entities 18] ;.
 
-#
-# Generated 309 good triples from  18 entities (0 ignored), 0 errors"
-#
+# File **generated** with 310 good triples from 18 entities (0 ignored), 0 errors

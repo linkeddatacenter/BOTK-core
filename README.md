@@ -60,10 +60,6 @@ Following vocabularies are partially supported:
 | [BOTK](http://linkeddata.center/botk/)									| foaf:  	| <http://linkeddata.center/botk/v1#> 			|
 
 
-This picture summarize the main concepts managed:
-
-![UML schema](doc/uml.png)
-
 The primary focus o BOTK are Local Business, defined as a legal organization Business with at least a physical point of sell. 
 BOTK vocabulary extend schema.org with some custom resource related to businesses (see [Business Ontology](doc/ontology/README.md))
 
@@ -154,7 +150,6 @@ Example (in rdf turtle):
 Following properties/annotations supported for all object: 
 
 - foaf:homepage strictly as Inverse Functional Property
-- foaf:mbox strictly as as Inverse Functional Property
 - foaf:page a web page related to the resource
 - dct:identifier an uniqe identifier in the context of the subject namespace.
 - owl:sameAs URL of a reference Web page that unambiguously indicates the item's identity.

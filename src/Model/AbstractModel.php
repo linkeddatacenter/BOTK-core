@@ -52,11 +52,6 @@ abstract class AbstractModel
 								'filter'    => FILTER_SANITIZE_URL,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'mailbox'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
 	);
 	
 	protected $options ;

@@ -7,14 +7,12 @@ $options = array(
 		'options'		=> array(
 			'base' => array( 'default'=> 'http://salute.gov.it/resource/farmacie#')
 		),
-		'landingPage' => 'http://www.salute.gov.it/dataset/farmacie.jsp',
 		'datamapper'	=> function(array $rawdata){
 			$data = array();
 			$data['businessType']= 'schema:botk_farmacie';
 			$data['id'] = $rawdata[0];
 			$data['streetAddress'] = $rawdata[2];
-			$data['businessName'][]= $rawdata[2];
-			$data['businessName'][]= 'FARMACIA '.$rawdata[2];
+			$data['businessName'] = 'FARMACIA '.$rawdata[3];
 			$data['vatID'] = $rawdata[4];
 			$data['postalCode'] = $rawdata[5];
 			$data['addressLocality'] = $rawdata[7];

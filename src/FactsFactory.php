@@ -16,10 +16,10 @@ class FactsFactory implements FactsFactoryInterface {
 		assert(!empty($profile['model']) && class_exists('\BOTK\Model\\'.$profile['model']));
 		assert(isset($profile['options']) && is_array($profile['options']));
 		$defaults = array(
-			'landingPage' 			  => 'php://stdin',
+			'source' 			  	  => null,
 			'resilience' 			  => 0.3,
 			'datamapper'			  => function($rawdata){return array();},
-			'rawDataValidationFilter' => function( $rawdata){return is_array($rawdata);},	
+			'rawDataValidationFilter' => function($rawdata){return is_array($rawdata);},	
 		);
 		$this->profile = array_merge($defaults,$profile);
 	}
@@ -62,43 +62,28 @@ class FactsFactory implements FactsFactoryInterface {
 	
 	
 	public function generateLinkedDataFooter()
-	{	
+	{
 		$now = date('c');
-		if( $this->tooManyErrors()) {
-			$this->tripleCount += 6;
-			return <<<EOT
-<> foaf:primaryTopic [
-	a void:Dataset;
-	prov:wasDerivedFrom <{$this->options['landingPage']}>;
-	prov:invalidatedAtTime "$now"^^xsd:dateTime;
-	void:triples {$this->tripleCount} ;
-	void:entities {$this->entityCount} ;
-] .
+		$rdf = '<> ';
+		$this->tripleCount += 6;
 
-#
-# WARNING: INVALID DATASET BECAUSE TOO MANY ERRORS
-# {$this->tripleCount} good triples from  {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors"
-#
-
-EOT;
-		}else {
-			$this->tripleCount += 6;
-			return <<<EOT
-<> foaf:primaryTopic [
-	a void:Dataset;
-	prov:wasDerivedFrom <{$this->profile['landingPage']}>;
-	prov:generatedAtTime "$now"^^xsd:dateTime;
-	void:triples {$this->tripleCount} ;
-	void:entities {$this->entityCount} ;
-] .
-
-#
-# Generated {$this->tripleCount} good triples from  {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors"
-#
-
-EOT;
+		// add  provenance info
+		$verb=$this->tooManyErrors()?'invalidated':'generated';
+		$rdf .= "prov:{$verb}AtTime \"$now\"^^xsd:dateTime;";
+		if(empty($this->profile['source'])){
+			$rdf.= "prov:wasDerivedFrom <{$this->profile['source']}>;";	
+			$this->tripleCount++;
 		}
+		
+		// add dataset info
+		$rdf.= "foaf:primaryTopic [a void:Dataset; void:datadump <>;void:triples {$this->tripleCount} ;void:entities {$this->entityCount}] ;.";
+		
+		// add human readable comment
+		$rdf.= "\n\n# File **$verb** with {$this->tripleCount} good triples from {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors\n";
+		
+		return $rdf;
 	}
+	
 	
 	public function  addToTripleCounter( $triplesCount)
 	{
