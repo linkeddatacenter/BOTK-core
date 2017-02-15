@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [changelog format](http://keepachangelog.com/)
 
-## [Unreleased]
+## [6.0.0]
+Completelly rewitten.
 
 ## [5.1.1] - 2016-01-29
 ### Fixed
@@ -46,7 +47,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...HEAD
+[6.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...5.1.1
 [5.1.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...5.1.0
 [5.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.0.1...5.1.0
 [5.0.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.0.0...5.0.1

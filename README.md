@@ -18,9 +18,6 @@ You can install it using [Composer](http://getcomposer.org).
 composer require botk/core
 ```
 
-Some code examples in exsamples directory.
-
-
 ## Installation
 
 This package require [composer](http://getcomposer.org/).
@@ -30,14 +27,14 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~5.0",
+            "botk/core": "~6.0",
         }
     }
 ```
 
 ## Usage
 
-See [examples](examples/RREADME.md) directory.
+See [examples](examples/) directory.
 
 ## BOTK Language profile
 
@@ -61,7 +58,7 @@ Following vocabularies are partially supported:
 
 
 The primary focus o BOTK are Local Business, defined as a legal organization Business with at least a physical point of sell. 
-BOTK vocabulary extend schema.org with some custom resource related to businesses (see [Business Ontology](doc/ontology/README.md))
+BOTK vocabulary extends schema.org with some custom resource related to businesses (see [Business Ontology](doc/ontology/README.md))
 
 ### String context
 No string context should be used.
@@ -69,9 +66,7 @@ No string context should be used.
 
 ### https://schema.org/LocalBusiness
 
-Captures  with 
-Captures the Business POI (Point Of Interest) concept, that is a a public legal registered business organization  
-with a contactable geographic selling point .	
+Captures the concept about a public legal registered business organization  with a contactable geographic selling point .	
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
 
 
