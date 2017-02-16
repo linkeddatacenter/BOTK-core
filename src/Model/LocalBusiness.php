@@ -143,10 +143,10 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			$turtleString='';
 			
 			// define $_ as a macro to write simple rdf
-			$_= function($format, $var) use(&$turtleString, &$tripleCounter){
+			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
 				foreach((array)$var as $v){
 					if($var){
-						$turtleString.= sprintf($format,$v);
+						$turtleString.= sprintf($format,$sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
 						$tripleCounter++;
 					}
 				}
@@ -162,10 +162,9 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($businessName) 		&& $_('schema:alternateName "%s";', $businessName);
 			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
-			!empty($page) 				&& $_('schema:page <%s>;', $page);
+			!empty($page) 				&& $_('schema:page <%s>;', $page,false);
 			!empty($email) 				&& $_('schema:email "%s";', $email);
-			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage);
-			!empty($mailbox) 			&& $_('foaf:mailbox <mailto:%s>;', $mailbox);
+			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage,false);
 			!empty($geoUri) 			&& $_('schema:geo <%s>;', $geoUri);
 			$_('schema:address <%s>. ', $addressUri);
 			
