@@ -149,8 +149,11 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     		array( 'abc',							'abc'), 
     		array( '"la locanda"',					'\"la locanda\"'),
     		array( 'da ""la locanda""',				'da \"\"la locanda\"\"'), 
-    		array( 'this is \ backslash',			'this is \\ backslash'),
-    		array( 'this is \\\\ doublebackslash',		'this is \\\\ doublebackslash'),
+    		array( 'this is \ backslash',			'this is \\\ backslash'),
+    		array( 'this is \\\ doublebackslash',	'this is \\\\\\\ doublebackslash'),
+    		array( 'this is \\ backslash',			'this is \\\\ backslash'),
+    		array( 'this is \\\\ doublebackslash',	'this is \\\\\\\\ doublebackslash'),
+    		array( "newline\nescaped",				'newline\nescaped'),
     		array( '',								null), 
 		);
    	}

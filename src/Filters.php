@@ -21,7 +21,7 @@ class Filters {
 		$value = preg_replace('/;\s;\s/', '; ', $value);		// remove multiple semicolon
 		$value = preg_replace('/\-\s\-\s/', '- ', $value);		// remove multiple dash
 		$value = preg_replace('/^\s*[\,\;]/', '', $value);		// remove  comma and semicolon at start
-		$value = preg_replace('/\\+/', '/', $value);			// backslash changed to slash
+		$value = preg_replace('/\\\\+/', '/', $value);			// backslash changed to slash
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
 		$value = preg_replace('/\s?,?\s?(N|N\.|NUM\.|NUM|NUMERO|NUMBER|#)\s?(\d+)/i', ', $2', $value);		
 																// try normalizing civic numbers
@@ -49,7 +49,7 @@ class Filters {
 	 */
 	public static function FILTER_SANITIZE_TELEPHONE($value)
 	{
-		$value = preg_replace('/^[^0-9\+]+/', '', $value);  	// remove all from beginning execept numbers and +
+		$value = preg_replace('/^[^0-9+]+/', '', $value);  		// remove all from beginning execept numbers and +
 		$value = preg_replace('/^\+39/', '', $value);  			// remove +39 prefix		
 		$value = preg_replace('/^0039/', '', $value);  			// remove 0039 prefix
 		$value = preg_replace('/[\s\(\)]+/', '', $value);  		// remove all blanks and parenthesis
@@ -108,13 +108,14 @@ class Filters {
 	
 	
 	/**
-	 * quote quotes and backslash
+	 * escape double quotes, backslash and new line
 	 * empty allowed
 	 */
 	public static function FILTER_SANITIZE_TURTLE_STRING($value)
 	{
-		$value = preg_replace('/"/', '\\"', $value);
-		$value = preg_replace('/\{1,}/', '\\\\', $value);
+		$value = preg_replace('/\\\\/', '\\\\\\\\', $value);	// escape backslash
+		$value = preg_replace('/\r?\n|\r/', '\\n', $value);  // newline 
+		$value = preg_replace('/"/', '\\"', $value);		// escape double quote
 		
 		return $value?:null;
 	}
