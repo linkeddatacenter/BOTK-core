@@ -71,7 +71,7 @@ class FactsFactory implements FactsFactoryInterface {
 		$verb=$this->tooManyErrors()?'invalidated':'generated';
 		$rdf .= "prov:{$verb}AtTime \"$now\"^^xsd:dateTime;";
 		if(!empty($this->profile['source'])){
-			$rdf.= "prov:wasDerivedFrom <{$this->profile['source']}>;";	
+			$rdf.= "dct:source <{$this->profile['source']}>;";	
 			$this->tripleCount++;
 		}
 		
