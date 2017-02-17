@@ -91,7 +91,7 @@ class FactsFactory implements FactsFactoryInterface {
 		
 		// add dataset info and a human readable comment as last line
 		$rdf.= "foaf:primaryTopic <#dataset>.\n";
-		$rdf.= "<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->tripleCount} ;void:entities {$this->entityCount}] .\n";
+		$rdf.= "<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->tripleCount} ;void:entities {$this->entityCount}.\n";
 		$rdf.= "# File **$verb** with {$this->tripleCount} good triples from {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors\n";
 		
 		return $rdf;
