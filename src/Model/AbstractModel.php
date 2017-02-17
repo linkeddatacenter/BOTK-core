@@ -69,6 +69,7 @@ abstract class AbstractModel
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
 	);
 	
+
 	protected $options ;
 	
 	protected $data;
@@ -80,7 +81,7 @@ abstract class AbstractModel
 	abstract public function asTurtle();
 	
 
-	protected function mergeOptions( array $options1, array $options2 )
+	protected static function mergeOptions( array $options1, array $options2 )
 	{
     	foreach($options2 as $property=>$option){
 			
@@ -93,10 +94,21 @@ abstract class AbstractModel
 	}
 
 
+	protected static function constructOptions()
+	{
+		//http://stackoverflow.com/questions/22377022/using-array-merge-to-initialize-static-class-variable-in-derived-class-based-on
+		$thisClass = get_called_class();
+		$parentClass = get_parent_class($thisClass);
+		$exists = method_exists($parentClass, __FUNCTION__); 
+		return $exists ? 
+			self::mergeOptions($parentClass::constructOptions(), $thisClass::$DEFAULT_OPTIONS) : 
+			$thisClass::$DEFAULT_OPTIONS;		
+	}
+
+
     public function __construct(array $data = array(), array $customOptions = array()) 
-    {  			
-    	$baseOptions = $this->mergeOptions(self::$DEFAULT_OPTIONS,static::$DEFAULT_OPTIONS);
-		$options = $this->mergeOptions($baseOptions,$customOptions);
+    { 		
+ 		$options = self::mergeOptions(self::constructOptions(),$customOptions);
 		
 		// set default values
 		foreach( $options as $property=>$option){	
@@ -124,7 +136,13 @@ abstract class AbstractModel
 
 	public static function getVocabularies()
 	{
-		return array_merge(self::$VOCABULARY, static::$VOCABULARY);
+		//http://stackoverflow.com/questions/22377022/using-array-merge-to-initialize-static-class-variable-in-derived-class-based-on
+		$thisClass = get_called_class();
+		$parentClass = get_parent_class($thisClass);
+		$exists = method_exists($parentClass, __FUNCTION__); 
+		return $exists ? 
+			array_merge($parentClass::getVocabularies(), $thisClass::$VOCABULARY) : 
+			$thisClass::$VOCABULARY;
 	}
 
 	
