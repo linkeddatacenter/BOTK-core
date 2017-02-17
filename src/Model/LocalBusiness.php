@@ -93,8 +93,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 
 	public function __construct(array $data = array(), array $customOptions = array()) 
     {
-    	$options = $this->mergeOptions(self::$DEFAULT_OPTIONS,$customOptions);
-    	parent::__construct($data, $options);
+    	parent::__construct($data, $customOptions);
 		$this->addAddressDescription();
 	}
 	

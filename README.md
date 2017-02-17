@@ -180,7 +180,7 @@ Example (in rdf turtle):
 			rdf:object ex2:org2_address;
 		];
 		daq:value "0.6"^^xsd:double ;
-		daq:metric botk:trustMetric ;
+		daq:metric kees:trustMetric ;
 		daq:isEstimated true .
 .
 ```

@@ -4,6 +4,7 @@ namespace BOTK;
 class FactsFactory implements FactsFactoryInterface {
 	
 	protected $profile;
+	protected $className;
 	protected $tripleCount =0;
 	protected $errors = array();
 	protected $errorCount=0;
@@ -13,15 +14,20 @@ class FactsFactory implements FactsFactoryInterface {
 	
 	public function __construct( array $profile )
 	{
-		assert(!empty($profile['model']) && class_exists('\BOTK\Model\\'.$profile['model']));
-		assert(isset($profile['options']) && is_array($profile['options']));
 		$defaults = array(
+			'model'					  => 'LocalBusiness',
+			'options'				  => array(),
 			'source' 			  	  => null,
 			'resilience' 			  => 0.3,
 			'datamapper'			  => function($rawdata){return array();},
 			'rawDataValidationFilter' => function($rawdata){return is_array($rawdata);},	
 		);
 		$this->profile = array_merge($defaults,$profile);
+		$this->className = class_exists($this->profile['model'])
+			?$this->profile['model']
+			:('\BOTK\Model\\'.$this->profile['model']);
+		
+		assert(class_exists($this->className));
 	}
 	
 	
@@ -38,13 +44,21 @@ class FactsFactory implements FactsFactoryInterface {
 	}
 	
 	
+	protected function createFacts($data=array())
+	{
+		$facts = new $this->className($data,$this->profile['options']);
+		assert($facts instanceof ModelInterface);
+		return $facts;	
+	}
+	
+	
 	public function factualize( array $rawData )
 	{
 		$datamapper = $this->profile['datamapper'];
-		$class = '\BOTK\Model\\'.$this->profile['model'];
 		$data =$this->removeEmpty($datamapper($rawData));
 		
-		$facts = new $class($data,$this->profile['options']);
+		$facts = $this->createFacts($data);
+		
 		if($facts){
 			$this->entityCount++;
 			$this->tripleCount+=$facts->getTripleCount();
@@ -55,16 +69,16 @@ class FactsFactory implements FactsFactoryInterface {
 	
 	public function generateLinkedDataHeader()
 	{
-		$class = '\BOTK\Model\\'.$this->profile['model'];
-		$model = new $class();
-		return $model->getTurtleHeader(); 
+		assert(is_subclass_of($this->className,'\BOTK\ModelInterface'));
+		$class = $this->className;
+		return $class::getTurtleHeader(); 
 	}
 	
 	
 	public function generateLinkedDataFooter()
 	{
 		$now = date('c');
-		$rdf = '<> ';
+		$rdf = "\n<> ";
 		$this->tripleCount += 6;
 
 		// add  provenance info
@@ -75,11 +89,10 @@ class FactsFactory implements FactsFactoryInterface {
 			$this->tripleCount++;
 		}
 		
-		// add dataset info
-		$rdf.= "foaf:primaryTopic [a void:Dataset; void:datadump <>;void:triples {$this->tripleCount} ;void:entities {$this->entityCount}] .";
-		
-		// add human readable comment
-		$rdf.= "\n\n# File **$verb** with {$this->tripleCount} good triples from {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors\n";
+		// add dataset info and a human readable comment as last line
+		$rdf.= "foaf:primaryTopic <#dataset>.\n";
+		$rdf.= "<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->tripleCount} ;void:entities {$this->entityCount}] .\n";
+		$rdf.= "# File **$verb** with {$this->tripleCount} good triples from {$this->entityCount} entities ({$this->unacceptableCount} ignored), {$this->errorCount} errors\n";
 		
 		return $rdf;
 	}

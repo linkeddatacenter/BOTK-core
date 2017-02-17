@@ -20,7 +20,6 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
 		'dq'		=> 'http://purl.org/linked-data/cube#',
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
-		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
 	);
 	
 	
@@ -67,29 +66,6 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($this->vocabulary,  $obj->getVocabularies());
 	}
 	
-	
-	public function testSetVocabulary()
-	{
-		$vocabulary = $this->vocabulary;
-		$vocabulary['my'] = 'urn:test:';
-		
-		$obj = new DummyModel(array());
-		$obj->setVocabulary('my','urn:test:');
-		
-		$this->assertEquals($vocabulary,  $obj->getVocabularies());
-	}
-	
-	
-	public function testUnsetVocabulary()
-	{
-		$vocabulary = $this->vocabulary;
-		unset($vocabulary['foaf']);
-		
-		$obj = new DummyModel(array());
-		$obj->unsetVocabulary('foaf');
-		
-		$this->assertEquals($vocabulary,  $obj->getVocabularies());
-	}
 	
 
     /**

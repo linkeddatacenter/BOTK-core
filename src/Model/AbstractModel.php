@@ -54,8 +54,7 @@ abstract class AbstractModel
 			                   ),
 	);
 	
-	protected $options ;
-	protected $vocabulary = array(
+	protected static $VOCABULARY  = array(
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
 		'owl'		=> 'http://www.w3.org/2002/07/owl#',
@@ -68,8 +67,9 @@ abstract class AbstractModel
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
 		'dq'		=> 'http://purl.org/linked-data/cube#',
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
-		'botk' 		=> 'http://http://linkeddata.center/botk/v1#',
 	);
+	
+	protected $options ;
 	
 	protected $data;
 	protected $rdf =null; //lazy created
@@ -78,6 +78,7 @@ abstract class AbstractModel
 	protected $droppedFields = array();
 	
 	abstract public function asTurtle();
+	
 
 	protected function mergeOptions( array $options1, array $options2 )
 	{
@@ -91,9 +92,11 @@ abstract class AbstractModel
 		return $options1;
 	}
 
+
     public function __construct(array $data = array(), array $customOptions = array()) 
-    {
-		$options = $this->mergeOptions(self::$DEFAULT_OPTIONS,$customOptions);
+    {  			
+    	$baseOptions = $this->mergeOptions(self::$DEFAULT_OPTIONS,static::$DEFAULT_OPTIONS);
+		$options = $this->mergeOptions($baseOptions,$customOptions);
 		
 		// set default values
 		foreach( $options as $property=>$option){	
@@ -117,6 +120,25 @@ abstract class AbstractModel
 		$this->setIdGenerator(function($data){return uniqid();});
     }
 	
+
+
+	public static function getVocabularies()
+	{
+		return array_merge(self::$VOCABULARY, static::$VOCABULARY);
+	}
+
+	
+	public static function getTurtleHeader($base=null)
+	{
+		$vocabulariers = static::getVocabularies();
+		$header = empty($base)?'': "@base <$base> .\n";
+		foreach( $vocabulariers as $prefix=>$ns ){
+			$header.="@prefix $prefix: <$ns> .\n";
+		}
+		
+		return $header;
+	}
+
 	
 	public function getDroppedFields()
 	{
@@ -165,35 +187,6 @@ abstract class AbstractModel
 	public function getOptions()
 	{
 		return $this->options;
-	}
-
-
-	public function getVocabularies()
-	{
-		return $this->vocabulary;
-	}
-	
-	
-	public function setVocabulary($prefix,$ns)
-	{
-		$this->vocabulary[$prefix] = $ns;
-	}
-	
-	
-	public function unsetVocabulary($prefix)
-	{
-		unset($this->vocabulary[$prefix]);
-	}	
-	
-	
-	public function getTurtleHeader($base=null)
-	{
-		$header = empty($base)?'': "@base <$base> .\n";
-		foreach( $this->vocabulary as $prefix=>$ns ){
-			$header.="@prefix $prefix: <$ns> .\n";
-		}
-		
-		return $header;
 	}
 
 	
