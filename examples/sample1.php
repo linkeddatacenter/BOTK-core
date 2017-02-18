@@ -4,7 +4,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 $options = array(
 	'factsProfile' => array(
 		'model'			=> 'LocalBusiness',
-		'options'		=> array(
+		'modelOptions'		=> array(
 			'base' => array( 'default'=> 'urn:sample1:')
 		),
 		'datamapper'	=> function($rawdata){
