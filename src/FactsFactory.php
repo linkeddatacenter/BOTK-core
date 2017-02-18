@@ -115,16 +115,18 @@ class FactsFactory implements FactsFactoryInterface {
 		}
 		
 		// ensure that not too many errors
+		$errorRate = $this->counter['error']/$this->counter['entity'];
 		if(( $this->counter['entity'] > $this->profile['entityThreshold']) 
-				&& ($this->counter['error']/$this->counter['entity']) > $this->profile['resilienceToErrors']){
+				&& ( $errorRate > $this->profile['resilienceToErrors'])){
 			$x = $this->profile['resilienceToErrors']*100;
 			throw new TooManyErrorsException("Error rate in data processing exceeded the $x% threshold");			
 		}
 
-		// ensure that not too many insaness raw data	
+		// ensure that not too many insaness raw data
+		$insaneRate = $this->counter['insane']/$this->counter['entity'];
 		if(( $this->counter['entity'] > $this->profile['entityThreshold']) 
-				&& ($this->counter['insane']/$this->counter['entity']) > $this->profile['resilienceToInsanes']){
-			$x = $this->profile['resilienceToInsaness']*100;
+				&& ($insaneRate > $this->profile['resilienceToInsanes'])){
+			$x = $this->profile['resilienceToInsanes']*100;
 			throw new TooManyInsanesException("Unacceptable data rate exceeded the $x% threshold");			
 		}
 

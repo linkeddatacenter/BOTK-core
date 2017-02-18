@@ -14,7 +14,7 @@ class SimpleCsvGateway
 	
 	public static function factory(array $options)
 	{
-		return new SimpleCsvGateway($options);
+		return new static($options);
 	}
 	
 	
