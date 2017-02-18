@@ -24,8 +24,8 @@ $options = array(
 			
 			return $data;
 		},
-		'rawDataValidationFilter' => function( $rawdata){
-			return !empty($rawdata['16']);
+		'rawdataSanitizer' => function( $rawdata){
+			return (count($rawdata)==18)?$rawdata:false;
 		},	
 	),
 	'skippFirstLine'	=> false,

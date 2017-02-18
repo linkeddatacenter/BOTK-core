@@ -6,10 +6,6 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 	public function testMakeLocalBusiness()
 	{
 		$profile = array(
-			'model'			=> 'LocalBusiness',
-			'options'		=> array(
-				'base' => array( 'default'=> 'urn:test')
-			),
 			'datamapper'	=> function(array $rawdata){
 				$data = array();
 				$data['id'] = $rawdata[0];
@@ -58,30 +54,5 @@ class FactsFactoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($structuredData['streetAddress'], 'VIA ANTONIO MORDINI, 3');
 	}
 
-	public function testRemoveEmpty()
-	{
-		$profile = array(
-			'model'			=> 'LocalBusiness',
-			'options'		=> array(),
-			'datamapper'	=> function(array $rawdata){return array();},
-		);
-		$data = array(
-			'one'	=> 'notempty',
-			'two'	=> null,
-			'three'	=> false,
-			'four'	=> 0,
-			'five'	=> array(),
-			'seven'	=> array(''),
-			'eight'	=> array('notempy'),
-			'nine'	=> array('notempy','',''),
-		);
-		$expectedData = array(
-			'one'	=> 'notempty',
-			'eight'	=> array('notempy'),
-			'nine'	=> array('notempy'),
-		);
-		$factsFactory = new \BOTK\FactsFactory($profile);
-		$this->assertEquals($expectedData, $factsFactory->removeEmpty($data));
-	}
 }
 

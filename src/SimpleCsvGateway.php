@@ -20,11 +20,12 @@ class SimpleCsvGateway
 	
 	public function __construct(array $options)
 	{
-		assert(!empty($options['factsProfile']['model']) && isset($options['factsProfile']['options']) && is_array($options['factsProfile']['options'])) ;
 		$defaults = array(
+			'factsProfile'		=> array(),
+			'missingFactsIsError' => true, // if a missing fact must considered an error
 			'bufferSize' 		=> 2000,
 			'skippFirstLine'	=> true,
-			'fieldDelimiter' 	=> ','
+			'fieldDelimiter' 	=> ',',
 		);
 		$this->options = array_merge($defaults,$options);
 		$this->factsFactory = new \BOTK\FactsFactory($options['factsProfile']);
@@ -33,8 +34,6 @@ class SimpleCsvGateway
 	
 	protected function readRawData()
 	{
-		if( $this->factsFactory->tooManyErrors()) return false;
-		
 		$this->currentRow++;
 		return fgetcsv(STDIN, $this->options['bufferSize'], $this->options['fieldDelimiter']);
 	}
@@ -43,21 +42,23 @@ class SimpleCsvGateway
 	public function run()
 	{
 		echo $this->factsFactory->generateLinkedDataHeader();
-		if($this->options['skippFirstLine']){ $this->readRawData();}
 	
 	    while ($rawdata = $this->readRawData()) {
-	    	if($this->factsFactory->acceptable($rawdata)){
-	    		$facts =$this->factsFactory->factualize($rawdata);
-	    		echo $facts->asTurtle(), "\n";
+	    	if($this->currentRow==1 && $this->options['skippFirstLine']){
+	    		echo "# Header skipped\n";
+	    		continue;
+			}
+    		try {
+    			$facts =$this->factsFactory->factualize($rawdata);
+	    		echo $facts->asTurtleFragment(), "\n";
 				$droppedFields = $facts->getDroppedFields();
-		    	if(!empty($droppedFields)) {
-		    		$msg = "on row {$this->currentRow} dropped ".implode(",", $droppedFields);
-					$this->factsFactory->addError($msg);
-				    echo "\n# WARNING: $msg\n";
-				}	    		
-	    	} else {
-	    		echo "\n# WARNING: row {$this->currentRow} ignored.\n";
-	    	}
+		    	if(!empty($droppedFields) && $this->options['missingFactsIsError']) {
+				    echo "\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n";
+					$this->factsFactory->addToCounter('error');
+				}	    
+			} catch (\BOTK\Exception\Warning $e) {
+				echo "\n# WARNING on row {$this->currentRow}: ".$e->getMessage()."\n";
+			} 
 	    }
 		
 		echo $this->factsFactory->generateLinkedDataFooter();		

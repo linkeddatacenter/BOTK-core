@@ -91,7 +91,11 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			                   ),
 	);
 
-	public function __construct(array $data = array(), array $customOptions = array()) 
+
+	/**
+	 * Redefine protected constructor to add address description as dynamic property
+	 */
+	protected function __construct(array $data = array(), array $customOptions = array()) 
     {
     	parent::__construct($data, $customOptions);
 		$this->addAddressDescription();
@@ -128,7 +132,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 	}
 	
 	
-	public function asTurtle()
+	public function asTurtleFragment()
 	{
 		if(is_null($this->rdf)) {
 			extract($this->data);

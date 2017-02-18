@@ -7,7 +7,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
      */	
 	public function testConstructor($data, $expectedData)
 	{
-		$localBusiness = new BOTK\Model\LocalBusiness($data);		
+		$localBusiness = BOTK\Model\LocalBusiness::fromArray($data);		
 		$this->assertEquals($expectedData, $localBusiness->asArray());
 	}
 	public function goodLocalBusiness()
@@ -185,7 +185,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 				                   ),
 		);
 		
-		$localBusiness = new BOTK\Model\LocalBusiness(array());
+		$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());
 		$this->assertEquals($expectedOptions, $localBusiness->getOptions());
 	}
 
@@ -197,8 +197,8 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
      */	
 	public function testRdfGeneration($data, $rdf, $tripleCount)
 	{
-		$localBusiness = new BOTK\Model\LocalBusiness($data);		
-		$this->assertEquals($rdf, $localBusiness->asTurtle());
+		$localBusiness = BOTK\Model\LocalBusiness::fromArray($data);		
+		$this->assertEquals($rdf, $localBusiness->asTurtleFragment());
 		$this->assertEquals($tripleCount, $localBusiness->getTripleCount());
 	}
 	public function goodRdf()
@@ -255,7 +255,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
      */	
 	public function testBuildNormalizedAddress($rawdata, $expectedData)
 	{
-		$localBusiness = new BOTK\Model\LocalBusiness($rawdata);
+		$localBusiness = BOTK\Model\LocalBusiness::fromArray($rawdata);
 		$data=$localBusiness->asArray();
 		$this->assertEquals($expectedData, $data['addressDescription']);
 	}
@@ -306,7 +306,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'postalCode'		=>  '234992',	// too long
 			'email'				=>  'not an e mail',
 		);
-		$localBusiness = new BOTK\Model\LocalBusiness($badData);
+		$localBusiness = BOTK\Model\LocalBusiness::fromArray($badData);
 		$this->assertEquals(array_keys($badData), $localBusiness->getDroppedFields());
 	}
 

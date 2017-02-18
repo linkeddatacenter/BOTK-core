@@ -22,9 +22,9 @@ $options = array(
 			
 			return $data;
 		},
-		'rawDataValidationFilter' => function( $rawdata){
+		'rawdataSanitizer' => function( $rawdata){
 			// salta le farmacie non attive
-			return (!empty($rawdata[15]) && ($rawdata[15]=='-'));
+			return ((count($rawdata)==21) && ($rawdata[15]=='-'))?$rawdata:false;
 		},	
 	),
 	'fieldDelimiter' => ';'

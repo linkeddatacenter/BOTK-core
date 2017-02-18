@@ -54,6 +54,9 @@ abstract class AbstractModel
 			                   ),
 	);
 	
+	/**
+	 * known vocabularies
+	 */
 	protected static $VOCABULARY  = array(
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
@@ -62,6 +65,7 @@ abstract class AbstractModel
 		'dct' 		=> 'http://purl.org/dc/terms/',
 		'void' 		=> 'http://rdfs.org/ns/void#',
 		'prov' 		=> 'http://www.w3.org/ns/prov#',
+		'sd'		=> 'http://www.w3.org/ns/sparql-service-description#',
 		'schema'	=> 'http://schema.org/',
 		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
@@ -78,8 +82,6 @@ abstract class AbstractModel
 	protected $tripleCount=0; //lazy created
 	protected $uniqueIdGenerator=null; // dependency injections
 	protected $droppedFields = array();
-	
-	abstract public function asTurtle();
 	
 
 	protected static function mergeOptions( array $options1, array $options2 )
@@ -107,7 +109,10 @@ abstract class AbstractModel
 	}
 
 
-    public function __construct(array $data = array(), array $customOptions = array()) 
+	/**
+	 * Do not call directlty constructor, use fromArray or other factory methodsinstead
+	 */
+    protected function __construct(array $data = array(), array $customOptions = array()) 
     { 		
  		$options = self::mergeOptions(self::constructOptions(),$customOptions);
 		
@@ -133,6 +138,24 @@ abstract class AbstractModel
 		$this->setIdGenerator(function($data){return uniqid();});
     }
 	
+	
+	
+	/**
+	 * Create an instance from an associative array
+	 */
+	public static function fromArray(array $data, array $customOptions = array())
+	{
+		return new static($data,$customOptions);
+	}
+	
+	
+	/**
+	 * Create an instance from an generic standard object
+	 */
+	public static function fromStdObject( \stdClass $obj, array $customOptions = array())
+	{
+		return static::fromArray((array)$obj);
+	}
 
 
 	public static function getVocabularies()
@@ -195,12 +218,6 @@ abstract class AbstractModel
 		
 		return $uri;
 	}
-		
-
-	public function asArray()
-	{
-		return $this->data;
-	}
 
 	
 	public function getOptions()
@@ -208,20 +225,54 @@ abstract class AbstractModel
 		return $this->options;
 	}
 
-	
+
 	public function getTripleCount()
 	{
 		// triple count is computed during rdf creation
-		if (is_null($this->rdf)){
-			$this->asTurtle();
+		if (!empty($this->data) && is_null($this->rdf)){
+			$this->asTurtleFragment();
 		}
 		
 		return $this->tripleCount;
+	}
+		
+
+	public function asArray()
+	{
+		return $this->data;
+	}	
+
+
+
+	public function asStdObject()
+	{
+		return (object) $this->asArray();
+	}
+	
+	
+	/**
+	 * metadata not yet implemented
+	 */		
+	public function asLinkedData() 
+	{
+		return $this->getTurtleHeader() ."\n". $this->asTurtleFragment();
+	}
+	
+	
+	public function asString() 
+	{
+		return $this->asLinkedData();
 	}
 	
 		
 	public function __toString() 
 	{
-		return $this->getTurtleHeader() ."\n". $this->asTurtle();
+		return $this->asString();
 	}
+	
+
+	/**
+	 * this must be implemented
+	 */
+	abstract public function asTurtleFragment();
 }

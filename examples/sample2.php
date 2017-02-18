@@ -23,6 +23,9 @@ $options = array(
 			
 			return $data;
 		},
+		'rawdataSanitizer' => function( $rawdata){
+			return (count($rawdata)==16)?$rawdata:false;
+		},	
 	),
 );
 

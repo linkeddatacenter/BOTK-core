@@ -2,7 +2,7 @@
 
 class DummyModel extends BOTK\Model\AbstractModel
 {
-	public function asTurtle() { return '<urn:a:b> owl:sameAs <urn:a:b> .';}
+	public function asTurtleFragment() { return '<urn:a:b> owl:sameAs <urn:a:b> .';}
 }
 
 class AbstractModelTest extends PHPUnit_Framework_TestCase
@@ -15,6 +15,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		'dct' 		=> 'http://purl.org/dc/terms/',
 		'void' 		=> 'http://rdfs.org/ns/void#',
 		'prov' 		=> 'http://www.w3.org/ns/prov#',
+		'sd'		=> 'http://www.w3.org/ns/sparql-service-description#',
 		'schema'	=> 'http://schema.org/',
 		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
@@ -27,11 +28,23 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider data
      */	
-	public function testConstructor($data, $expectedData)
+	public function testArrayConstructor($data, $expectedData)
 	{
-		$localBusiness = new DummyModel($data);		
+		$localBusiness = DummyModel::fromArray($data);		
 		$this->assertEquals($expectedData, $localBusiness->asArray());
 	}
+	
+	
+	/**
+     * @dataProvider data
+     */	
+	public function testStdObjectConstructor($data, $expectedData)
+	{
+		$localBusiness = DummyModel::fromStdObject((object) $data);		
+		$this->assertEquals($expectedData, $localBusiness->asArray());
+	}
+	
+	
 	public function data()
     {
     	return array( 
@@ -43,7 +56,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 
 	public function testConstructorWithCustomOptions()
 	{
-		$localBusiness = new DummyModel(array(), array (
+		$localBusiness = DummyModel::fromArray(array(), array (
 			'base'	=> array('default'	=> 'urn:a:'),
 			'lang'	=> array('default'	=> 'en'),
 		));
@@ -62,7 +75,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		
 	public function testgetVocabularies()
 	{
-		$obj = new DummyModel(array());
+		$obj = DummyModel::fromArray(array());
 		
 		$this->assertEquals($this->vocabulary,  $obj->getVocabularies());
 	}
@@ -74,7 +87,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
      */	
 	public function testGetUri($data, $expectedData)
 	{
-		$obj = new DummyModel($data);
+		$obj = DummyModel::fromArray($data);
 		$obj->setIdGenerator(function($d){return'abc';});
 		$this->assertEquals($expectedData, $obj->getUri());
 	}
@@ -90,7 +103,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 
 	public function testTurtleHeader()
 	{		
-		$obj = new DummyModel(array());
+		$obj = DummyModel::fromArray(array());
 		$s ="";
 		foreach( $this->vocabulary as $p=>$v){
 			$s.= "@prefix $p: <$v> .\n";
@@ -102,7 +115,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	
 	public function testTurtleHeaderWithBase()
 	{		
-		$obj = new DummyModel(array());
+		$obj = DummyModel::fromArray(array());
 		$s ="@base <urn:a:b> .\n";
 		foreach( $this->vocabulary as $p=>$v){
 			$s.= "@prefix $p: <$v> .\n";
@@ -115,10 +128,24 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 
 	public function testAsString()
 	{		
-		$obj = new DummyModel(array());
+		$obj = DummyModel::fromArray(array());
 		$s= $obj->getTurtleHeader() ."\n<urn:a:b> owl:sameAs <urn:a:b> .";
 		
 		$this->assertEquals($s,  (string)$obj);
+	}
+	
+
+	public function testAsStdObject()
+	{
+		$data = new \stdClass;
+		$data->uri = 'urn:test:a';
+		
+		$expectedData = clone($data);
+		$expectedData->base = 'http://linkeddata.center/botk/resource/';
+		
+		$dummyObj = DummyModel::fromStdObject($data);
+		
+		$this->assertEquals($expectedData, $dummyObj->asStdObject());
 	}
 
 }
