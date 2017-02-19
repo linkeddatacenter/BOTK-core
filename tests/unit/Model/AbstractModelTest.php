@@ -7,7 +7,7 @@ class DummyModel extends BOTK\Model\AbstractModel
 
 class AbstractModelTest extends PHPUnit_Framework_TestCase
 {
-	protected $vocabulary =  array(
+	protected $vocabulary =   array(
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
 		'owl'		=> 'http://www.w3.org/2002/07/owl#',
@@ -19,9 +19,10 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		'schema'	=> 'http://schema.org/',
 		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
-		'dq'		=> 'http://purl.org/linked-data/cube#',
+		'qb'		=> 'http://purl.org/linked-data/cube#',
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
 		'kees'		=> 'http://linkeddata.center/kees/v1#',
+		'botk'		=> 'http://botk.linkeddata.center/#',
 	);
 	
 	
@@ -48,7 +49,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	public function data()
     {
     	return array( 
-    		array( array(), array('base'=> 'http://linkeddata.center/botk/resource/'),),
+    		array( array(), array('base'=> 'urn:local:'),),
     		array( array('base'	=> 'urn:a:','id'=>'x'), array('base'=> 'urn:a:','id'=>'x')),
 		);
    	}
@@ -94,7 +95,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 	public function uris()
     {
     	return array( 
-	    	array( array(),	'http://linkeddata.center/botk/resource/abc'),
+	    	array( array(),	'urn:local:abc'),
 	    	array( array('base'=>'http://example.com/resource/'),	'http://example.com/resource/abc'),
 	    	array( array('base'=>'http://example.com/resource/', 'id'=>'efg'),	'http://example.com/resource/efg'),
 	    	array( array('uri'=>'http://example.com/resource/ijk'),	'http://example.com/resource/ijk'),	
@@ -141,7 +142,7 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		$data->uri = 'urn:test:a';
 		
 		$expectedData = clone($data);
-		$expectedData->base = 'http://linkeddata.center/botk/resource/';
+		$expectedData->base = 'urn:local:';
 		
 		$dummyObj = DummyModel::fromStdObject($data);
 		

@@ -16,7 +16,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     		array(
 	    		array(),
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource/',
+					'base'				=> 'urn:local:',
 					'addressCountry'	=> 'IT',
 				),
 			),
@@ -54,7 +54,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'long'				=> '2.123456',
 				),
 	    		array(
-					'base'				=> 'http://linkeddata.center/botk/resource/',
+					'base'				=> 'urn:local:',
 	    			'id'				=> '1234567890',
 					'businessType'		=> array('schema:MedicalOrganization'),
 					'taxID'				=> 'FGNNRC63S06F205A',
@@ -87,7 +87,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
 			'base'				=> array(
-									'default'	=> 'http://linkeddata.center/botk/resource/',
+									'default'	=> 'urn:local:',
 									'filter'    => FILTER_SANITIZE_URL,
 	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 				                   ),
@@ -101,6 +101,14 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
 			'homepage'			=> array(	
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
+			'near'				=> array(	
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
+			'similarName'		=> array(	
 									'filter'    => FILTER_SANITIZE_URL,
 	                            	'flags'  	=> FILTER_FORCE_ARRAY,
 				                   ),
@@ -183,6 +191,10 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 									'filter'    => FILTER_CALLBACK,
 			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 				                   ),
+			'similarStreet'		=> array(	
+									'filter'    => FILTER_SANITIZE_URL,
+	                            	'flags'  	=> FILTER_FORCE_ARRAY,
+				                   ),
 		);
 		
 		$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());
@@ -242,7 +254,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
 				),
-    			'<http://linkeddata.center/botk/resource/1234567890> a schema:LocalBusiness;a schema:MedicalOrganization;dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:page <http://linkeddata.center/>;schema:email "ADMIN@FAGNONI.COM";schema:geo <geo:1.12345,2.123456>;schema:address <http://linkeddata.center/botk/resource/1234567890_address>. <http://linkeddata.center/botk/resource/1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
+    			'<urn:local:1234567890> a schema:LocalBusiness;a schema:MedicalOrganization;dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:page <http://linkeddata.center/>;schema:email "ADMIN@FAGNONI.COM";schema:geo <geo:1.12345,2.123456>;schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
     			22,
 			),
 		);

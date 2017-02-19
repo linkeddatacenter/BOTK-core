@@ -89,6 +89,10 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
 			                   ),
+		'similarStreet'		=> array(	
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
 	);
 
 

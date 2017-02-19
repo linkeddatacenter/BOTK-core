@@ -35,7 +35,7 @@ abstract class AbstractModel
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'base'				=> array(
-								'default'	=> 'http://linkeddata.center/botk/resource/',
+								'default'	=> 'urn:local:',
 								'filter'    => FILTER_SANITIZE_URL,
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
@@ -49,6 +49,14 @@ abstract class AbstractModel
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'homepage'			=> array(	
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'near'				=> array(	
+								'filter'    => FILTER_SANITIZE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'similarName'		=> array(	
 								'filter'    => FILTER_SANITIZE_URL,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
@@ -69,9 +77,10 @@ abstract class AbstractModel
 		'schema'	=> 'http://schema.org/',
 		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
-		'dq'		=> 'http://purl.org/linked-data/cube#',
+		'qb'		=> 'http://purl.org/linked-data/cube#',
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
 		'kees'		=> 'http://linkeddata.center/kees/v1#',
+		'botk'		=> 'http://botk.linkeddata.center/#',
 	);
 	
 

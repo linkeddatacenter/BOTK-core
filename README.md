@@ -38,33 +38,54 @@ See [examples](examples/) directory.
 
 ## BOTK Language profile
 
-The BOTK language profile extends KEES (Knowledge Exchange Engine Schema) with some business related stuff. 
+The BOTK language profile it is a Semantic Web application profile that extends schema.org with some business related stuff. 
+BOTK is compatible with KEES (Knowledge Exchange Engine Schema) applications.
+
 Following vocabularies are partially supported:
 
-| Vocabulary																| Prefix	| Namespace										|
-|---------------------------------------------------------------------------|-----------|-----------------------------------------------|
-| [rdf](https://www.w3.org/TR/rdf-schema) 									| rdf:		| <http://www.w3.org/1999/02/22-rdf-syntax-ns#> |
-| [rdfs](http://www.w3.org/2000/01/rdf-schema) 								| rdfs:		| <http://www.w3.org/2000/01/rdf-schema#>		|
-| [owl](http://www.w3.org/2002/07/owl) 										| owl:		| <http://www.w3.org/2002/07/owl#> 				|
-| [Dublin Core](http://purl.org/dc/terms/) 									| dct:  	| <http://purl.org/dc/terms/> 					|
-| [VoiD](https://www.w3.org/TR/vocab-data-cube/#bib-void)					| void:  	| <http://rdfs.org/ns/void#> 					|
-| [PROV](https://www.w3.org/TR/prov-o/)										| prov:  	| <	http://www.w3.org/ns/prov#> 				|
-| [schema.org](http://schema.org) 											| schema:	| <http://schema.org/>							|
-| [WGS 84](http://www.w3.org/2003/01/geo/)									| wgs:  	| <http://www.w3.org/2003/01/geo/wgs84_pos#> 	|
-| [FOAF](http://xmlns.com/foaf/spec/)										| foaf:  	| <http://xmlns.com/foaf/0.1/> 					|
-| [Data Cube](https://www.w3.org/TR/vocab-data-cube/)						| qb:  		| <http://purl.org/linked-data/cube#> 			|
-| [DaQ framework](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq)	| daq:  	| <http://purl.org/eis/vocab/daq#> 				|
-| [BOTK](http://linkeddata.center/botk/)									| foaf:  	| <http://linkeddata.center/botk/v1#> 			|
+| Vocabulary																| Prefix	| Namespace											|
+|---------------------------------------------------------------------------|-----------|---------------------------------------------------|
+| [xml schema](http://www.w3.org/2001/XMLSchema) 							 xsd:		| <http://www.w3.org/2001/XMLSchema#> 				|
+| [rdf](https://www.w3.org/TR/rdf-schema) 									| rdf:		| <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 	|
+| [rdfs](http://www.w3.org/2000/01/rdf-schema) 								| rdfs:		| <http://www.w3.org/2000/01/rdf-schema#>			|
+| [owl](http://www.w3.org/2002/07/owl) 										| owl:		| <http://www.w3.org/2002/07/owl#> 					|
+| [Dublin Core](http://purl.org/dc/terms/) 									| dct:  	| <http://purl.org/dc/terms/> 						|
+| [VoiD](https://www.w3.org/TR/vocab-data-cube/#bib-void)					| void:  	| <http://rdfs.org/ns/void#> 						|
+| [PROV](https://www.w3.org/TR/prov-o/)										| prov:  	| <	http://www.w3.org/ns/prov#> 					|
+| [schema.org](http://schema.org) 											| schema:	| <http://schema.org/>								|
+| [WGS 84](http://www.w3.org/2003/01/geo/)									| wgs:  	| <http://www.w3.org/2003/01/geo/wgs84_pos#> 		|
+| [FOAF](http://xmlns.com/foaf/spec/)										| foaf:  	| <http://xmlns.com/foaf/0.1/> 						|
+| [Data Cube](https://www.w3.org/TR/vocab-data-cube/)						| qb:  		| <http://purl.org/linked-data/cube#> 				|
+| [DaQ framework](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq)	| daq:  	| <http://purl.org/eis/vocab/daq#> 					|
+| [SPARQL service](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq)	| sd:  		| <http://www.w3.org/ns/sparql-service-description#>|
+| [KEES](http://linkeddata.center/kees)										| kees:  	| <http://linkeddata.center/kees/v1#> 				|
+| [BOTK](http://botk.linkeddata.center/)									| botk:  	| <http://botk.linkeddata.center/#> 				|
+
 
 
 The primary focus o BOTK are Local Business, defined as a legal organization Business with at least a physical point of sell. 
-BOTK vocabulary extends schema.org with some custom resource related to businesses (see [Business Ontology](doc/ontology/README.md))
+BOTK vocabulary extends schema.org with some custom resource related to businesses:
 
-### String context
-No string context should be used.
+## String context
+No string context should be used to qualify strings.
 
+## BOTK annotations
 
-### https://schema.org/LocalBusiness
+### botk:[near]
+States that the annotated subject  is near (from a geographic point of view) to a another object.
+
+### botk:[similarStreet]
+This functiona property States that the annotated LocalBusiness has an address translitteration
+(i.e. the string representation of a postal address  from a lexical point of view) similar
+to the the one of another local business  (e.g "Via Leonardo Da Vinci,1 - NAPOLI" is similar to "Viale L.Davinci,1 - MILANO").
+
+### botk:[similarName]
+States that the annotated subject has a schema:alternateName that is 
+to the the one of another object (e.g "BAR Roma" is similar to "Caffè di Roma").
+
+## Restrictiosn
+
+## schema:LocalBusiness
 
 Captures the concept about a public legal registered business organization  with a contactable geographic selling point .	
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
@@ -96,7 +117,7 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 .
 ```
 
-### https://schema.org/PostalAddress 
+## schema:PostalAddress 
 
 Captures a contact point with a postal address
 - schema:description with cardinality = 1 as  normalizzed string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
@@ -120,7 +141,7 @@ ex:org1_address1 a schema:PostalAddress ;
 .
 ```
 
-### https://schema.org/GeoCoordinates
+## schema:GeoCoordinates
 
 Captures the center of a geographic location that is related with a place (not with an postal address)
 
@@ -140,7 +161,7 @@ Example (in rdf turtle):
 .
 ```
 
-### owl:Thing
+## owl:Thing
 
 Following properties/annotations supported for all object: 
 
@@ -186,9 +207,9 @@ Example (in rdf turtle):
 ```
 
 
-## Reasoning
+## Reasoning requrement
 
-Following properties/entities should be (at least partially) supported in reasoning:
+Following properties/entities should be (at least partially) supported in BOTK reasoning:
 
 - owl:sameAs
 - owl:FunctionalProperty
