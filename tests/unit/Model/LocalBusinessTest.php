@@ -82,119 +82,124 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 	public function testGetDefaultOptions()
 	{	
 		$expectedOptions =  array (
-			'uri'				=> array(
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'base'				=> array(
-									'default'	=> 'urn:local:',
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'id'				=> array(		
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'page'				=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'homepage'			=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'near'				=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'similarName'		=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'businessType'		=> array(		
-									// additional types  as extension of schema:LocalBusiness
-									'filter'    => FILTER_DEFAULT,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'taxID'				=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'vatID'				=> array(	// italian rules
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'legalName'			=> array(
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'businessName'		=> array(
-									// a schema:alternateName for schema:PostalAddress
-									'filter'    => FILTER_DEFAULT,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-								   ),
-			'addressDescription'=> array(	//	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'addressCountry'	=> array(
-									'default'	=> 'IT',		
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'addressLocality'	=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'addressRegion'		=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'streetAddress'		=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'postalCode'		=> array(	// italian rules
-									'filter'    => FILTER_VALIDATE_REGEXP,
-			                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
-	                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-				                   ),
-			'telephone'			=> array(	
-									'filter'    => FILTER_CALLBACK,	
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'faxNumber'			=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'email'				=> array(	
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
-			'lat'				=> array( 
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
-				                   ),
-			'long'				=> array( 
-									'filter'    => FILTER_CALLBACK,
-			                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
-				                   ),
-			'similarStreet'		=> array(	
-									'filter'    => FILTER_SANITIZE_URL,
-	                            	'flags'  	=> FILTER_FORCE_ARRAY,
-				                   ),
+		'uri'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'base'				=> array(
+								'default'	=> 'urn:local:',
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'id'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'page'				=> array(	
+								'filter'    => FILTER_VALIDATE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'homepage'			=> array(	
+								'filter'    => FILTER_VALIDATE_URL,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'near'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'similarName'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'businessType'		=> array(		
+								// additional types  as extension of schema:LocalBusiness
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'taxID'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'vatID'				=> array(	// italian rules
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'legalName'			=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'businessName'		=> array(
+								// a schema:alternateName for schema:PostalAddress
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+							   ),
+		'addressDescription'=> array(	//	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'addressCountry'	=> array(
+								'default'	=> 'IT',		
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'addressLocality'	=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'addressRegion'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'streetAddress'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'postalCode'		=> array(	// italian rules
+								'filter'    => FILTER_VALIDATE_REGEXP,
+		                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'telephone'			=> array(	
+								'filter'    => FILTER_CALLBACK,	
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'faxNumber'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'email'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'lat'				=> array( 
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			                   ),
+		'long'				=> array( 
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			                   ),
+		'similarStreet'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
 		);
 		
 		$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());

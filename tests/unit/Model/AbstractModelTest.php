@@ -63,11 +63,12 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		));
 		$options = $localBusiness->getOptions();
 		$this->assertEquals(
-			array(		
-				'default'    => 'urn:a:',
-				'filter'    => FILTER_SANITIZE_URL,
-            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			),
+			array(
+			'default'	=> 'urn:a:',
+			'filter'    => FILTER_CALLBACK,
+            'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+        	'flags'  	=> FILTER_REQUIRE_SCALAR,
+           ),
 			$options['base']
 		);
 		$this->assertEquals(array('default'    => 'en'),$options['lang']);

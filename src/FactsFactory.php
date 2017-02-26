@@ -104,8 +104,7 @@ class FactsFactory implements FactsFactoryInterface {
 			$data =$dataCleaner($datamapper($validRawData));
 			$facts = call_user_func($this->modelClass.'::fromArray',$data,$this->profile['modelOptions']);
 			$this->counter['triple'] += $facts->getTripleCount();
-			if(!$error=$factsErrorDetector($facts)){
-			} else {	
+			if($error=$factsErrorDetector($facts)){
 				$this->counter['error']++;
 				throw new FactsValidatorWarning($error,$facts);
 			}

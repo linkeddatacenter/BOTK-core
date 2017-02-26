@@ -8,6 +8,20 @@ namespace BOTK;
  * 	- to deny empty values if the data is invalid filter MUST returns false
  */
 class Filters {
+	
+    /**
+     * Validate a URI according to RFC 3986 (+errata)
+     * (See: http://www.rfc-editor.org/errata_search.php?rfc=3986)
+     *
+     * @param uri the URI to validate
+     * @return the url if is valid, FALSE when invalid
+     */
+	public static function FILTER_VALIDATE_URI($uri)
+	{
+		return preg_match('/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/', $uri)
+			?$uri
+			:false;
+	}
 
 	/**
 	 * empty allowed

@@ -31,33 +31,37 @@ abstract class AbstractModel
 	 */
 	protected static $DEFAULT_OPTIONS  = array(
 		'uri'				=> array(
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'base'				=> array(
 								'default'	=> 'urn:local:',
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
-		'id'				=> array(		
+		'id'				=> array(
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'page'				=> array(	
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_VALIDATE_URL,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'homepage'			=> array(	
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_VALIDATE_URL,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'near'				=> array(	
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'similarName'		=> array(	
-								'filter'    => FILTER_SANITIZE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 	);
@@ -140,6 +144,11 @@ abstract class AbstractModel
 			if($value && empty($sanitizedData[$property])){
 				$this->droppedFields[]=$property;
 			}
+		}
+		
+		// uri or base MUST be presen
+		if( empty($data['uri']) && empty($data['base']) ){
+			throw new \InvalidArgumentException("Can't find uri nor base property.");		
 		}
 
 		$this->options = $options;
