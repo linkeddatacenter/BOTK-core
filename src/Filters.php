@@ -82,11 +82,25 @@ class Filters {
 	
 	
 	/**
+	 * Normalize http url
+	 */
+	public static function FILTER_SANITIZE_HTTP_URL($value)
+	{
+		if( !preg_match('/^http/i', $value)){
+			$value = 'http://'.$value;
+		}
+		$value =  filter_var($value, FILTER_VALIDATE_URL);
+		
+		return $value?:null;	
+	}
+	
+	
+	/**
 	 * Normalize email
-	 * empty allowed
 	 */
 	public static function FILTER_SANITIZE_EMAIL($value)
-	{
+	{	
+		$value = preg_replace('/^mailto:/i', '', $value);		// remove schema
 		$value =  filter_var($value, FILTER_VALIDATE_EMAIL);
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
 		$value =  strtoupper($value);

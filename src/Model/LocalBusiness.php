@@ -94,6 +94,20 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
+		'hasMap'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'aggregateRatingValue'	=> array(	
+								'filter'    => FILTER_VALIDATE_FLOAT,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'openingHours'		   => array(	
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+
 	);
 
 
@@ -170,10 +184,13 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($businessName) 		&& $_('schema:alternateName "%s";', $businessName);
 			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
+			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
+			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
 			!empty($page) 				&& $_('schema:page <%s>;', $page,false);
 			!empty($email) 				&& $_('schema:email "%s";', $email);
 			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage,false);
-			!empty($geoUri) 			&& $_('schema:geo <%s>;', $geoUri);
+			!empty($geoUri) 			&& $_('schema:geo <%s>;', $geoUri,false);
+			!empty($hasMap) 			&& $_('schema:hasMap <%s>;', $hasMap,false);
 			$_('schema:address <%s>. ', $addressUri);
 			
 			// serialize schema:PostalAddress 

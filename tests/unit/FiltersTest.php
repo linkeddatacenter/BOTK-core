@@ -85,6 +85,7 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     {
     	return array( 
     		array( 'abC@Example.com',		'ABC@EXAMPLE.COM'), 
+    		array( 'mailto:abC@Example.com', 'ABC@EXAMPLE.COM'),
     		array( 'abc@linkeddata.center',	'ABC@LINKEDDATA.CENTER'),   
     		array( 'invalid email',			null),  
 		);
@@ -155,6 +156,27 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     		array( 'this is \\\\ doublebackslash',	'this is \\\\\\\\ doublebackslash'),
     		array( "newline\nescaped",				'newline\nescaped'),
     		array( '',								null), 
+		);
+   	}
+   	
+
+	
+    /**
+     * @dataProvider httpUrls
+     */		
+	public function testHttpUrls($data, $expectedData)
+	{
+		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_HTTP_URL($data));
+	}
+	public function httpUrls()
+    {
+    	return array( 
+    		array( 'www.example.com',				'http://www.example.com'),
+    		array( 'https://www.example.com/',		'https://www.example.com/'),
+    		array( 'https:\\\\www.example.com\\',		null), 	 
+    		array( 'https:\\www.example.com\\',		null), 	 
+    		array( 'C:\a\b',		null), 	 
+    		array( 'prova a caso',		null), 	
 		);
    	}
 	

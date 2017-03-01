@@ -100,9 +100,12 @@ Following properties/annotations supported:
 - schema:alternateName with cardinality >= 0, contains the insignia of the shop as normalized text
 - schema:address  with cardinality <=1 , contact info for this local business  as a schema:PostalAddress individual
 - schema:geo with cardinality <= 1 pointer a schema:GeoCoordinates
+- schema:hasMap with cardinality >= 0 pointer an URL with a map of the place
 - schema:telephone with cardinality >= 0, formatted as string with no space, can start with '+', if 00 is present at the beginning,it is substituted with +, as primary telephone contact point for this location
 - schema:faxNumber with cardinality >= 0, same formatting of telephone, as primary fax  contact point for this organization
 - schema:email with cardinality >= 0,  as  email for a contact point for this organization
+- schema:aggregateRating with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
+- schema:openingHours with cardinality <= 1,  if the string ="permanantly closed" the local business is permanantly closed
 
 Example (in rdf turtle):
 ```
@@ -114,6 +117,8 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 	schema:email "INFO@IPRATI.IT" ;
 	schema:address ex:org1_address1;
 	schema:geo <geo:41.914,12.464163>;
+	schema:aggregateRating [ a schema:AggregateRating; schema:ratingValue 4.1 ];
+	schema:hasMap <https://maps.google.com/?cid=11195466023234233409836>;
 .
 ```
 
@@ -131,7 +136,7 @@ Example (in rdf turtle):
 ```
 ex:org1_address1 a schema:PostalAddress ;	
 	schema:alternateName 
-		"VIA ANTONIO MORDINI, 3, 00195 ROMA RM"",
+		"VIA ANTONIO MORDINI, 3, 00195 ROMA RM",
 		"VIA ANTONIO MORDINI, 3 - ROMA";
 	schema:addressCountry "IT";
 	schema:addressLocality "ROMA";
@@ -165,15 +170,16 @@ Example (in rdf turtle):
 
 Following properties/annotations supported for all object: 
 
-- foaf:homepage strictly as Inverse Functional Property
-- foaf:page a web page related to the resource
-- dct:identifier an uniqe identifier in the context of the subject namespace.
-- owl:sameAs URL of a reference Web page that unambiguously indicates the item's identity.
+- foaf:homepage with cardinality >= 0 strictly as Inverse Functional Property
+- foaf:page with cardinality >= 0a web page related to the resource
+- dct:identifier with cardinality <= 1 an unique identifier in the context of the subject namespace.
+- owl:sameAs with cardinality >= 0,URL of a reference Web page that unambiguously indicates the item's identity.
+- schema:disambiguatingDescription with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
 
 Example (in rdf turtle):
 ```
 	ex:org1_address owl:sameAs ex2:org2_address .
-.
+	ex:org1_address schema:disambiguatingDescription "restaurant", "food", "point_of_interest","establishment" .
 ```
 
 ## Data trust ##

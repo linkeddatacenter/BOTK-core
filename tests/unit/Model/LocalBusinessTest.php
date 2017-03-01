@@ -45,10 +45,10 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'addressRegion'		=> 'LC',
 					'streetAddress'		=> 'Via  Fausto Valsecchi,124',
 					'postalCode'		=> '23900',
-					'page'				=> 'http://linkeddata.center/',
+					'page'				=> 'linkeddata.center',
 					'telephone'			=> '+39 3356382949',
 					'faxNumber'			=> '+39 335 63 82 949',
-					'email'				=> array('admin@fagnoni.com'),
+					'email'				=> array('mailto:admin@fagnoni.com'),
 					'addressDescription'=> 'Via  F. Valsecchi,124-23900 Lecco (LC)',
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
@@ -66,7 +66,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'addressRegion'		=> 'LC',
 					'streetAddress'		=> 'VIA FAUSTO VALSECCHI, 124',
 					'postalCode'		=> '23900',
-					'page'				=> array('http://linkeddata.center/'),
+					'page'				=> 'http://linkeddata.center',
 					'telephone'			=> '3356382949',
 					'faxNumber'			=> '3356382949',
 					'email'				=> array('ADMIN@FAGNONI.COM'),
@@ -99,11 +99,13 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		'page'				=> array(	
-								'filter'    => FILTER_VALIDATE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'homepage'			=> array(	
-								'filter'    => FILTER_VALIDATE_URL,
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'near'				=> array(	
@@ -114,6 +116,10 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 		'similarName'		=> array(	
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'disambiguatingDescription'=> array(	
+								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
 		'businessType'		=> array(		
@@ -199,6 +205,19 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'hasMap'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'aggregateRatingValue'	=> array(	
+								'filter'    => FILTER_VALIDATE_FLOAT,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'openingHours'		   => array(	
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
 		);
 		
