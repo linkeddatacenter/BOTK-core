@@ -56,16 +56,6 @@ abstract class AbstractModel
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'near'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'similarName'		=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
 		'disambiguatingDescription'=> array(	
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,

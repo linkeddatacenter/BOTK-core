@@ -107,6 +107,16 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
+		'near'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'similarName'		=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
 
 	);
 
@@ -184,6 +194,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($businessName) 		&& $_('schema:alternateName "%s";', $businessName);
 			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
+			!empty($openingHours)		&& $_('schema:openingHours "%s";', $openingHours);
 			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
 			!empty($page) 				&& $_('schema:page <%s>;', $page,false);

@@ -63,7 +63,7 @@ Following vocabularies are partially supported:
 
 
 
-The primary focus o BOTK are Local Business, defined as a legal organization Business with at least a physical point of sell. 
+The primary focus o BOTK are Local Business, defined as a legal organization Business witha physical postal address contact point. 
 BOTK vocabulary extends schema.org with some custom resource related to businesses:
 
 ## String context
@@ -105,7 +105,7 @@ Following properties/annotations supported:
 - schema:faxNumber with cardinality >= 0, same formatting of telephone, as primary fax  contact point for this organization
 - schema:email with cardinality >= 0,  as  email for a contact point for this organization
 - schema:aggregateRating with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
-- schema:openingHours with cardinality <= 1,  if the string ="permanantly closed" the local business is permanantly closed
+- schema:openingHours with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
 
 Example (in rdf turtle):
 ```
