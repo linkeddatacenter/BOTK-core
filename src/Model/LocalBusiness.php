@@ -197,7 +197,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($openingHours)		&& $_('schema:openingHours "%s";', $openingHours);
 			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
-			!empty($page) 				&& $_('schema:page <%s>;', $page,false);
+			!empty($page) 				&& $_('foaf:page <%s>;', $page,false);
 			!empty($email) 				&& $_('schema:email "%s";', $email);
 			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage,false);
 			!empty($geoUri) 			&& $_('schema:geo <%s>;', $geoUri,false);
