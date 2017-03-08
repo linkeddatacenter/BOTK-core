@@ -1,4 +1,3 @@
-
 # BOTK\Core
 [![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/BOTK-core)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/BOTK-core.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core)
@@ -6,8 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 [![License](https://img.shields.io/packagist/l/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 
-Super lightweight classes for developing smart gateways to populate a business knowlege base 
-compliant with [KEES](http://linkeddata.center/kees) model.
+Super lightweight classes and ontologies for developing smart gateways to populate a business knowlege base.
 
 ## quickstart
 
@@ -27,7 +25,7 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~6.0",
+            "botk/core": "~6.1",
         }
     }
 ```
@@ -63,7 +61,7 @@ Following vocabularies are partially supported:
 
 
 
-The primary focus o BOTK are Local Business, defined as a legal organization Business witha physical postal address contact point. 
+The primary focus o BOTK are Local Business, defined as a legal organization Business with a physical postal address contact point. 
 BOTK vocabulary extends schema.org with some custom resource related to businesses:
 
 ## String context
@@ -75,7 +73,7 @@ No string context should be used to qualify strings.
 States that the annotated subject  is near (from a geographic point of view) to a another object.
 
 ### botk:[similarStreet]
-This functiona property States that the annotated LocalBusiness has an address translitteration
+This functiona property States that the annotated subject has an address translitteration
 (i.e. the string representation of a postal address  from a lexical point of view) similar
 to the the one of another local business  (e.g "Via Leonardo Da Vinci,1 - NAPOLI" is similar to "Viale L.Davinci,1 - MILANO").
 
@@ -87,7 +85,7 @@ to the the one of another object (e.g "BAR Roma" is similar to "Caffè di Roma")
 
 ## schema:LocalBusiness
 
-Captures the concept about a public legal registered business organization  with a contactable geographic selling point .	
+Captures the concept about a public legal registered business organization  with a contactable official contact point .	
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
 
 
@@ -171,6 +169,7 @@ Example (in rdf turtle):
 Following properties/annotations supported for all object: 
 
 - foaf:homepage with cardinality >= 0 strictly as Inverse Functional Property
+- foaf:mbox with cardinality >= 0 strictly as Inverse Functional Property
 - foaf:page with cardinality >= 0a web page related to the resource
 - dct:identifier with cardinality <= 1 an unique identifier in the context of the subject namespace.
 - owl:sameAs with cardinality >= 0,URL of a reference Web page that unambiguously indicates the item's identity.
@@ -185,7 +184,7 @@ Example (in rdf turtle):
 ## Data trust ##
 
 Trust in data can be expressed according with the [Dataset Quality Vocabulary (daQ)](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq).
-Quality observation can be associated to object or reficated statements :
+Quality observation can be associated to any uri or reficated statements :
 
 Example (in rdf turtle):
 ```
@@ -194,7 +193,7 @@ Example (in rdf turtle):
 		daq:computedOn ex:localbusines_1 ;
 		dct:date "2014-01-23T14:53:01"^^xsd:dateTime ;
 		daq:value "1.0"^^xsd:double ;
-		daq:metric botk:trustMetric ;
+		daq:metric kees:trustMetric ;
 		daq:computedBy [ foaf:homepage <http://linkeddata.center> ] ;
 		daq:isEstimated false .
 		

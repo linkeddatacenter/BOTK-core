@@ -4,8 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+
+## [6.1.0]
+Product reefactory.
+
 ### Changed
 - changed Model interface
+
+## [6.0.0]
+Completelly rewitten
 
 ## [6.0.0]
 Completelly rewitten.
@@ -52,7 +59,8 @@ Completelly rewitten.
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...HEAD
+[6.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...6.0.0
 [6.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...5.1.1
 [5.1.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...5.1.0
 [5.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.0.1...5.1.0

@@ -278,7 +278,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 					'lat'				=> '1.12345',
 					'long'				=> '2.123456',
 				),
-    			'<urn:local:1234567890> a schema:LocalBusiness;a schema:MedicalOrganization;dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:page <http://linkeddata.center/>;schema:email "ADMIN@FAGNONI.COM";schema:geo <geo:1.12345,2.123456>;schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
+    			'<urn:local:1234567890> a schema:LocalBusiness;a schema:MedicalOrganization;dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";foaf:page <http://linkeddata.center/>;schema:email "ADMIN@FAGNONI.COM";schema:geo <geo:1.12345,2.123456>;schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
     			22,
 			),
 		);
