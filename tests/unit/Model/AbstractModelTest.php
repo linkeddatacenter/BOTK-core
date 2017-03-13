@@ -21,8 +21,9 @@ class AbstractModelTest extends PHPUnit_Framework_TestCase
 		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
 		'qb'		=> 'http://purl.org/linked-data/cube#',
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
+		'skos'		=> 'http://www.w3.org/2004/02/skos/core#',
 		'kees'		=> 'http://linkeddata.center/kees/v1#',
-		'botk'		=> 'http://botk.linkeddata.center/#',
+		'botk'		=> 'http://linkeddata.center/botk/v1#',
 	);
 	
 	

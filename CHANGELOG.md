@@ -4,7 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+### Changed
 - changed botk namespace
+
+### Fixed
+- fixed error in entity count in FactsFactory
 
 ## [6.1.0]
 Product reefactory.

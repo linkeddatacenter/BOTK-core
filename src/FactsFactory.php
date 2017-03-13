@@ -95,9 +95,9 @@ class FactsFactory implements FactsFactoryInterface {
 	{
 		$rawdataSanitizer = $this->profile['rawdataSanitizer'];
 		$validRawData = $rawdataSanitizer($rawData);
+		$this->counter['entity']++;
 		
 		if (!empty($validRawData)){
-			$this->counter['entity']++;
 			$datamapper = $this->profile['datamapper'];
 			$dataCleaner = $this->profile['dataCleaner'];
 			$factsErrorDetector = $this->profile['factsErrorDetector'];
@@ -114,7 +114,7 @@ class FactsFactory implements FactsFactoryInterface {
 		}
 		
 		// ensure that not too many errors
-		$errorRate = $this->counter['error']/$this->counter['entity'];
+		$errorRate = ($this->counter['error']/$this->counter['entity']);
 		if(( $this->counter['entity'] > $this->profile['entityThreshold']) 
 				&& ( $errorRate > $this->profile['resilienceToErrors'])){
 			$x = $this->profile['resilienceToErrors']*100;
@@ -122,7 +122,7 @@ class FactsFactory implements FactsFactoryInterface {
 		}
 
 		// ensure that not too many insaness raw data
-		$insaneRate = $this->counter['insane']/$this->counter['entity'];
+		$insaneRate = ($this->counter['insane']/$this->counter['entity']);
 		if(( $this->counter['entity'] > $this->profile['entityThreshold']) 
 				&& ($insaneRate > $this->profile['resilienceToInsanes'])){
 			$x = $this->profile['resilienceToInsanes']*100;
