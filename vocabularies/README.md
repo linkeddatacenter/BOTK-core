@@ -22,7 +22,7 @@ Following vocabularies are partially supported:
 | [SPARQL service](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq)	| sd:  		| <http://www.w3.org/ns/sparql-service-description#>|
 | [SKOS](https://www.w3.org/TR/skos-reference/)								| skos:  	| <http://www.w3.org/2004/02/skos/core#> 			|
 | [KEES](http://linkeddata.center/kees)										| kees:  	| <http://linkeddata.center/kees/v1#> 				|
-| [BOTK](https://github.com/linkeddatacenter/BOTK-core)						| botk:  	| <http://linkeddata.center/botk/v1#> 					|
+| [BOTK](https://github.com/linkeddatacenter/BOTK-core)						| botk:  	| <http://linkeddata.center/botk/v1#> 				|
 
 
 
@@ -46,7 +46,7 @@ to the the one of another referenced object (e.g "Via Leonardo Da Vinci,1 - NAPO
 States that the annotated subject has a schema:alternateName that is similar
 to the the one of the referenced object (e.g "BAR Roma" is similar to "Caffè di Roma").
 
-## Restrictios
+## Restrictions
 
 ## schema:LocalBusiness
 
@@ -57,7 +57,7 @@ This class can be specialized  to state the reason of the business interest (e.g
 Following properties/annotations supported: 
 
 - rdf:type	with cardinality >= 1 ,  type in the form of prefix:classname at least schema:LocalBusiness must be present
-- schema:vatID with cardinality <= 1, as Inverse Functional Property in country context ??
+- schema:vatID with cardinality <= 1, as (NB. is an Inverse Functional Property in country context)
 - schema:taxID with cardinality <= 1,
 - schema:legalName with cardinality <= 1, as the legal name of the location
 - schema:alternateName with cardinality >= 0, contains the insignia of the shop as normalized text
@@ -90,7 +90,7 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 ## schema:PostalAddress 
 
 Captures a contact point with a postal address
-- schema:description with cardinality = 1 as  normalizzed string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
+- schema:description with cardinality >= 1 possibly as normalized string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
 - schema:addressCountry with cardinality = 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
 - schema:addressLocality with cardinality <= 1, The locality as normalized string. For example, "MILANO". Sholud be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
 - schema:addressRegion	with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Sholud be present in country adminstrative db as SKOS:primaryName
@@ -100,7 +100,7 @@ Captures a contact point with a postal address
 Example (in rdf turtle):
 ```
 ex:org1_address1 a schema:PostalAddress ;	
-	schema:alternateName 
+	schema:description 
 		"VIA ANTONIO MORDINI, 3, 00195 ROMA RM",
 		"VIA ANTONIO MORDINI, 3 - ROMA";
 	schema:addressCountry "IT";
@@ -141,7 +141,7 @@ Following properties/annotations supported for all object:
 - dct:identifier with cardinality <= 1 an unique identifier in the context of the subject namespace.
 - owl:sameAs with cardinality >= 0,URL of a reference Web page that unambiguously indicates the item's identity.
 - schema:disambiguatingDescription with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
-- skos:subject >=0 a link to a taxonomy schema described with skos
+- skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
 
 Example (in rdf turtle):
 ```
@@ -162,7 +162,7 @@ Example (in rdf turtle):
 		dct:date "2014-01-23T14:53:01"^^xsd:dateTime ;
 		daq:value "1.0"^^xsd:double ;
 		daq:metric kees:trustMetric ;
-		daq:computedBy [ foaf:homepage <http://linkeddata.center> ] ;
+		daq:computedBy [ foaf:homepage <http://www.linkeddata.center/> ] ;
 		daq:isEstimated false .
 		
 	# trust level about a statement		

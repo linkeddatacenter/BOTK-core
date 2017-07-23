@@ -11,16 +11,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 - fixed error in entity count in FactsFactory
 
 ## [6.1.0]
-Product reefactory.
 
 ### Changed
-- changed Model interface
+- Refactory.
+- Changed Model interface
 
 ## [6.0.0]
 Completelly rewitten
-
-## [6.0.0]
-Completelly rewitten.
 
 ## [5.1.1] - 2016-01-29
 ### Fixed

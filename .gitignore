@@ -5,6 +5,7 @@ composer.phar
 /tmp/
 /.kitchen/
 /.vagrant/
+.project
 .settings
 phpunit.xml
 
