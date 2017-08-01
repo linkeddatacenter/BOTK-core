@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+## [6.2.0]
+
 ### Changed
 - changed botk namespace
 
@@ -12,38 +14,57 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [6.1.0]
 
+### Added
+
+- addedd property numberOfEmployees
+
 ### Changed
+
 - Refactory.
 - Changed Model interface
 
 ## [6.0.0]
+
 Completelly rewitten
 
 ## [5.1.1] - 2016-01-29
+
 ### Fixed
+
 - bug in AbstractCOntentNegotiation
 
 ## [5.1.0] - 2016-01-29
+
 ### Changed
+
 - refactory of Standard Representation
 
 ## [5.0.1] - 2016-01-29
 ### Fixed
+
 - removed install script problem
 
 ### Changed
+
 - removed subversion dependency
 - some project cleaning
 
 ## [5.0.0] - 2016-01-28
+
 ### Fixed
 - html renderer bugs
+
 ### Removed
+
 - removed xml renderer support (who care of a genetic xml application?)
+
 ### Changed
+
 - moved default css to linkeddata.center resorces
 - php unit refactory
+
 ### Added
+
 - vagrant support
 - contribution instructions
 - badge management
@@ -52,16 +73,20 @@ Completelly rewitten
 
 
 ## [4.0.1] - 2016-01-28
+
 ### Added
+
 - integration with packagist
 - changelog alignement
 
 ## 4.0.0 - 2016-01-28
+
 ### Added
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.0...HEAD
+[6.2.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.0...6.1.0
 [6.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...6.0.0
 [6.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...5.1.1
 [5.1.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/5.1.1...5.1.0

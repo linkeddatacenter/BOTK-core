@@ -1,0 +1,247 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix schema: <http://schema.org/> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix daq: <http://purl.org/eis/vocab/daq#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix kees: <http://linkeddata.center/kees/v1#> .
+@prefix botk: <http://linkeddata.center/botk/v1#> .
+Array
+(
+    [base] => urn:aida:
+    [id] => 00484960588
+    [taxID] => 00484960588
+    [businessName] => Array
+        (
+            [0] => ﻿ENI S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => PIAZZALE ENRICO MATTEI 1,
+    [postalCode] => 00144
+    [telephone] => 0659821
+    [addressDescription] => PIAZZALE ENRICO MATTEI 1, 00144 ROMA (ROMA)
+)
+<urn:aida:00484960588> a schema:LocalBusiness;dct:identifier "00484960588";schema:alternateName "﻿ENI S.P.A.";schema:telephone "0659821";schema:address <urn:aida:00484960588_address>. <urn:aida:00484960588_address> a schema:PostalAddress;schema:description "PIAZZALE ENRICO MATTEI 1, 00144 ROMA (ROMA)";schema:streetAddress "PIAZZALE ENRICO MATTEI 1,";schema:postalCode "00144";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 09598861004
+    [taxID] => 09598861004
+    [businessName] => Array
+        (
+            [0] => ENI TRADING & SHIPPING S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIA LAURENTINA 449,
+    [postalCode] => 00142
+    [telephone] => 0659821
+    [addressDescription] => VIA LAURENTINA 449, 00142 ROMA (ROMA)
+)
+<urn:aida:09598861004> a schema:LocalBusiness;dct:identifier "09598861004";schema:alternateName "ENI TRADING & SHIPPING S.P.A.";schema:telephone "0659821";schema:address <urn:aida:09598861004_address>. <urn:aida:09598861004_address> a schema:PostalAddress;schema:description "VIA LAURENTINA 449, 00142 ROMA (ROMA)";schema:streetAddress "VIA LAURENTINA 449,";schema:postalCode "00142";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 06208031002
+    [taxID] => 06208031002
+    [businessName] => Array
+        (
+            [0] => GESTORE DEI MERCATI ENERGETICI S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => LARGO GIUSEPPE TARTINI 3/4,
+    [postalCode] => 00198
+    [telephone] => 0680121
+    [addressDescription] => LARGO GIUSEPPE TARTINI 3/4, 00198 ROMA (ROMA)
+)
+<urn:aida:06208031002> a schema:LocalBusiness;dct:identifier "06208031002";schema:alternateName "GESTORE DEI MERCATI ENERGETICI S.P.A.";schema:telephone "0680121";schema:address <urn:aida:06208031002_address>. <urn:aida:06208031002_address> a schema:PostalAddress;schema:description "LARGO GIUSEPPE TARTINI 3/4, 00198 ROMA (ROMA)";schema:streetAddress "LARGO GIUSEPPE TARTINI 3/4,";schema:postalCode "00198";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 05918271007
+    [taxID] => 05918271007
+    [businessName] => Array
+        (
+            [0] => ENEL TRADE S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIALE REGINA MARGHERITA 125,
+    [postalCode] => 00198
+    [telephone] => 0683054747
+    [addressDescription] => VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)
+)
+<urn:aida:05918271007> a schema:LocalBusiness;dct:identifier "05918271007";schema:alternateName "ENEL TRADE S.P.A.";schema:telephone "0683054747";schema:address <urn:aida:05918271007_address>. <urn:aida:05918271007_address> a schema:PostalAddress;schema:description "VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)";schema:streetAddress "VIALE REGINA MARGHERITA 125,";schema:postalCode "00198";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 07973780013
+    [taxID] => 07973780013
+    [businessName] => Array
+        (
+            [0] => FCA ITALY S.P.A., IN FORMA ESTESA FIAT CHRYSLER AUTOMOBILES ITALY S.P.A., E IN FORMA ABBREVIATA FIAT GROUP AUTOMOBILES S.P.A. E FIAT AUTO S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => TORINO
+    [addressRegion] => TORINO
+    [streetAddress] => CORSO GIOVANNI AGNELLI 200, QUARTIERE MIRAFIORI
+    [postalCode] => 10135
+    [telephone] => 0110042111
+    [addressDescription] => CORSO GIOVANNI AGNELLI 200, QUARTIERE MIRAFIORI, 10135 TORINO (TORINO)
+)
+<urn:aida:07973780013> a schema:LocalBusiness;dct:identifier "07973780013";schema:alternateName "FCA ITALY S.P.A., IN FORMA ESTESA FIAT CHRYSLER AUTOMOBILES ITALY S.P.A., E IN FORMA ABBREVIATA FIAT GROUP AUTOMOBILES S.P.A. E FIAT AUTO S.P.A.";schema:telephone "0110042111";schema:address <urn:aida:07973780013_address>. <urn:aida:07973780013_address> a schema:PostalAddress;schema:description "CORSO GIOVANNI AGNELLI 200, QUARTIERE MIRAFIORI, 10135 TORINO (TORINO)";schema:streetAddress "CORSO GIOVANNI AGNELLI 200, QUARTIERE MIRAFIORI";schema:postalCode "10135";schema:addressLocality "TORINO";schema:addressRegion "TORINO";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 00488410010
+    [taxID] => 00488410010
+    [businessName] => Array
+        (
+            [0] => TELECOM ITALIA SPA
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => MILANO
+    [addressRegion] => MILANO
+    [streetAddress] => PIAZZA DEGLI AFFARI 2,
+    [postalCode] => 20123
+    [telephone] => 0285951
+    [addressDescription] => PIAZZA DEGLI AFFARI 2, 20123 MILANO (MILANO)
+)
+<urn:aida:00488410010> a schema:LocalBusiness;dct:identifier "00488410010";schema:alternateName "TELECOM ITALIA SPA";schema:telephone "0285951";schema:address <urn:aida:00488410010_address>. <urn:aida:00488410010_address> a schema:PostalAddress;schema:description "PIAZZA DEGLI AFFARI 2, 20123 MILANO (MILANO)";schema:streetAddress "PIAZZA DEGLI AFFARI 2,";schema:postalCode "20123";schema:addressLocality "MILANO";schema:addressRegion "MILANO";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 05754381001
+    [taxID] => 05754381001
+    [businessName] => Array
+        (
+            [0] => GESTORE DEI SERVIZI ENERGETICI - GSE S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIALE MARESCIALLO PILSUDSKI 92,
+    [postalCode] => 00197
+    [telephone] => 0680111
+    [addressDescription] => VIALE MARESCIALLO PILSUDSKI 92, 00197 ROMA (ROMA)
+)
+<urn:aida:05754381001> a schema:LocalBusiness;dct:identifier "05754381001";schema:alternateName "GESTORE DEI SERVIZI ENERGETICI - GSE S.P.A.";schema:telephone "0680111";schema:address <urn:aida:05754381001_address>. <urn:aida:05754381001_address> a schema:PostalAddress;schema:description "VIALE MARESCIALLO PILSUDSKI 92, 00197 ROMA (ROMA)";schema:streetAddress "VIALE MARESCIALLO PILSUDSKI 92,";schema:postalCode "00197";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 09633951000
+    [taxID] => 09633951000
+    [businessName] => Array
+        (
+            [0] => ENEL SERVIZIO ELETTRICO S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIALE REGINA MARGHERITA 125,
+    [postalCode] => 00198
+    [telephone] => 0683051
+    [addressDescription] => VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)
+)
+<urn:aida:09633951000> a schema:LocalBusiness;dct:identifier "09633951000";schema:alternateName "ENEL SERVIZIO ELETTRICO S.P.A.";schema:telephone "0683051";schema:address <urn:aida:09633951000_address>. <urn:aida:09633951000_address> a schema:PostalAddress;schema:description "VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)";schema:streetAddress "VIALE REGINA MARGHERITA 125,";schema:postalCode "00198";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 06655971007
+    [taxID] => 06655971007
+    [businessName] => Array
+        (
+            [0] => ENEL ENERGIA S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => MILANO
+    [addressRegion] => MILANO
+    [streetAddress] => VIA SAN GIOVANNI SUL MURO 9,
+    [postalCode] => 20121
+    [telephone] => 0664511012
+    [addressDescription] => VIA SAN GIOVANNI SUL MURO 9, 20121 MILANO (MILANO)
+)
+<urn:aida:06655971007> a schema:LocalBusiness;dct:identifier "06655971007";schema:alternateName "ENEL ENERGIA S.P.A.";schema:telephone "0664511012";schema:address <urn:aida:06655971007_address>. <urn:aida:06655971007_address> a schema:PostalAddress;schema:description "VIA SAN GIOVANNI SUL MURO 9, 20121 MILANO (MILANO)";schema:streetAddress "VIA SAN GIOVANNI SUL MURO 9,";schema:postalCode "20121";schema:addressLocality "MILANO";schema:addressRegion "MILANO";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 97103880585
+    [taxID] => 97103880585
+    [businessName] => Array
+        (
+            [0] => POSTE ITALIANE - SOCIETA' PER AZIONI
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIALE EUROPA 190,
+    [postalCode] => 00144
+    [telephone] => 0659581
+    [addressDescription] => VIALE EUROPA 190, 00144 ROMA (ROMA)
+)
+<urn:aida:97103880585> a schema:LocalBusiness;dct:identifier "97103880585";schema:alternateName "POSTE ITALIANE - SOCIETA' PER AZIONI";schema:telephone "0659581";schema:address <urn:aida:97103880585_address>. <urn:aida:97103880585_address> a schema:PostalAddress;schema:description "VIALE EUROPA 190, 00144 ROMA (ROMA)";schema:streetAddress "VIALE EUROPA 190,";schema:postalCode "00144";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [id] => 05617841001
+    [taxID] => 05617841001
+    [businessName] => Array
+        (
+            [0] => ENEL PRODUZIONE S.P.A.
+        )
+
+    [addressCountry] => IT
+    [addressLocality] => ROMA
+    [addressRegion] => ROMA
+    [streetAddress] => VIALE REGINA MARGHERITA 125,
+    [postalCode] => 00198
+    [telephone] => 0683051
+    [addressDescription] => VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)
+)
+<urn:aida:05617841001> a schema:LocalBusiness;dct:identifier "05617841001";schema:alternateName "ENEL PRODUZIONE S.P.A.";schema:telephone "0683051";schema:address <urn:aida:05617841001_address>. <urn:aida:05617841001_address> a schema:PostalAddress;schema:description "VIALE REGINA MARGHERITA 125, 00198 ROMA (ROMA)";schema:streetAddress "VIALE REGINA MARGHERITA 125,";schema:postalCode "00198";schema:addressLocality "ROMA";schema:addressRegion "ROMA";schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [addressCountry] => IT
+)
+<urn:aida:5980a69200412> a schema:LocalBusiness;schema:address <urn:aida:5980a69200412_address>. <urn:aida:5980a69200412_address> a schema:PostalAddress;schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [addressCountry] => IT
+)
+<urn:aida:5980a69200617> a schema:LocalBusiness;schema:address <urn:aida:5980a69200617_address>. <urn:aida:5980a69200617_address> a schema:PostalAddress;schema:addressCountry "IT". 
+Array
+(
+    [base] => urn:aida:
+    [addressCountry] => IT
+)
+<urn:aida:5980a69200846> a schema:LocalBusiness;schema:address <urn:aida:5980a69200846_address>. <urn:aida:5980a69200846_address> a schema:PostalAddress;schema:addressCountry "IT". 
+
+<> prov:generatedAtTime "2017-08-01T16:04:33+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
+<#dataset> a void:Dataset; void:datadump <>;void:triples 150 ;void:entities 14.
+# Generated 150 good triples from 14 entities (0 ignored), 0 errors

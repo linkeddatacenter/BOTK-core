@@ -219,6 +219,11 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_REQUIRE_SCALAR,
 			                   ),
+		'numberOfEmployees'	  => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			)
 		);
 		
 		$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());
@@ -333,7 +338,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 		);
    	}
 
-
     public  function testBadLocalBusiness()
 	{
 		$badData = array(
@@ -341,6 +345,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'addressCountry'	=>  'ITALY', 	// should be a two character ISO country code
 			'postalCode'		=>  '234992',	// too long
 			'email'				=>  'not an e mail',
+			'numberOfEmployees'	=>  'not a number',
 		);
 		$localBusiness = BOTK\Model\LocalBusiness::fromArray($badData);
 		$this->assertEquals(array_keys($badData), $localBusiness->getDroppedFields());

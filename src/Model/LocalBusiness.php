@@ -12,121 +12,126 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 	protected static $DEFAULT_OPTIONS = array (
 		'businessType'		=> array(		
 								// additional types  as extension of schema:LocalBusiness
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_DEFAULT,
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'taxID'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'vatID'				=> array(	// italian rules
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'legalName'			=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'businessName'		=> array(
 								// a schema:alternateName for schema:PostalAddress
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-							   ),
+			'filter'    => FILTER_DEFAULT,
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'addressDescription'=> array(	//	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'addressCountry'	=> array(
-								'default'	=> 'IT',		
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'default'	=> 'IT',		
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'addressLocality'	=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'addressRegion'		=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'streetAddress'		=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'postalCode'		=> array(	// italian rules
-								'filter'    => FILTER_VALIDATE_REGEXP,
-		                        'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'telephone'			=> array(	
-								'filter'    => FILTER_CALLBACK,	
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,	
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'faxNumber'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'email'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'lat'				=> array( 
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			),
 		'long'				=> array( 
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			),
 		'similarStreet'		=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'hasMap'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'aggregateRatingValue'	=> array(	
-								'filter'    => FILTER_VALIDATE_FLOAT,
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_VALIDATE_FLOAT,
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'openingHours'		   => array(	
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
+			'filter'    => FILTER_DEFAULT,
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
 		'near'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
 		'similarName'		=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_FORCE_ARRAY,
+			),
+		'numberOfEmployees'	  => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			)
 
-	);
+		);
 
 
 	/**
 	 * Redefine protected constructor to add address description as dynamic property
 	 */
 	protected function __construct(array $data = array(), array $customOptions = array()) 
-    {
-    	parent::__construct($data, $customOptions);
+	{
+		parent::__construct($data, $customOptions);
 		$this->addAddressDescription();
 	}
 	
@@ -169,6 +174,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
+			$numberOfEmployeesUri = $organizationUri.'_nEmployees';
 			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":null;
 			
 			$tripleCounter =0;
@@ -183,9 +189,9 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 					}
 				}
 			};
-				
+
 	 		// serialize schema:LocalBusiness
- 			$_('<%s> a schema:LocalBusiness;', $organizationUri);
+			$_('<%s> a schema:LocalBusiness;', $organizationUri);
 			!empty($businessType) 		&& $_('a %s;', $businessType);
 			!empty($id) 				&& $_('dct:identifier "%s";', $id);
 			!empty($vatID) 				&& $_('schema:vatID "%s";', $vatID); 
@@ -211,6 +217,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($postalCode) 		&& $_('schema:postalCode "%s";', $postalCode);
 			!empty($addressLocality) 	&& $_('schema:addressLocality "%s";', $addressLocality);
 			!empty($addressRegion) 		&& $_('schema:addressRegion "%s";', $addressRegion);
+			!empty($numberOfEmployees) 	&& $_('schema:numberOfEmployees <%s>;', $numberOfEmployeesUri,false);
 			$_('schema:addressCountry "%s". ', $addressCountry);
 
 			// serialize schema:GeoCoordinates
@@ -219,12 +226,21 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 				$_('wgs:lat "%s"^^xsd:float;', $lat);
 				$_('wgs:long "%s"^^xsd:float . ', $long); 
 			}
+			
+			if(!empty($numberOfEmployees) 	&& 	preg_match('/^([0-9]+)\s*-?\s*([0-9])*$/', $numberOfEmployees, $matches)){	
+
+				$_('<%s> a schema:QuantitativeValue;', $numberOfEmployeesUri);
+				$minValue =  (int) $matches[1];
+				$maxValue = empty($matches[2])? $minValue : (int) $matches[2];
+				$_('schema:minValue %s ;', $minValue);
+				$_('schema:maxValue %s .', $maxValue);
+			}
 
 			$this->rdf = $turtleString;
 			$this->tripleCount = $tripleCounter;
 		}
-		
+
 		return $this->rdf;
 	}
-	
+
 }

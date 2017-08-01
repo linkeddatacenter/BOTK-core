@@ -92,8 +92,8 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 Captures a contact point with a postal address
 - schema:description with cardinality >= 1 possibly as normalized string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
 - schema:addressCountry with cardinality = 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
-- schema:addressLocality with cardinality <= 1, The locality as normalized string. For example, "MILANO". Sholud be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
-- schema:addressRegion	with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Sholud be present in country adminstrative db as SKOS:primaryName
+- schema:addressLocality with cardinality <= 1, The locality as normalized string. For example, "MILANO". Should be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
+- schema:addressRegion	with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Should be present in country adminstrative db as SKOS:primaryName
 - schema:streetAddress	with cardinality <= 1,	a normalizzed string from template "DUF DUG, CIVIC". For example, "VIA ANTONIO MORDINI, 3"
 - schema:postalCode	with cardinality <= 1,	Text 	The postal code. For example, 94043.
 
@@ -121,7 +121,7 @@ Following properties/annotations supported:
 - wgs:lat with cardinality = 1,
 - wgs:long with cardinality = 1
 
-Both lat and long shold be conformant to following regexp: *^-?([1-8]?[0-9]\.{1}\d{1,20}$|90\.{1}0{1,20}$)*
+Both lat and long should be conformant to following regexp: *^-?([1-8]?[0-9]\.{1}\d{1,20}$|90\.{1}0{1,20}$)*
 
 Example (in rdf turtle):
 ```
