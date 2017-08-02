@@ -46,6 +46,27 @@ to the the one of another referenced object (e.g "Via Leonardo Da Vinci,1 - NAPO
 States that the annotated subject has a schema:alternateName that is similar
 to the the one of the referenced object (e.g "BAR Roma" is similar to "Caffè di Roma").
 
+
+## botk:[EstimatedRange]()
+
+It is a subclass of schema:QuantitativeValue stating an estimate range of values with following restriction:
+
+- schema:minValue with cardinality <= 1
+- schema:maxValue with cardinality <= 1,
+
+no maxValue means unlimited upper range
+no minValue means 0 i.e.:
+```
+construct { ?s schema:minValue 0 } 
+where {
+	?s a botk:EstimatedRange;
+	OPTIONAL { ?s schema:minValue ?minValue}
+	FILTER ( !bound(?minValue))
+}
+```
+
+
+
 ## Restrictions
 
 ## schema:LocalBusiness
@@ -71,6 +92,14 @@ Following properties/annotations supported:
 - schema:openingHours with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
 - schema:department with cardinality >= 0,  as an office or sub organization
 
+Beside this following statistical dimensions apply:
+
+- botk:numberOfEmployees with cardinality <=1 that is a botk:EstimatedRange (expressend in number of employees)
+- botk:annualTurnover last known annual turnover with cardinality <=1 (a botk:EstimatedRange expressend in Thousand EURO)
+
+
+
+
 
 Example (in rdf turtle):
 ```
@@ -84,7 +113,10 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 	schema:geo <geo:41.914,12.464163>;
 	schema:aggregateRating [ a schema:AggregateRating; schema:ratingValue 4.1 ];
 	schema:hasMap <https://maps.google.com/?cid=11195466023234233409836>;
+	botk:numberOfEmployees [ schema:maxValue 10 ];
+	botk:annualTurnover [ schema:minValue 1000; schema:maxValue 10000 ];
 .
+
 ```
 
 ## schema:PostalAddress 

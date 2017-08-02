@@ -9,6 +9,7 @@ namespace BOTK\Model;
  */
 class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface 
 {
+
 	protected static $DEFAULT_OPTIONS = array (
 		'businessType'		=> array(		
 								// additional types  as extension of schema:LocalBusiness
@@ -116,15 +117,14 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_FORCE_ARRAY,
-			),
+			),		
 		'numberOfEmployees'	  => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
-			)
+			),
 
 		);
-
 
 	/**
 	 * Redefine protected constructor to add address description as dynamic property
@@ -174,8 +174,10 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
-			$numberOfEmployeesUri = $organizationUri.'_nEmployees';
 			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":null;
+			$statVars = array(
+				'numberOfEmployees'
+			);
 			
 			$tripleCounter =0;
 			$turtleString='';
@@ -216,8 +218,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($streetAddress) 		&& $_('schema:streetAddress "%s";', $streetAddress);
 			!empty($postalCode) 		&& $_('schema:postalCode "%s";', $postalCode);
 			!empty($addressLocality) 	&& $_('schema:addressLocality "%s";', $addressLocality);
-			!empty($addressRegion) 		&& $_('schema:addressRegion "%s";', $addressRegion);
-			!empty($numberOfEmployees) 	&& $_('schema:numberOfEmployees <%s>;', $numberOfEmployeesUri,false);
+			!empty($addressRegion) 		&& $_('schema:addressRegion "%s";', $addressRegion);			
 			$_('schema:addressCountry "%s". ', $addressCountry);
 
 			// serialize schema:GeoCoordinates
@@ -227,14 +228,27 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 				$_('wgs:long "%s"^^xsd:float . ', $long); 
 			}
 			
-			if(!empty($numberOfEmployees) 	&& 	preg_match('/^([0-9]+)\s*-?\s*([0-9])*$/', $numberOfEmployees, $matches)){	
+			
 
-				$_('<%s> a schema:QuantitativeValue;', $numberOfEmployeesUri);
+			foreach ( $statVars as $statVar){
+				if(!empty($this->data[$statVar]) && preg_match('/^([0-9]+)\s*-?\s*([0-9])*$/', $this->data[$statVar], $matches)){
+					$statUri =  $organizationUri.'_'.$statVar;
+				    $_("<$organizationUri> botk:$statVar <%s> .", $statUri, false);	
+					$_('<%s> a schema:QuantitativeValue, botk:EstimatedRange;', $statUri);
+					$minValue =  (int) $matches[1];
+					$maxValue = empty($matches[2])? $minValue : (int) $matches[2];
+					$_('schema:minValue %s ;', $minValue);
+					$_('schema:maxValue %s .', $maxValue);
+				}		
+			}
+			/*if(!empty($numberOfEmployees) 	&& 	preg_match('/^([0-9]+)\s*-?\s*([0-9])*$/', $numberOfEmployees, $matches)){	
+
+				$_('<%s> a schema:QuantitativeValue, botk:EstimatedRange;', $numberOfEmployeesUri);
 				$minValue =  (int) $matches[1];
 				$maxValue = empty($matches[2])? $minValue : (int) $matches[2];
 				$_('schema:minValue %s ;', $minValue);
 				$_('schema:maxValue %s .', $maxValue);
-			}
+			}*/
 
 			$this->rdf = $turtleString;
 			$this->tripleCount = $tripleCounter;
