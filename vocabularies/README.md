@@ -1,6 +1,6 @@
 # BOTK Language profile
 
-The BOTK language profile it is a Semantic Web application that extends schema.org with some business related stuff. 
+The BOTK language profile is a Semantic Web application that extends schema.org with some business related stuff. 
 BOTK is compatible with KEES (Knowledge Exchange Engine Schema) applications.
 
 Following vocabularies are partially supported:
