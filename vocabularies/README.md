@@ -29,31 +29,24 @@ Following vocabularies are partially supported:
 The primary focus o BOTK are Local Business, defined as a legal organization Business with a physical postal address contact point. 
 BOTK vocabulary extends schema.org with some custom resource related to businesses:
 
+
+## BOTK Axioms
+
 ## String context
 No string context should be used to qualify strings.
 
-## BOTK annotations
-
-### botk:[near]()
-This property states that the annotated subject is near (from a geographic point of view) to a another object.
-
-### botk:[similarStreet]()
-This property states that the annotated subject has an address translitteration
-(i.e. the string representation of a postal address) similar
-to the the one of another referenced object (e.g "Via Leonardo Da Vinci,1 - NAPOLI" is similar to "Viale L.Davinci,1 - MILANO").
-
-### botk:[similarName]()
-States that the annotated subject has a schema:alternateName that is similar
-to the the one of the referenced object (e.g "BAR Roma" is similar to "Caffè di Roma").
 
 
-## botk:[EstimatedRange]()
+### botk:[EstimatedRange]()
 
 It is a subclass of schema:QuantitativeValue stating an estimate range of values with following restriction:
 
 - schema:minValue with cardinality <= 1
 - schema:maxValue with cardinality <= 1,
+- schema:value with cardinality 0,
 
+
+to state a specific single value minValue=maxValue = value 
 no maxValue means unlimited upper range
 no minValue means 0 i.e.:
 ```
@@ -66,12 +59,11 @@ where {
 ```
 
 
-
-## Restrictions
-
 ## schema:LocalBusiness
 
 Captures the concept about a public legal registered business organization  with a contactable official contact point .	
+
+It is a subclass of schema:LocalBusiness that adds some properties an drestrictions.
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
 
 
@@ -96,8 +88,6 @@ Beside this following statistical dimensions apply:
 
 - botk:numberOfEmployees with cardinality <=1 that is a botk:EstimatedRange (expressend in number of employees)
 - botk:annualTurnover last known annual turnover with cardinality <=1 (a botk:EstimatedRange expressend in Thousand EURO)
-
-
 
 
 
