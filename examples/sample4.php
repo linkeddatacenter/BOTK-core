@@ -17,7 +17,11 @@ $options = array(
             $data['addressLocality'] = $rawdata[6];
             $data['addressRegion'] = $rawdata[7];
             $data['telephone'] = $rawdata[9];  
-            $data['numberOfEmployees'] = str_replace(".", "", $rawdata[14]);   
+            $data['annualTurnover'] = str_replace(".", "", $rawdata[12]);
+            $data['numberOfEmployees'] = str_replace(".", "", $rawdata[14]);
+            $data['ateco2007'] = $rawdata[17];
+            $data['EBITDA'] = str_replace(".", "", $rawdata[22]);
+            $data['netProfit'] = str_replace(".", "", $rawdata[25]);
             
             return $data;
         },
