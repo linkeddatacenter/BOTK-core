@@ -5,7 +5,7 @@ $options = array(
 	'factsProfile' => array(
 		'model'			=> 'LocalBusiness',
 		'modelOptions'		=> array(
-			'base' => array( 'default'=> 'urn:sample1:')
+			'base' => array( 'default'=> 'urn:yp:registry:')
 		),
 		'datamapper'	=> function($rawdata){
 			$data = array();

@@ -5,7 +5,7 @@ $options = array(
     'factsProfile' => array(
         'model'			=> 'LocalBusiness',
         'modelOptions'		=> array(
-            'base' => array( 'default'=> 'urn:aida:')
+            'base' => array( 'default'=> 'urn:aberdeen:company:')
             ),
         'datamapper'	=> function(array $rawdata){
             $data = array();
@@ -14,7 +14,6 @@ $options = array(
             return $data;
         },
         'rawdataSanitizer' => function( $rawdata){
-    // salta le farmacie non attive
             return (count($rawdata)==37)?$rawdata:false;
         },
         ),
