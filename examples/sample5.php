@@ -5,7 +5,7 @@ $options = array(
     'factsProfile' => array(
         'model'			=> 'LocalBusiness',
         'modelOptions'		=> array(
-            'base' => array( 'default'=> 'urn:aida:')
+            'base' => array( 'default'=> 'urn:aberdeen:company:')
             ),
         'datamapper'	=> function(array $rawdata){
             $data = array();
