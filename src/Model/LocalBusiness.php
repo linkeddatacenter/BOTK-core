@@ -133,7 +133,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'options' 	=> array('regexp'=>'/^[0-9]{6}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
 			),
-		'EBITDA'			=> array(	
+		'ebitda'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
@@ -220,7 +220,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
 			!empty($openingHours)		&& $_('schema:openingHours "%s";', $openingHours);
 			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
-			!empty($ateco2007)&& $_('botk:ateco2007 "%s";', $ateco2007);
+			!empty($ateco2007)			&& $_('botk:ateco2007 "%s";', $ateco2007);
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
 			!empty($page) 				&& $_('foaf:page <%s>;', $page,false);
 			!empty($email) 				&& $_('schema:email "%s";', $email);
@@ -248,7 +248,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			$statVars = array(
 				'numberOfEmployees',
 				'annualTurnover',
-				'EBITDA',
+				'ebitda',
 				'netProfit'
 				);
 			
