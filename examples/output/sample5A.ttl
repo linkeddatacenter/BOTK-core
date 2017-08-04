@@ -1,0 +1,21 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix schema: <http://schema.org/> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix daq: <http://purl.org/eis/vocab/daq#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix kees: <http://linkeddata.center/kees/v1#> .
+@prefix botk: <http://linkeddata.center/botk/v1#> .
+<urn:aberdeen:company:e00045100> a schema:LocalBusiness;dct:identifier "e00045100";schema:alternateName "AUTORITA' DI SISTEMA PORTUALE DEL MAR TIRRENO CENTRALE";schema:telephone "0812283111";schema:faxNumber "81206888";botk:nace "62.02.00";foaf:homepage <http://portonapoli.it>;schema:address <urn:aberdeen:company:e00045100_address>. <urn:aberdeen:company:e00045100_address> a schema:PostalAddress;schema:description "PIAZZALE PISACANE 1, 80133 NAPOLI";schema:streetAddress "PIAZZALE PISACANE 1";schema:postalCode "80133";schema:addressLocality "NAPOLI";schema:addressCountry "IT". <urn:aberdeen:company:e00045100> botk:numberOfEmployees <urn:aberdeen:company:e00045100_numberOfEmployees> .<urn:aberdeen:company:e00045100_numberOfEmployees> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 115 ;schema:maxValue 115 .<urn:aberdeen:company:e00045100> botk:itBudget <urn:aberdeen:company:e00045100_itBudget> .<urn:aberdeen:company:e00045100_itBudget> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 10 ;schema:maxValue 24 .<urn:aberdeen:company:e00045100> botk:itStorageBudget <urn:aberdeen:company:e00045100_itStorageBudget> .<urn:aberdeen:company:e00045100_itStorageBudget> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 10 ;schema:maxValue 24 .<urn:aberdeen:company:e00045100> botk:itHardwareBudget <urn:aberdeen:company:e00045100_itHardwareBudget> .<urn:aberdeen:company:e00045100_itHardwareBudget> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 100 ;schema:maxValue 100 .<urn:aberdeen:company:e00045100> botk:itServerBudget <urn:aberdeen:company:e00045100_itServerBudget> .<urn:aberdeen:company:e00045100_itServerBudget> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 100 ;schema:maxValue 100 .<urn:aberdeen:company:e00045100> botk:softwareBudget <urn:aberdeen:company:e00045100_softwareBudget> .<urn:aberdeen:company:e00045100_softwareBudget> a schema:QuantitativeValue, botk:EstimatedRange;schema:minValue 100 ;schema:maxValue 100 .
+
+<> prov:generatedAtTime "2017-08-04T14:54:59+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
+<#dataset> a void:Dataset; void:datadump <>;void:triples 44 ;void:entities 1.
+# Generated 44 good triples from 1 entities (0 ignored), 0 errors
