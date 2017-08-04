@@ -26,7 +26,6 @@ $options = array(
             return $data;
         },
         'rawdataSanitizer' => function( $rawdata){
-    // salta le farmacie non attive
             return (count($rawdata)==37)?$rawdata:false;
         },
         ),
