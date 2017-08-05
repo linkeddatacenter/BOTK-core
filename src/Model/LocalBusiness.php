@@ -143,6 +143,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
+		/*==============================================v6.3.0======================================================*/
 		'naceV2'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{2}[.]?[0-9]{2}$/'),
@@ -169,6 +170,186 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'softwareBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),		
+		'hasITEmployees'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasNumberOfPCs'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasITBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasTablets'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasWorkstations'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasStorageBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasServerBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasServers'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasDesktop'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasLaptops'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasPrinters'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasMultifunctionPrinters'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasColorPrinter'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasInternetUsers'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasWirelessUsers'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasNetworkLines'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasRouters'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasStorageCapacity'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasExtensions'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasTotCallCenterCallers'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasThinPC'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasSalesforce'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasRevenue'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasCommercialBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasHardwareBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasSoftwareBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasOutsrcingBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasOtherHardwareBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasPCBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasPrinterBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasTerminalBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasPeripheralBudget'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasDesktopPrinters'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasNetworkPrinters'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasSmartphoneUsers'	 => array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'hasEnterpriseSmartphoneUsers'	 => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
@@ -283,13 +464,52 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 				'annualTurnover',
 				'ebitda',
 				'netProfit',
+				/*=======================================v6.3.0================================*/
 				'itBudget',
 				'itStorageBudget',
 				'itHardwareBudget',
 				'itServerBudget',
-				'softwareBudget'
+				'softwareBudget',				
+				'hasITEmployees',
+				'hasNumberOfPCs',
+				'hasITBudget',
+				'hasTablets',
+				'hasWorkstations',
+				'hasStorageBudget',
+				'hasServerBudget',
+				'hasServers',
+				'hasDesktop',
+				'hasLaptops',
+				'hasPrinters',
+				'hasMultifunctionPrinters',
+				'hasColorPrinter',
+				'hasInternetUsers',
+				'hasWirelessUsers',
+				'hasNetworkLines',
+				'hasRouters',
+				'hasStorageCapacity',
+				'hasExtensions',
+				'hasTotCallCenterCallers',
+				'hasThinPC',
+				'hasSalesforce',
+				'hasRevenue',
+				'hasCommercialBudget',
+				'hasHardwareBudget',
+				'hasSoftwareBudget',
+				'hasOutsrcingBudget',
+				'hasOtherHardwareBudget',
+				'hasPCBudget',
+				'hasPrinterBudget',
+				'hasTerminalBudget',
+				'hasPeripheralBudget',
+				'hasDesktopPrinters',
+				'hasNetworkPrinters',
+				'hasSmartphoneUsers',
+				'hasEnterpriseSmartphoneUsers'				
 				);
 			
+			// if 1 val  val - val
+			// if min    min - 
 			foreach ( $statVars as $statVar){
 				if(!empty($this->data[$statVar]) && preg_match('/^(-?[0-9]+)\s*-?\s*(-?[0-9]*)$/', $this->data[$statVar], $matches)){
 					$statUri =  $organizationUri.'_'.$statVar;
