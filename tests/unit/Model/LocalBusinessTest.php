@@ -234,7 +234,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'options' 	=> array('regexp'=>'/^[0-9]{6}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
 			),
-		'EBITDA'			=> array(	
+		'ebitda'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
@@ -243,7 +243,37 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
-			)
+			),
+        'naceV2'            => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^[0-9]{2}[.]?[0-9]{2}[.]?[0-9]{2}$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            ),
+        'itBudget'  => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            ),
+        'itStorageBudget'   => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            ),
+        'itHardwareBudget'  => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            ),
+        'itServerBudget'    => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            ),
+        'softwareBudget'    => array(   
+            'filter'    => FILTER_VALIDATE_REGEXP,
+            'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+            'flags'     => FILTER_REQUIRE_SCALAR
+            )
 
 		);
 

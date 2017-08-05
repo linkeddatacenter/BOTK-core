@@ -89,7 +89,7 @@ Beside this following statistical dimensions apply:
 - botk:numberOfEmployees with cardinality <=1, that is a botk:EstimatedRange (expressend in number of employees)
 - botk:annualTurnover last known annual turnover with cardinality <=1,that is a botk:EstimatedRange (expressend in Thousand EURO)
 - botk:netProfit last known net profit with cardinality <=1, that is a botk:EstimatedRange (expressend in Thousand EURO)
-- botk:EBITDA last known  net earnings, before interest expenses, taxes, depreciation and amortization are subtracted with cardinality <=1, that is a botk:EstimatedRange (expressend in Thousand EURO)
+- botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization are subtracted with cardinality <=1, that is a botk:EstimatedRange (expressend in Thousand EURO)
 
 
 

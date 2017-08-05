@@ -14,134 +14,164 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 		'businessType'		=> array(		
 								// additional types  as extension of schema:LocalBusiness
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'taxID'				=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'vatID'				=> array(	// italian rules
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{11}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'legalName'			=> array(
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'businessName'		=> array(
 								// a schema:alternateName for schema:PostalAddress
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'addressDescription'=> array(	//	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'addressCountry'	=> array(
 			'default'	=> 'IT',		
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[A-Z]{2}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'addressLocality'	=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'addressRegion'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'streetAddress'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'postalCode'		=> array(	// italian rules
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'telephone'			=> array(	
 			'filter'    => FILTER_CALLBACK,	
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'faxNumber'			=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'email'				=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_EMAIL',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'lat'				=> array( 
 			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO'
 			),
 		'long'				=> array( 
 			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO',
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_GEO'
 			),
 		'similarStreet'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasMap'			=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'aggregateRatingValue'	=> array(	
 			'filter'    => FILTER_VALIDATE_FLOAT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'openingHours'		   => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'near'				=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'similarName'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY,
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),		
 		'numberOfEmployees'	  => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'annualTurnover'	 => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'ateco2007'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{6}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
-		'EBITDA'			=> array(	
+		'ebitda'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'netProfit'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'naceV2'			=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{2}[.]?[0-9]{2}$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'itBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'itStorageBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'itHardwareBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'itServerBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
+			),
+		'softwareBudget'	=> array(	
+			'filter'    => FILTER_VALIDATE_REGEXP,
+			'options' 	=> array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
+			'flags'  	=> FILTER_REQUIRE_SCALAR
 			)
 		);
 
@@ -190,6 +220,8 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 		if(is_null($this->rdf)) {
 			extract($this->data);
 
+			//die(print_r($this->data, true));
+
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
@@ -220,7 +252,8 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
 			!empty($openingHours)		&& $_('schema:openingHours "%s";', $openingHours);
 			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
-			!empty($ateco2007)&& $_('botk:ateco2007 "%s";', $ateco2007);
+			!empty($ateco2007)			&& $_('botk:ateco2007 "%s";', $ateco2007);
+			!empty($naceV2)				&& $_('botk:nace "%s";', $naceV2);
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
 			!empty($page) 				&& $_('foaf:page <%s>;', $page,false);
 			!empty($email) 				&& $_('schema:email "%s";', $email);
@@ -248,8 +281,13 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			$statVars = array(
 				'numberOfEmployees',
 				'annualTurnover',
-				'EBITDA',
-				'netProfit'
+				'ebitda',
+				'netProfit',
+				'itBudget',
+				'itStorageBudget',
+				'itHardwareBudget',
+				'itServerBudget',
+				'softwareBudget'
 				);
 			
 			foreach ( $statVars as $statVar){
