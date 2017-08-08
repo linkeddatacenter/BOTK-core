@@ -128,7 +128,6 @@ $options = array(
             $data['hasPhoneSystemMaintenanceProvider'] = $rawdata[433];
             $data['hasSmartphoneManufacturer'] = $rawdata[434];
             $data['hasSmartphoneOS'] = $rawdata[435];
-
             if(!empty($rawdata[32])) { $data['parentOrganization'] = 'urn:aberdeen:company:'.$rawdata[32];} //EF: modified
 
 			// TBD
