@@ -19,7 +19,7 @@ $options = array(
             $data['streetAddress'] = trim( $rawdata[19].' '.$rawdata[20]); 
             $data['isicV4'] = $rawdata[23];
             $data['annualTurnover'] = $rawdata[30];
-            $data['vatID'] = str_pad($rawdata[33],11,'0',STR_PAD_LEFT);
+            $data['vatID'] = str_pad($rawdata[33],11,'0',STR_PAD_LEFT); // EF: padded to 11 nubmers
             $data['telephone'] = $rawdata[41];  
             $data['id'] = $rawdata[43];           
             $data['faxNumber'] = $rawdata[155];
@@ -129,7 +129,7 @@ $options = array(
             $data['hasSmartphoneManufacturer'] = $rawdata[434];
             $data['hasSmartphoneOS'] = $rawdata[435];
 
-            if(!empty($rawdata[32])) { $data['parentOrganization'] = 'urn:aberdeen:company:'.$rawdata[32];}
+            if(!empty($rawdata[32])) { $data['parentOrganization'] = 'urn:aberdeen:company:'.$rawdata[32];} //EF: modified
 
 			// TBD
             return $data;
