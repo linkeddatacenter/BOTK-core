@@ -263,11 +263,11 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
             'options'   => array('regexp'=>'/^-?[0-9]+\s*-?\s*-?[0-9]*$/'),
             'flags'     => FILTER_REQUIRE_SCALAR
             ),
-        'parentOrganization'     => array(  
-            'filter'    => FILTER_CALLBACK,
-            'options'   => '\BOTK\Filters::FILTER_SANITIZE_ID',
-            'flags'     => FILTER_REQUIRE_SCALAR,
-            ),
+		'parentOrganization'	 => array(	
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),
         /*==========================================6.3.0 range==========================================*/
         'hasITEmployees'     => array(  
             'filter'    => FILTER_VALIDATE_REGEXP,

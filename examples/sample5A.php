@@ -11,7 +11,7 @@ $options = array(
             $data = array();
             $data['numberOfEmployees'] = str_replace(".", "", $rawdata[1]);
             $data['businessName'][] = $rawdata[0];
-            $data['businessName'][] = $rawdata[6];
+            if( $rawdata[0]!= $rawdata[6]) {$data['businessName'][] = $rawdata[6];}
             $data['addressCountry'] = 'IT';
             $data['addressLocality'] = $rawdata[14];
             $data['postalCode'] = $rawdata[15];
@@ -19,7 +19,7 @@ $options = array(
             $data['streetAddress'] = trim( $rawdata[19].' '.$rawdata[20]); 
             $data['isicV4'] = $rawdata[23];
             $data['annualTurnover'] = $rawdata[30];
-            $data['vatID'] = '00'. $rawdata[34];
+            $data['vatID'] = str_pad($rawdata[33],11,'0',STR_PAD_LEFT); // EF: padded to 11 nubmers
             $data['telephone'] = $rawdata[41];  
             $data['id'] = $rawdata[43];           
             $data['faxNumber'] = $rawdata[155];
@@ -128,14 +128,13 @@ $options = array(
             $data['hasPhoneSystemMaintenanceProvider'] = $rawdata[433];
             $data['hasSmartphoneManufacturer'] = $rawdata[434];
             $data['hasSmartphoneOS'] = $rawdata[435];
-
-            $data['parentOrganization'] = $rawdata[32];
+            if(!empty($rawdata[32])) { $data['parentOrganization'] = 'urn:aberdeen:company:'.$rawdata[32];} //EF: modified
 
 			// TBD
             return $data;
         },
         'rawdataSanitizer' => function( $rawdata){
-            return (count($rawdata)==436)?$rawdata:false;
+            return (count($rawdata)==435)?$rawdata:false;
         },
         ),
 'fieldDelimiter' => ';',

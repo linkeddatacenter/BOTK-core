@@ -162,7 +162,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			),
 		'parentOrganization'	 => array(	
 			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
 			),
 		/*==========================================6.3.0 range==========================================*/
@@ -687,7 +687,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			!empty($ateco2007)			&& $_('botk:ateco2007 "%s";', $ateco2007);
 			!empty($naceV2)				&& $_('botk:naceV2 "%s";', $naceV2);
 			!empty($isicV4)				&& $_('botk:isicV4 %s;', $isicV4);
-			!empty($parentOrganization)	&& $_('schema:parentOrganization <%s>;', $base.$parentOrganization, false);
+			!empty($parentOrganization)	&& $_('schema:parentOrganization <%s>;', $parentOrganization, false);
 
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
 			!empty($page) 				&& $_('foaf:page <%s>;', $page,false);
