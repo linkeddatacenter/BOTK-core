@@ -146,7 +146,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 		
 		'naceV2'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
-			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{2}[.]?[0-9]{2}$/'),
+			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{1,2}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),			
 		/*==========================================6.3.0==========================================*/

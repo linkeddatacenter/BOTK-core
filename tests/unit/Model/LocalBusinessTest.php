@@ -248,7 +248,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			),
         'naceV2'            => array(   
             'filter'    => FILTER_VALIDATE_REGEXP,
-            'options'   => array('regexp'=>'/^[0-9]{2}[.]?[0-9]{2}[.]?[0-9]{2}$/'),
+            'options'   => array('regexp'=>'/^[0-9]{2}[.]?[0-9]{1,2}$/'),
             'flags'     => FILTER_REQUIRE_SCALAR
             ),
         
