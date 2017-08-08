@@ -31,8 +31,7 @@ $options = array(
             return $data;
         },
         'rawdataSanitizer' => function( $rawdata){
-        	return $rawdata;
-			//return (count($rawdata)==436)?$rawdata:false;
+			return (count($rawdata)==435)?$rawdata:false;
         },
         ),
     'fieldDelimiter' => ';',
