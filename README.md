@@ -18,7 +18,7 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~6.1",
+            "botk/core": "~6.4",
         }
     }
 ```
