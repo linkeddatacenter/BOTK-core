@@ -4,6 +4,20 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+
+## [6.4.0]
+
+### Added
+
+- BusinessContact model with lot of new properties
+- added sample5B.php
+
+
+### Changed
+
+- doc: CONTRIBUTING.MD merged with README.
+- composer updated.
+
 ## [6.3.0]
 
 
@@ -109,7 +123,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.3.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.4.0...HEAD
+[6.4.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.3.0...6.4.0
 [6.3.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.1...6.3.0
 [6.2.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.0...6.2.1
 [6.2.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...6.2.0

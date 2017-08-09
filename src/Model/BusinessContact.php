@@ -153,7 +153,7 @@ class BusinessContact extends AbstractModel implements \BOTK\ModelInterface
 			!empty($worksFor)			&& $_('schema:worksFor <%s> ;', $worksFor,false);
 			!empty($spokenLanguage)		&& $_('botk:spokenLanguage "%s";', $spokenLanguage);
 			!empty($hasOptInOptOutDate)	&& $_('botk:hasOptInOptOutDate "%s";', $hasOptInOptOutDate);
-			!empty($privacyFlag)		&& $_('botk:privacyFlag <%s>;', $privacyFlag);		
+			!empty($privacyFlag)		&& $_('botk:privacyFlag %s ;', $privacyFlag);		
 			$_('a schema:Person .', $personUri);
 
 			$this->rdf = $turtleString;

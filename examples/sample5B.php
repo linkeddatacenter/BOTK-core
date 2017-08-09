@@ -1,11 +1,15 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
+define('NAMESPACE_PREFIX', 'urn:aberdeen:');
+
+
+
 $options = array(
     'factsProfile' => array(
         'model'			=> 'BusinessContact',
         'modelOptions'		=> array(
-            'base' => array( 'default'=> 'urn:aberdeen:contact:')
+            'base' => array( 'default'=> NAMESPACE_PREFIX)
             ),
         'datamapper'	=> function(array $rawdata){
             $data = array();
@@ -14,8 +18,8 @@ $options = array(
 			$data['jobTitle'] = $rawdata[4];
 			$data['worksFor'] = $rawdata[32];
 			//$data['jobFunction'] = $rawdata[36];
-			$data['id'] = $rawdata[42].'_'.$rawdata[37];
-			$data['worksFor'] = 'urn:aberdeen:company:'.$rawdata[42];
+			$data['uri'] = NAMESPACE_PREFIX.'S'.$rawdata[42].'_'.$rawdata[37];
+			$data['worksFor'] = 'urn:aberdeen:S'.$rawdata[42];
 			$data['honorificPrefix'][] = $rawdata[339];
 			$data['honorificPrefix'][] = $rawdata[340];
 			$data['additionalName'] = $rawdata[341];

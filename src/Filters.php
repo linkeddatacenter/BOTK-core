@@ -293,9 +293,9 @@ class Filters {
 	{
 		$value = trim($value);
 		if( preg_match('/^(false|T|0|ko|no)/i', $value)) {
-			$value = 'http://schema.org/False';
+			$value = 'false';
 		} elseif( preg_match('/^(true|F|1|ok|yes)/i', $value)) {
-			$value = 'http://schema.org/True';
+			$value = 'true';
 		} else {
 			$value = null;
 		};

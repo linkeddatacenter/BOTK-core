@@ -320,6 +320,60 @@ Example (in rdf turtle):
 .
 ```
 
+## schema:Person
+
+capture a business contact. That is to be considered  similar to a visit card (see vc ontology) that to a phisical person (like foaf:person). 
+It represents aperson identity related to a workplace:
+
+- dct:identifier with cardinality <= 1
+- schema:disambiguatingDescription with cardinality <= 1
+- schema:aggregateRating with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
+- schema:taxID with cardinality <= 1
+- schema:givenName with cardinality <= 1
+- schema:familyName with cardinality <= 1
+- schema:additionalName with cardinality <= 1
+- schema:alternateName with cardinality >= 0
+- schema:telephone with cardinality >= 0
+- schema:faxNumber with cardinality >= 0
+- schema:jobTitle with cardinality <>= 0
+- schema:honorificPrefix with cardinality >= 0
+- schema:honorificSuffix with cardinality >= 0
+- schema:email with cardinality >= 0
+- schema:gender with cardinality <= 1 (as http:/schema.org/Male or http://schema.org/Female)
+- schema:worksFor with cardinality >= 1 and range an Organization
+- botk:spokenLanguage with cardinality <= 1
+- botk:hasOptInOptOutDate with cardinality <= 1, the last date the privacyFlag changed
+- botk:privacyFlag with cardinality <= 1 ad boolean	
+
+Example (in rdf turtle):
+
+```
+<urn:aberdeen:S308001886_4> a schema:Person ;
+    botk:spokenLanguage "it" ;
+    schema:honorificPrefix "Sig." ;
+    schema:jobTitle "Direttore Sistemi Informativi   Rete" ;
+    botk:privacyFlag false ;
+    schema:worksFor <urn:aberdeen:S308001886> .
+    
+<urn:test:b> schema:Person ;
+    botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00" ;
+    botk:privacyFlag true ;
+    botk:spokenLanguage "it" ;
+    schema:additionalName "ADDITIONAL" ;
+    schema:alternateName "GIVEN ADDITIONAL FAMILY" ;
+    schema:email "A@B.C" ;
+    schema:familyName "FAMILY" ;
+    schema:gender "http://schema.org/Male" ;
+    schema:givenName "GIVEN" ;
+    schema:jobTitle "dr.",
+        "grand.uff.",
+        "ing.",
+        "lup.mannar." ;
+    schema:taxID "1234" ;
+    schema:telephone "1234567" ;
+    schema:worksFor <http:/a.c/> .
+```
+
 ## owl:Thing
 
 Following properties/annotations supported for all object: 

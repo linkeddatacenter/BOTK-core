@@ -53,7 +53,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 					'email'				=> 'ADMIN@FAGNONI.COM',
 					'spokenLanguage' 	=> 'it',
 					'hasOptInOptOutDate'=> '1963-06-11T00:00:00+00:00',
-					'privacyFlag'		=> 'http://schema.org/False',			
+					'privacyFlag'		=> 'false',			
     				),
     			),
     		);
@@ -235,7 +235,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 					'hasOptInOptOutDate'=> '10/10/2003',
 					'privacyFlag'		=> 1
     				),
-    				'<urn:test:b> a botk:Person;schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:alternateName "GIVEN ADDITIONAL FAMILY";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:gender "http://schema.org/Male";schema:worksFor <http:/a.c/> ;botk:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00";botk:privacyFlag <http://schema.org/True>;a schema:Person .',
+    				'<urn:test:b> a botk:Person;schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:alternateName "GIVEN ADDITIONAL FAMILY";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:gender "http://schema.org/Male";schema:worksFor <http:/a.c/> ;botk:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00";botk:privacyFlag true ;a schema:Person .',
     				18,
     			),
 
