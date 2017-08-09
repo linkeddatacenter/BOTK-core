@@ -55,7 +55,7 @@ Retrieve BOTK-core's dependencies using [Composer](http://getcomposer.org/):
 
 ```shell
 cd /opt/BOTK-core
-composer update
+composer installva	
 ```
 
 Unit tests are performed through PHPUnit. To launch unit tests:

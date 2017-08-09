@@ -3,7 +3,7 @@ namespace BOTK;
 
 
 /**
- * A collection of filetr to be used as callback with php filters
+ * A collection of custom filters to be used as callback with php data filtering functions
  * 	- to allow empty values  if the data is invalid filter MUST returns null
  * 	- to deny empty values if the data is invalid filter MUST returns false
  */
@@ -257,6 +257,65 @@ class Filters {
 		$range=static::PARSE_QUANTITATIVE_VALUE($value);
 		return $range?"{$range[0]}..{$range[1]}":null;
 	}
+
+	
+	/**
+	 * Only things M or F allowed
+	 * empty allowed
+	 */
+	public static function FILTER_SANITIZE_GENDER($value)
+	{
+		if(preg_match('/^\s*m/i',$value)){
+			$value = 'http://schema.org/Male';
+		} elseif (preg_match('/^\s*f/i',$value)) {
+			$value = 'http://schema.org/Female';
+		} else  {
+			$value = null;
+		};
+		return $value;
+	}
+	
+
+	/**
+	 * empty allowed multibyte uppercase
+	 */
+	public static function FILTER_SANITIZE_PERSON_NAME($value)
+	{
+		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
+		$value = mb_strtoupper($value,'UTF-8');					// move to upper (preserving accents)
+		$value = trim($value); 									// no trailing and ending blancs
+		
+		return $value?:null;									// multibyte uppercase
+	}
+
+
+	public static function FILTER_SANITIZE_BOOLEAN($value)
+	{
+		$value = trim($value);
+		if( preg_match('/^(false|T|0|ko|no)/i', $value)) {
+			$value = 'http://schema.org/False';
+		} elseif( preg_match('/^(true|F|1|ok|yes)/i', $value)) {
+			$value = 'http://schema.org/True';
+		} else {
+			$value = null;
+		};
+		return $value;
+	}
+
+
+	public static function FILTER_SANITIZE_DATETIME($value)
+	{
+		return trim($value)?date('c',strtotime($value)):null;
+	}
+	
+
+	// Normalization of language: TBD
+	// see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+	public static function FILTER_SANITIZE_LANGUAGE($value)
+	{
+		if( preg_match('/^[it]/i', $value)) $value = 'it';
+		return trim($value)?$value:null;
+	}
 	
 
 	
@@ -279,5 +338,4 @@ class Filters {
 			return null;
 		}
 	}
-
 }
