@@ -4,20 +4,36 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+## [6.3.0]
+
+
+### Added
+
+- added lot of new properties
+- added sample5A.php
+
+
+### Changed
+
+- LocalBusiness rdf creation strategy
+
 ## [6.2.1]
 
 ### Added
+
 - added new properties: annualTurnover, netProfit, ateco2007 and EBITDA
 
 ## [6.2.0]
 
 ### Added
+
 - added new properties numberOfEmployees
 
 ### Changed
 - changed botk namespace
 
 ### Fixed
+
 - fixed error in entity count in FactsFactory
 
 ## [6.1.0]
@@ -93,7 +109,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.1...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.3.0...HEAD
+[6.3.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.1...6.3.0
 [6.2.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.2.0...6.2.1
 [6.2.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.1.0...6.2.0
 [6.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.0.0...6.1.0

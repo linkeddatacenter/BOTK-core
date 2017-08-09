@@ -158,7 +158,6 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     		array( '',								null), 
 		);
    	}
-   	
 
 	
     /**
@@ -177,6 +176,62 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     		array( 'https:\\www.example.com\\',		null), 	 
     		array( 'C:\a\b',		null), 	 
     		array( 'prova a caso',		null), 	
+		);
+   	}
+
+	
+    /**
+     * @dataProvider quantitativeValues
+     */		
+	public function testParseQuantitativeValue($data, $expectedData)
+	{
+		$this->assertEquals($expectedData, BOTK\Filters::PARSE_QUANTITATIVE_VALUE($data));
+	}
+	public function quantitativeValues()
+    {
+    	return array( 
+    		array( '100',				array('100','100')),
+    		array( '100 million',		array('100000000','100000000')),
+    		array( '$1 thousand',		array('1000','1000')), 
+    		array( '$1.5 thousand $',	array('1500','1500')), 	  
+    		array( 'from 3 to 5',		array('3','5')), 	 
+    		array( '3-5',				array('3','5')),	 
+    		array( ' 3 - 5 hundred EUR',array('300','500')), 	 
+    		array( '10000 +',			array(10000,PHP_INT_MAX)), 	 
+    		array( '<250',				array(-PHP_INT_MAX,250)), 	 
+    		array( '0',					array(0,0)), 	 
+    		array( '<$5 million',		array(-PHP_INT_MAX,'5000000')), 	 
+    		array( '$100 million +',	array('100000000',PHP_INT_MAX)), 	 
+    		array( '$5 to $9 million',	array('5000000','9000000')), 	 
+    		array( '$10 to $24 million',array('10000000','24000000')), 	 
+    		array( '100 to 500 TB',		array('100','500')), 	 
+    		array( '-10',				array('-10','-10')), 	 
+    		array( '-10..10',			array('-10','10')),	 
+    		array( '-20--10',			array('-20','-10')), 
+    		array( '5 to 9',			array('5','9')),	 	 
+    		array( '-10+10',			false),	 	 
+    		array( '20-10',				false), 	
+		);
+   	}
+
+
+    /**
+     * @dataProvider storageCapacityValues
+     */		
+	public function testFileterStorageCapacity($data, $expectedData)
+	{
+		$this->assertEquals($expectedData, BOTK\Filters::SANITIZE_STORAGE_CAPACITY($data));
+	}
+	public function storageCapacityValues()
+    {
+    	return array( 
+    		array( '100 GB to 1TB',				'0.1..1'),
+    		array( '100 to 500 TB',				'100..500'),
+    		array( '50 to 100 TB',				'50..100'),
+    		array( '500 TB to 1 PB',			'500..1000'),		
+    		array( '500',						'500..500'),		
+    		array( '5 PB',						'5000..5000'),		
+    		array( '500 TB to 1 GB',			null),
 		);
    	}
 	
