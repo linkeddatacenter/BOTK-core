@@ -190,7 +190,7 @@ class Filters {
 	 * 	if max is not specified max= PHP_INT_MAX
 	 * 	if min is not specified min= -PHP_INT_MAX
 	 * 
-	 * @return array(min,max) or false
+	 * @return array() or false
 	 * 
 	 */
 	public static function PARSE_QUANTITATIVE_VALUE($value)
@@ -206,18 +206,18 @@ class Filters {
 		
 		// match  ranges
 		if (preg_match('/(-?\d+\.?\d*)(-|\.\.)(-?\d+\.?\d*)/', $value, $matches)){
-			// matches "123-456" or "-12.3-14.5" or "4 to 5" or "from -4 to 5" or "1..10"
+			//------------------ matches "123-456" or "-12.3-14.5" or "4 to 5" or "from -4 to 5" or "1..10"
 			$minValue =  $matches[1]*$multiplier;
 			$maxValue =  $matches[3]*$multiplier;
 		} elseif (preg_match('/^(-?\d+\.?\d*)$/', $value, $matches)) {
-			// matches single value decimal or float
+			//----------------- matches s single value decimal or float
 			$minValue =  $maxValue = $matches[1]*$multiplier;
 		} elseif(preg_match('/^>(-?\d+\.?\d*)/', $value, $matches) || preg_match('/^(-?\d+\.?\d*)\+$/', $value, $matches)) {
-			// matches "100 +" or ">100"	
+			// matches strings like "100 +" or ">100"	
 			$minValue =  $matches[1]*$multiplier;
 			$maxValue =  PHP_INT_MAX;
 		} elseif(preg_match('/^<(-?\d+\.?\d*)-?/', $value, $matches) ) {
-			// matches "<100" "100 -"
+			//----------------  matches the strings like  "<100"  and "100 -"
 			$minValue =  -PHP_INT_MAX;
 			$maxValue =  $matches[1]*$multiplier;
 		} else {
@@ -270,13 +270,13 @@ class Filters {
 			$value= $matches[1]*static::FIND_STORAGE_MULTIPLIER($matches[2]);
 			return "$value..$value";
 		} elseif( preg_match('/(\d+\.?\d*)\s*(MB|GB|TB|PB)?\s*to\s*(\d+\.?\d*)\s*(MB|GB|TB|PB)?\s*/', $value, $matches)){	
-			// matches range
-			list($na,$from,$fromUnit,$to, $toUnit) = $matches;
+			// matches a range of values
+			list(,$from,$fromUnit,$to, $toUnit) = $matches;
 			if(empty($toUnit)) {$toUnit=empty($fromUnit)?'B':$fromUnit;};
 			if(empty($fromUnit)) {$fromUnit=$toUnit;}
 			return static::FILTER_SANITIZE_RANGE(sprintf('%s..%s',$from*static::FIND_STORAGE_MULTIPLIER($fromUnit),$to*static::FIND_STORAGE_MULTIPLIER($toUnit)));
 		} else {
-			return $null;
+			return null;
 		}
 	}
 
