@@ -1,15 +1,28 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
+define('NAMESPACE_PREFIX', 'urn:aberdeen:');
+
+
+/**
+ * this function invalidate duplicated site records
+ */
+function newSite($siteId){
+	static $knownSites=array();
+	return isset($knownSites[$siteId])?false:($knownSites[$siteId]=true);
+}
+
+
 $options = array(
     'factsProfile' => array(
         'model'			=> 'LocalBusiness',
         'modelOptions'		=> array(
-            'base' => array( 'default'=> 'urn:aberdeen:company:')
+            'base' => array( 'default'=> NAMESPACE_PREFIX)
             ),
         'datamapper'	=> function(array $rawdata){
             $data = array();
-            $data['numberOfEmployees'] = str_replace(".", "", $rawdata[1]);
+			$data['uri'] = NAMESPACE_PREFIX . 'S'.$rawdata[42];
+            $data['numberOfEmployees'] = $rawdata[1];
             $data['businessName'][] = $rawdata[0];
             if( $rawdata[0]!= $rawdata[6]) {$data['businessName'][] = $rawdata[6];}
             $data['addressCountry'] = 'IT';
@@ -20,51 +33,49 @@ $options = array(
             $data['isicV4'] = $rawdata[23];
             $data['annualTurnover'] = $rawdata[30];
             $data['vatID'] = str_pad($rawdata[33],11,'0',STR_PAD_LEFT); // EF: padded to 11 nubmers
-            $data['telephone'] = $rawdata[41];  
+            $data['telephone'] = $rawdata[40];  
             $data['id'] = $rawdata[42];           
-            $data['faxNumber'] = $rawdata[155];
-            $data['homepage'] = $rawdata[166];
+            $data['faxNumber'] = $rawdata[154];
+            $data['homepage'] = $rawdata[165];
             $data['naceV2'] = $rawdata[176];
             /*==========================================v6.3.0=====================================*/
-            $data['hasITEmployees'] = stringToRange($rawdata[34]);
-            $data['hasNumberOfPCs'] = stringToRange($rawdata[35]);
-            $data['hasITBudget'] = stringToRange($rawdata[43]);
-            $data['hasTablets'] = stringToRange($rawdata[50]);
-            $data['hasWorkstations'] = stringToRange($rawdata[51]);
-            $data['hasStorageBudget'] = stringToRange($rawdata[59]);
-            $data['hasServerBudget'] = stringToRange($rawdata[60]);
-            $data['hasServers'] = stringToRange($rawdata[66]);
-            $data['hasTotDevelopers'] = stringToRange($rawdata[81]);
-            $data['hasDesktop'] = stringToRange($rawdata[82]);
-            $data['hasLaptops'] = stringToRange($rawdata[83]);
-            $data['hasPrinters'] = stringToRange($rawdata[84]);
-            $data['hasMultifunctionPrinters'] = stringToRange($rawdata[85]);
-            $data['hasColorPrinter'] = stringToRange($rawdata[86]);
-            $data['hasInternetUsers'] = stringToRange($rawdata[87]);
-            $data['hasWirelessUsers'] = stringToRange($rawdata[88]);
-            $data['hasNetworkLines'] = stringToRange($rawdata[89]);
-            $data['hasRouters'] = stringToRange($rawdata[90]);
-            $data['hasStorageCapacity'] = stringToRange($rawdata[91]);
-            $data['hasExtensions'] = stringToRange($rawdata[92]);
-            $data['hasTotCallCenterCallers'] = stringToRange($rawdata[93]);
-            $data['hasThinPC'] = stringToRange($rawdata[94]);
-            $data['hasSalesforce'] = stringToRange($rawdata[179]);
-            $data['hasRevenue'] = stringToRange($rawdata[180]);
-            $data['hasCommercialBudget'] = stringToRange($rawdata[207]);
-            $data['hasHardwareBudget'] = stringToRange($rawdata[208]);
-            $data['hasSoftwareBudget'] = stringToRange($rawdata[209]);
-            $data['hasOutsrcingBudget'] = stringToRange($rawdata[210]);
-            $data['hasOtherHardwareBudget'] = stringToRange($rawdata[211]);
-            $data['hasPCBudget'] = stringToRange($rawdata[212]);
-            $data['hasPrinterBudget'] = stringToRange($rawdata[213]);
-            $data['hasTerminalBudget'] = stringToRange($rawdata[214]);
-            $data['hasPeripheralBudget'] = stringToRange($rawdata[235]);
-            $data['hasDesktopPrinters'] = stringToRange($rawdata[239]);
-            $data['hasNetworkPrinters'] = stringToRange($rawdata[241]);
-            $data['hasSmartphoneUsers'] = stringToRange($rawdata[258]);
-            $data['hasEnterpriseSmartphoneUsers'] = stringToRange($rawdata[259]);
-            /*============================================6.3.0 string=============================================*/
-            $data['id'] = $rawdata[42];
+            $data['hasITEmployees'] = $rawdata[34];
+            $data['hasNumberOfPCs'] = $rawdata[35];
+            $data['hasITBudget'] = $rawdata[43];
+            $data['hasTablets'] = $rawdata[50];
+            $data['hasWorkstations'] = $rawdata[51];
+            $data['hasStorageBudget'] = $rawdata[59];
+            $data['hasServerBudget'] = $rawdata[60];
+            $data['hasServers'] = $rawdata[66];
+            $data['hasTotDevelopers'] = $rawdata[81];
+            $data['hasDesktop'] = $rawdata[82];
+            $data['hasLaptops'] = $rawdata[83];
+            $data['hasPrinters'] = $rawdata[84];
+            $data['hasMultifunctionPrinters'] = $rawdata[85];
+            $data['hasColorPrinter'] = $rawdata[86];
+            $data['hasInternetUsers'] = $rawdata[87];
+            $data['hasWirelessUsers'] = $rawdata[88];
+            $data['hasNetworkLines'] = $rawdata[89];
+            $data['hasRouters'] = $rawdata[90];
+            $data['hasStorageCapacity'] = $rawdata[91];
+            $data['hasExtensions'] = $rawdata[92];
+            $data['hasTotCallCenterCallers'] = $rawdata[93];
+            $data['hasThinPC'] = $rawdata[94];
+            $data['hasSalesforce'] = $rawdata[179];
+            $data['hasRevenue'] = $rawdata[180];
+            $data['hasCommercialBudget'] = $rawdata[207];
+            $data['hasHardwareBudget'] = $rawdata[208];
+            $data['hasSoftwareBudget'] = $rawdata[209];
+            $data['hasOutsrcingBudget'] = $rawdata[210];
+            $data['hasOtherHardwareBudget'] = $rawdata[211];
+            $data['hasPCBudget'] = $rawdata[212];
+            $data['hasPrinterBudget'] = $rawdata[213];
+            $data['hasTerminalBudget'] = $rawdata[214];
+            $data['hasPeripheralBudget'] = $rawdata[235];
+            $data['hasDesktopPrinters'] = $rawdata[239];
+            $data['hasNetworkPrinters'] = $rawdata[241];
+            $data['hasSmartphoneUsers'] = $rawdata[258];
+            $data['hasEnterpriseSmartphoneUsers'] = $rawdata[259];
             $data['hasServerManufacturer'] = $rawdata[67];
             $data['hasServerVirtualizationManufacturer'] = $rawdata[68];
             $data['hasDASManufacturer'] = $rawdata[69];
@@ -130,54 +141,20 @@ $options = array(
             $data['hasSmartphoneManufacturer'] = $rawdata[433];
             $data['hasSmartphoneOS'] = $rawdata[434];
 
-            if(!empty($rawdata[32])) { $data['parentOrganization'] = 'urn:aberdeen:company:'.$rawdata[32];} //EF: modified
+            if(!empty($rawdata[32])) {
+            	 $data['parentOrganization'] = NAMESPACE_PREFIX.$rawdata[32];
+			} 
 
-			// TBD
             return $data;
         },
         'rawdataSanitizer' => function( $rawdata){
-            return (count($rawdata)==435)?$rawdata:false;
+            return ((count($rawdata)==435) && newSite($rawdata[42]))?$rawdata:false;
         },
         ),
-'fieldDelimiter' => ';',
-'skippFirstLine'    => false,
-'bufferSize'        => 100000
+	'fieldDelimiter' => ';',
+	'skippFirstLine'    => false,
+	'bufferSize'        => 10000
 );
-
-
-
-function stringToRange($string){
-    $string = str_replace(".", "", $string);
-    if(empty($string)){ 
-        return $string;
-    }
-
-    preg_match('/([<]|[0-9]+)[^+0-9]*([+]|[0-9]+)?/', $string, $matches); //
-    if(!empty($matches[1]) && is_numeric($matches[1])){
-        $minValue =  empty($matches[1])? (int) $matches[0] : (int) $matches[1];
-        $maxValue;
-        if(empty($matches[2])){
-            $maxValue = $minValue;
-        }else{
-            $maxValue = $matches[2];
-            if($matches[2] == '+'){
-                $maxValue = PHP_INT_MAX; //accept inf or +
-            } 
-        }
-        $range = ($minValue < $maxValue) ? "$minValue-$maxValue" : "$maxValue-$minValue";   
-        return $range;
-    }else{
-        if(!empty($matches[1]) && $matches[1]=='<'){
-            $maxValue = $matches[2];
-            return "0 - $maxValue";
-        }
-    }
-}
-
-
-/*
-    sting type : '<250'
-*/
 
 
     BOTK\SimpleCsvGateway::factory($options)->run();

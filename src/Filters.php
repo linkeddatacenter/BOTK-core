@@ -9,6 +9,9 @@ namespace BOTK;
  */
 class Filters {
 	
+	 const UNITS_REGEXP = '/(hundred|thousand|million|billion)/i';
+
+	
     /**
      * Validate a URI according to RFC 3986 (+errata)
      * (See: http://www.rfc-editor.org/errata_search.php?rfc=3986)
@@ -147,5 +150,134 @@ class Filters {
 		
 		return $value?:null;
 	}
+
 	
+	/**
+	 * parses a string and find inside one of muplier unit
+	 * @return unit multiplier
+	 */
+	public static function FIND_MULTIPLIER($value)
+	{
+		if( preg_match(static::UNITS_REGEXP, $value,$matches)) { 
+			switch ($matches[1]) {
+				case 'hundred':
+					$multiplier = 100;
+					break;
+				case 'thousand':
+					$multiplier = 1000;
+					break;
+				case 'million':
+					$multiplier = 1000000;
+					break;
+				case 'billion':
+					$multiplier = 1000000000;
+					break;
+					
+				default:
+					$multiplier = 1;
+					break;
+			}
+		} else {
+			$multiplier = 1;			
+		}
+		
+		return $multiplier;
+	}
+		
+
+	/**
+	 * Parse a range string an returns mi and max values
+	 * 	if max is not specified max= PHP_INT_MAX
+	 * 	if min is not specified min= -PHP_INT_MAX
+	 * 
+	 * @return array(min,max) or false
+	 * 
+	 */
+	public static function PARSE_QUANTITATIVE_VALUE($value)
+	{
+		// extract multiplier
+		$multiplier = static::FIND_MULTIPLIER($value);
+		
+		// sutbstitute 'to' with a two dots
+		$value = preg_replace('/to/', '..', $value); 
+		
+		// remove any characther that is not a digit nor + - < >
+		$value = preg_replace('/[^+\.\-<>\d]/', '', $value); 
+		
+		// match  ranges
+		if (preg_match('/(-?\d+\.?\d*)(-|\.\.)(-?\d+\.?\d*)/', $value, $matches)){
+			// matches "123-456" or "-12.3-14.5" or "4 to 5" or "from -4 to 5" or "1..10"
+			$minValue =  $matches[1]*$multiplier;
+			$maxValue =  $matches[3]*$multiplier;
+		} elseif (preg_match('/^(-?\d+\.?\d*)$/', $value, $matches)) {
+			// matches single value decimal or float
+			$minValue =  $maxValue = $matches[1]*$multiplier;
+		} elseif(preg_match('/^>(-?\d+\.?\d*)/', $value, $matches) || preg_match('/^(-?\d+\.?\d*)\+$/', $value, $matches)) {
+			// matches "100 +" or ">100"	
+			$minValue =  $matches[1]*$multiplier;
+			$maxValue =  PHP_INT_MAX;
+		} elseif(preg_match('/^<(-?\d+\.?\d*)-?/', $value, $matches) ) {
+			// matches "<100" "100 -"
+			$minValue =  -PHP_INT_MAX;
+			$maxValue =  $matches[1]*$multiplier;
+		} else {
+			$minValue =  $maxValue = null;			
+		}
+	
+		return (!is_null($minValue) && !is_null($maxValue) && ($minValue<=$maxValue))?array($minValue,$maxValue):false;
+	}
+
+	/**
+	 * this function create a multiplier to convert storage capacity from  (MB|GB|TB|PB) to TB 
+	 */
+	public static function FIND_STORAGE_MULTIPLIER($unit){
+		switch (strtoupper($unit)) {
+			case 'MB':
+				$multiplier = 0.000001;
+				break;
+			case 'GB':
+				$multiplier = 0.001;
+				break;
+			case 'TB':
+				$multiplier = 1;
+				break;
+			case 'PB':
+				$multiplier = 1000;
+				break;
+			case 'B':
+			default:
+				$multiplier = 0.000000001;
+				break;
+		}
+		return 	$multiplier;
+	}
+
+	public static function FILTER_SANITIZE_RANGE($value)
+	{
+		$range=static::PARSE_QUANTITATIVE_VALUE($value);
+		return $range?"{$range[0]}..{$range[1]}":null;
+	}
+	
+
+	
+	/**
+	 * this function normalize Storage Capacity in TB
+	 */
+	public static function SANITIZE_STORAGE_CAPACITY($value){
+		if( preg_match('/^\s*(\d+\.?\d*)\s*(MB|GB|TB|PB)?\s*$/', $value, $matches)){		
+			// matches single value
+			if(empty($matches[2])) {$matches[2]='TB';};
+			$value= $matches[1]*static::FIND_STORAGE_MULTIPLIER($matches[2]);
+			return "$value..$value";
+		} elseif( preg_match('/(\d+\.?\d*)\s*(MB|GB|TB|PB)?\s*to\s*(\d+\.?\d*)\s*(MB|GB|TB|PB)?\s*/', $value, $matches)){	
+			// matches range
+			list($na,$from,$fromUnit,$to, $toUnit) = $matches;
+			if(empty($toUnit)) {$toUnit=empty($fromUnit)?'B':$fromUnit;};
+			if(empty($fromUnit)) {$fromUnit=$toUnit;}
+			return static::FILTER_SANITIZE_RANGE(sprintf('%s..%s',$from*static::FIND_STORAGE_MULTIPLIER($fromUnit),$to*static::FIND_STORAGE_MULTIPLIER($toUnit)));
+		} else {
+			return $null;
+		}
+	}
+
 }
