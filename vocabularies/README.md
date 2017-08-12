@@ -25,25 +25,31 @@ Following vocabularies are partially supported:
 | [BOTK](https://github.com/linkeddatacenter/BOTK-core)						| botk:  	| <http://linkeddata.center/botk/v1#> 				|
 
 
+BOTK vocabulary extends schema.org with some custom properties and restrictions.
+SKOS vocabulary is used to categorize things
 
-The primary focus o BOTK are Local Business, defined as a legal organization Business with a physical postal address contact point. 
-BOTK vocabulary extends schema.org with some custom resource related to businesses:
+The primary focus o BOTK are:
+- **Local Businesses**, defined as a legal business organization with a physical postal address contact point. Modelled as schema:LocalBusiness
+- **Business contacts**, modelled as a schema:Person, it define the business identity of a person (i.e. his/her business card)
+- **Products**, modelled as schema:Product
 
 
 ## BOTK Axioms
 
-## String context
-No string context should be used to qualify strings.
+BOTK extends and introduces some restrictions to the supported ontologies. 
 
+## String context restriction
+
+No string context should be used to qualify strings.
 
 
 ### schema:QuantitativeValue
 
-An a-dimentional range of values with following restriction:
+schema:QuantitativeValue is used as an a-dimentional range of values with following restriction:
 
-- schema:minValue with cardinality <= 1
-- schema:maxValue with cardinality <= 1,
-- schema:value with cardinality <= 1,
+- [schema:minValue ](http://schema.org/minValue )with cardinality <= 1
+- [schema:maxValue ](http://schema.org/maxValue )with cardinality <= 1,
+- [schema:value ](http://schema.org/value )with cardinality <= 1,
 
 if schema:value with cardinality = 1 then schema:minValue = schema:maxValue =schema:minValue i.e.:
 
@@ -55,33 +61,13 @@ where {
 ```
 
 
-## schema:LocalBusiness
+## schema:Organization
 
-Captures the concept about a public legal registered business organization  with a contactable official contact point .	
+Just a collection of LocalBusiness and BusinessContact. BOTK extends schema:Organization with followind properties and restrictions:
 
-It is a subclass of schema:LocalBusiness that adds some properties an drestrictions.
-This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
-
-
-Following properties/annotations supported: 
-
-- rdf:type	with cardinality >= 1 ,  type in the form of prefix:classname at least schema:LocalBusiness must be present
-- schema:vatID with cardinality <= 1, as (NB. is an Inverse Functional Property in country context)
-- schema:taxID with cardinality <= 1,
-- schema:legalName with cardinality <= 1, as the legal name of the location
-- schema:alternateName with cardinality >= 0, contains the insignia of the shop as normalized text
-- schema:address  with cardinality <=1 , contact info for this local business  as a schema:PostalAddress individual
-- schema:geo with cardinality <= 1 pointer a schema:GeoCoordinates
-- schema:hasMap with cardinality >= 0 pointer an URL with a map of the place
-- schema:telephone with cardinality >= 0, formatted as string with no space, can start with '+', if 00 is present at the beginning,it is substituted with +, as primary telephone contact point for this location
-- schema:faxNumber with cardinality >= 0, same formatting of telephone, as primary fax  contact point for this organization
-- schema:email with cardinality >= 0,  as  email for a contact point for this organization
-- schema:aggregateRating with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
-- schema:openingHours with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
-- schema:department with cardinality >= 0,  as an office or sub organization
 - botk:ateco2007 with cardinality <=1
 - botk:naceV2 with cardinality <=1
-- schema:isicV4 with cardinality <=1
+- [schema:isicV4 ](http://schema.org/isicV4 )with cardinality <=1
 - botk:hasServerManufacturer with cardinality <=1
 - botk:hasServerVirtualizationManufacturer with cardinality <=1
 - botk:hasDASManufacturer with cardinality <=1
@@ -146,11 +132,12 @@ Following properties/annotations supported:
 - botk:hasSmartphoneManufacturer with cardinality <=1
 - botk:hasSmartphoneOS with cardinality <=1
 - botk:hasFYE with cardinality <=1
+- [schema:subOrganization ](http://schema.org/subOrganization )with cardinality >= 0
 
 
-Beside some  following statistical dimensions apply; all these properties have  cardinality <=1 and range schema:LocalBusiness:
+Following statistical dimensions also apply; all these properties have  cardinality <=1 and range schema:QuantitativeValue 
 
-- schema:numberOfEmployees expressend in number of employees
+- [schema:numberOfEmployees ](http://schema.org/numberOfEmployees )expressend in number of employees
 - botk:annualTurnover expressend in Thousand EURO
 - botk:netProfit expressend in Thousand EURO
 - botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization , expressend in Thousand EURO
@@ -198,29 +185,10 @@ Beside some  following statistical dimensions apply; all these properties have  
 - botk:hasEnterpriseSmartphoneUsers expressend in users
 
 
-
-Example1 (in rdf turtle):
-```
-ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
-	schema:vatID "01209991007" ;
-	schema:legalName "ERBORISTERIA \"I PRATI\" DI GIOVANNA MONAMI S.A.S." ;
-	schema:alternateName "ERBORISTERIA I PRATI", "I PRATI", "I PRATI DI GIOVANNA MONAMI" ;
-	schema:telephone "063700061" ;
-	schema:email "INFO@IPRATI.IT" ;
-	schema:address ex:org1_address1;
-	schema:geo <geo:41.914,12.464163>;
-	schema:aggregateRating [ a schema:AggregateRating; schema:ratingValue 4.1 ];
-	schema:hasMap <https://maps.google.com/?cid=11195466023234233409836>;
-	botk:numberOfEmployees [ schema:maxValue 10 ];
-	botk:annualTurnover [ schema:minValue 1000; schema:maxValue 10000 ];
-.
-
-```
-
 Example 2 (in rdf turtle):
 
 ```
-<urn:aberdeen:S308001886> a schema:LocalBusiness ;
+ex:org1 a schema:Organization ;
     botk:hasAcctingVendor "OTHER" ;
     botk:hasAntiVirusVendor "TREND-MICRO" ;
     botk:hasCommercialBudget <urn:aberdeen:13130> ;
@@ -266,25 +234,65 @@ Example 2 (in rdf turtle):
     botk:naceV2 "94.11" ;
     botk:naics "813990" ;
     dct:identifier "308001886" ;
-    schema:address <urn:aberdeen:S308001886_address> ;
-    schema:alternateName "CAMERA DI COMMERCIO INDUSTRIA ARTIGIANATO E AGRICOLTURA DI TRENTO" ;
-    schema:faxNumber "461239853" ;
     schema:isicV4 "8699" ;
-    schema:numberOfEmployees <urn:aberdeen:130> ;
-    schema:parentOrganization <urn:aberdeen:E03733284> ;
-    schema:vatID "00262170228" ;
-    foaf:homepage <http://tn.camcom.it> .
+    schema:numberOfEmployees [ schema:minValu1e 1000 ; schema:maxValue 2000 ] ;
 ```
+
+## schema:LocalBusiness
+
+Captures the concept about a public legal registered business organization  with a contactable official contact point .	
+
+It is a subclass of schema:LocalBusiness that adds some properties an drestrictions.
+This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
+
+
+Following properties/annotations supported: 
+
+- rdf:type	with cardinality >= 1 ,  type in the form of prefix:classname at least schema:LocalBusiness must be present
+- [schema:vatID ](http://schema.org/vatID )with cardinality <= 1, as (NB. is an Inverse Functional Property in country context)
+- [schema:taxID ](http://schema.org/taxID )with cardinality <= 1,
+- [schema:legalName ](http://schema.org/legalName )with cardinality <= 1, as the legal name of the location
+- [schema:alternateName ](http://schema.org/alternateName )with cardinality >= 0, contains the insignia of the shop as normalized text
+- [schema:address ](http://schema.org/address ) with cardinality <=1 , contact info for this local business  as a schema:PostalAddress individual
+- [schema:geo ](http://schema.org/geo )with cardinality <= 1 pointer a schema:GeoCoordinates
+- [schema:hasMap ](http://schema.org/hasMap )with cardinality >= 0 pointer an URL with a map of the place
+- [schema:telephone ](http://schema.org/telephone )with cardinality >= 0, formatted as string with no space, can start with '+', if 00 is present at the beginning,it is substituted with +, as primary telephone contact point for this location
+- [schema:faxNumber ](http://schema.org/faxNumber )with cardinality >= 0, same formatting of telephone, as primary fax  contact point for this organization
+- [schema:email ](http://schema.org/email )with cardinality >= 0,  as  email for a contact point for this organization
+- [schema:aggregateRating ](http://schema.org/aggregateRating )with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
+- [schema:openingHours ](http://schema.org/openingHours )with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
+- [schema:department ](http://schema.org/department )with cardinality >= 0,  as an office or sub organization
+- [schema:parentOrganization ](http://schema.org/parentOrganization )with cardinality > 0;
+
+
+Example1 (in rdf turtle):
+```
+ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
+	schema:vatID "01209991007" ;
+	schema:legalName "ERBORISTERIA \"I PRATI\" DI GIOVANNA MONAMI S.A.S." ;
+	schema:alternateName "ERBORISTERIA I PRATI", "I PRATI", "I PRATI DI GIOVANNA MONAMI" ;
+	schema:telephone "063700061" ;
+	schema:email "INFO@IPRATI.IT" ;
+	schema:address ex:org1_address1;
+	schema:geo <geo:41.914,12.464163>;
+	schema:aggregateRating [ a schema:AggregateRating; schema:ratingValue 4.1 ];
+	schema:hasMap <https://maps.google.com/?cid=11195466023234233409836>;
+	botk:numberOfEmployees [ schema:maxValue 10 ];
+	botk:annualTurnover [ schema:minValue 1000; schema:maxValue 10000 ];
+.
+
+```
+
 
 ## schema:PostalAddress 
 
 Captures a contact point with a postal address
-- schema:description with cardinality >= 1 possibly as normalized string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
-- schema:addressCountry with cardinality = 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
-- schema:addressLocality with cardinality <= 1, The locality as normalized string. For example, "MILANO". Should be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
-- schema:addressRegion	with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Should be present in country adminstrative db as SKOS:primaryName
-- schema:streetAddress	with cardinality <= 1,	a normalizzed string from template "DUF DUG, CIVIC". For example, "VIA ANTONIO MORDINI, 3"
-- schema:postalCode	with cardinality <= 1,	Text 	The postal code. For example, 94043.
+- [schema:description ](http://schema.org/description )with cardinality >= 1 possibly as normalized string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
+- [schema:addressCountry ](http://schema.org/addressCountry )with cardinality = 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
+- [schema:addressLocality ](http://schema.org/addressLocality )with cardinality <= 1, The locality as normalized string. For example, "MILANO". Should be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
+- [schema:addressRegion](http://schema.org/addressRegion) with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Should be present in country adminstrative db as SKOS:primaryName
+- [schema:streetAddress](http://schema.org/streetAddress) with cardinality <= 1,	a normalizzed string from template "DUF DUG, CIVIC". For example, "VIA ANTONIO MORDINI, 3"
+- [schema:postalCode](http://schema.org/postalCode)	with cardinality <= 1,	Text 	The postal code. For example, 94043.
 
 Example (in rdf turtle):
 ```
@@ -307,16 +315,16 @@ Captures the center of a geographic location that is related with a place (not w
 The geo uri SHOULD be formatted according [rfc 5870](https://tools.ietf.org/html/rfc5870)
 Following properties/annotations supported: 
 
-- wgs:lat with cardinality = 1,
-- wgs:long with cardinality = 1
+- schema:latitude with cardinality = 1,
+- schema:longitude with cardinality = 1
 
 Both lat and long should be conformant to following regexp: *^-?([1-8]?[0-9]\.{1}\d{1,20}$|90\.{1}0{1,20}$)*
 
 Example (in rdf turtle):
 ```
-<geo:41.914,12.464163> a schema:GeoCoordinates ;
-	wgs:lat 41.914 ;
-	wgs:long 12.464163 ;
+<geo:41.914,12.464163> ;
+	schema:latitude 41.914 ;
+	schema:longitude 12.464163 ;
 .
 ```
 
@@ -326,21 +334,21 @@ capture a business contact. That is to be considered  similar to a visit card (s
 It represents aperson identity related to a workplace:
 
 - dct:identifier with cardinality <= 1
-- schema:disambiguatingDescription with cardinality <= 1
-- schema:aggregateRating with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
-- schema:taxID with cardinality <= 1
-- schema:givenName with cardinality <= 1
-- schema:familyName with cardinality <= 1
-- schema:additionalName with cardinality <= 1
-- schema:alternateName with cardinality >= 0
-- schema:telephone with cardinality >= 0
-- schema:faxNumber with cardinality >= 0
-- schema:jobTitle with cardinality <>= 0
-- schema:honorificPrefix with cardinality >= 0
-- schema:honorificSuffix with cardinality >= 0
-- schema:email with cardinality >= 0
-- schema:gender with cardinality <= 1 (as http:/schema.org/Male or http://schema.org/Female)
-- schema:worksFor with cardinality >= 1 and range an Organization
+- [schema:disambiguatingDescription ](http://schema.org/disambiguatingDescription )with cardinality <= 1
+- [schema:aggregateRating ](http://schema.org/aggregateRating )with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
+- [schema:taxID ](http://schema.org/taxID )with cardinality <= 1
+- [schema:givenName ](http://schema.org/givenName )with cardinality <= 1
+- [schema:familyName ](http://schema.org/familyName )with cardinality <= 1
+- [schema:additionalName ](http://schema.org/additionalName )with cardinality <= 1
+- [schema:alternateName ](http://schema.org/alternateName )with cardinality >= 0
+- [schema:telephone ](http://schema.org/telephone )with cardinality >= 0
+- [schema:faxNumber ](http://schema.org/faxNumber )with cardinality >= 0
+- [schema:jobTitle ](http://schema.org/jobTitle )with cardinality <>= 0
+- [schema:honorificPrefix ](http://schema.org/honorificPrefix )with cardinality >= 0
+- [schema:honorificSuffix ](http://schema.org/honorificSuffix )with cardinality >= 0
+- [schema:email ](http://schema.org/email )with cardinality >= 0
+- [schema:gender ](http://schema.org/gender )with cardinality <= 1 (as http:/schema.org/Male or http://schema.org/Female)
+- [schema:worksFor ](http://schema.org/worksFor )with cardinality >= 1 and range an Organization
 - botk:spokenLanguage with cardinality <= 1
 - botk:hasOptInOptOutDate with cardinality <= 1, the last date the privacyFlag changed
 - botk:privacyFlag with cardinality <= 1 ad boolean	
@@ -374,7 +382,63 @@ Example (in rdf turtle):
     schema:worksFor <http:/a.c/> .
 ```
 
-## owl:Thing
+
+## schema:Product
+
+capture a product or service with these properties and restrictions:
+
+
+- dct:identifier with cardinality <= 1
+- [schema:brand ](http://schema.org/brand )with cardinality >=0
+- [schema:category ](http://schema.org/category )
+- [schema:color ](http://schema.org/color )
+- [schema:depth ](http://schema.org/depth ) with cardinality <= 1 and range a quantitative value expressed in meters
+- [schema:gtin13 ](http://schema.org/gtin13 )
+- [schema:gtin8 ](http://schema.org/gtin8 )
+- [schema:height ](http://schema.org/height ) with cardinality <= 1 and range a quantitative value expressed in meters
+- [schema:isAccessoryOrSparePartFor ](http://schema.org/isAccessoryOrSparePartFor )
+- [schema:isConsumableFor ](http://schema.org/isConsumableFor )
+- [schema:isRelatedTo ](http://schema.org/isRelatedTo )
+- [schema:isSimilarTo ](http://schema.org/isSimilarTo )
+- [schema:itemCondition ](http://schema.org/itemCondition ), with range a valid schema.org enum value
+- [schema:manufacturer ](http://schema.org/manufacturer ), with range a valid LocalBusiness uri
+- [schema:material ](http://schema.org/material ), with range a valid product suri
+- [schema:mpn ](http://schema.org/gtin13 )
+- [schema:productionDate ](http://schema.org/productionDate ), with range a date litteral compatible with php function str2date
+- [schema:purchaseDate ](http://schema.org/gtin13 ), with range a date litteral compatible with php function str2date
+- [schema:releaseDate ](http://schema.org/releaseDate ), with range a date litteral compatible with php function str2date
+- [schema:review ](http://schema.org/review )
+- [schema:sku ](http://schema.org/sku )
+- [schema:weight ](http://schema.org/weight )with cardinality >= 1 and range a quantitative value expressed in gramms
+- [schema:additionalName ](http://schema.org/additionalName )
+- [schema:width ](http://schema.org/alternateName ) with cardinality <= 1 and range a quantitative value expressed in meters
+
+Example (in rdf turtle):
+
+```
+<https://data.icecat.biz/export/freeurls/export_urls.txt#1399> a schema:Product ;
+    dct:identifier "1399" ;
+    schema:brand <https://data.icecat.biz/export/freeurls/supplier_mapping.xml#1> ;
+    schema:gtin13 "0088698629123",
+        "0735029220800",
+        "0777785507870",
+        "0882780756328",
+        "0886986291232",
+        "4053162277090",
+        "5051964081876",
+        "5705965480557",
+        "6092014024923",
+        "9082014024907" ;
+    schema:image <http://images.icecat.biz/img/gallery/img_1399_high_1496963303_5656_26625.jpg> ;
+    schema:mpn "C4872A" ;
+    skos:subject <https://data.icecat.biz/export/freeurls/categories.xml#377>,
+        <https://data.icecat.biz/export/freeurls/categories.xml#44103105> ;
+    foaf:homepage <http://prf.icecat.biz/index.cgi?product_id=1399;mi=start;smi=product;&shopname=openICEcat-url> 
+.
+```
+
+
+## schema:Thing
 
 Following properties/annotations supported for all object: 
 
@@ -383,7 +447,7 @@ Following properties/annotations supported for all object:
 - foaf:page with cardinality >= 0a web page related to the resource
 - dct:identifier with cardinality <= 1 an unique identifier in the context of the subject namespace.
 - owl:sameAs with cardinality >= 0,URL of a reference Web page that unambiguously indicates the item's identity.
-- schema:disambiguatingDescription with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
+- [schema:disambiguatingDescription](http://schema.org/disambiguatingDescription )with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
 - skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
 
 Example (in rdf turtle):

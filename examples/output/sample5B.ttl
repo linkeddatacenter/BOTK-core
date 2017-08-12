@@ -15,26 +15,26 @@
 @prefix kees: <http://linkeddata.center/kees/v1#> .
 @prefix botk: <http://linkeddata.center/botk/v1#> .
 # Header skipped
-<urn:aberdeen:S308014454_3> schema:jobTitle "Resp  Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308014454> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308032505_2> schema:jobTitle "Direttore Sistemi Informativi";schema:worksFor <urn:aberdeen:S308032505> ;a schema:Person .
-<urn:aberdeen:S308032505_9> schema:jobTitle "Resp  Operazioni Informatiche E Rete";schema:worksFor <urn:aberdeen:S308032505> ;a schema:Person .
-<urn:aberdeen:S308011153_9> schema:telephone "0432748211";schema:jobTitle "Direttore Sistemi Informativi";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308011153_10> schema:telephone "0432748211";schema:jobTitle "Resp  Software   Operazioni Informatiche";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308011153_13> schema:telephone "0432748211";schema:jobTitle "Resp  Dei Sistemi Centrali E Server";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308001886_4> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308001886> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308008889_14> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308008889_23> schema:jobTitle "Responsabile Telecomunicazioni";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308008889_27> schema:jobTitle "Dir  Resp  Applicativi E Software";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308033737_11> schema:jobTitle "Direttore Sistemi Informativi";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308033737_12> schema:jobTitle "It Manager";schema:honorificPrefix "Sra";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308033737_14> schema:jobTitle "Computer Operations Manager";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308032030_8> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308032030> ;botk:spokenLanguage "it";a schema:Person .
-<urn:aberdeen:S308003747_9> schema:jobTitle "Resp  Server   Operazioni Informatiche";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person .
-<urn:aberdeen:S308003747_14> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person .
-<urn:aberdeen:S308003747_21> schema:jobTitle "Resp  Dei Sistemi Centrali E Server";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person .
-<urn:aberdeen:S308003747_23> schema:jobTitle "Resp  Operazioni Informatiche";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person .
-<urn:aberdeen:S308003747_26> schema:jobTitle "It Manager";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person .
+<urn:aberdeen:S308014454_3> schema:jobTitle "Resp  Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308014454> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308032505_2> schema:jobTitle "Direttore Sistemi Informativi";schema:worksFor <urn:aberdeen:S308032505> ;a schema:Person.
+<urn:aberdeen:S308032505_9> schema:jobTitle "Resp  Operazioni Informatiche E Rete";schema:worksFor <urn:aberdeen:S308032505> ;a schema:Person.
+<urn:aberdeen:S308011153_9> schema:telephone "0432748211";schema:jobTitle "Direttore Sistemi Informativi";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308011153_10> schema:telephone "0432748211";schema:jobTitle "Resp  Software   Operazioni Informatiche";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308011153_13> schema:telephone "0432748211";schema:jobTitle "Resp  Dei Sistemi Centrali E Server";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308011153> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308001886_4> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308001886> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308008889_14> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308008889_23> schema:jobTitle "Responsabile Telecomunicazioni";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308008889_27> schema:jobTitle "Dir  Resp  Applicativi E Software";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308008889> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308033737_11> schema:jobTitle "Direttore Sistemi Informativi";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308033737_12> schema:jobTitle "It Manager";schema:honorificPrefix "Sra";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308033737_14> schema:jobTitle "Computer Operations Manager";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308033737> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308032030_8> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:honorificPrefix "Sig.";schema:worksFor <urn:aberdeen:S308032030> ;botk:spokenLanguage "it";a schema:Person.
+<urn:aberdeen:S308003747_9> schema:jobTitle "Resp  Server   Operazioni Informatiche";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person.
+<urn:aberdeen:S308003747_14> schema:jobTitle "Direttore Sistemi Informativi   Rete";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person.
+<urn:aberdeen:S308003747_21> schema:jobTitle "Resp  Dei Sistemi Centrali E Server";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person.
+<urn:aberdeen:S308003747_23> schema:jobTitle "Resp  Operazioni Informatiche";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person.
+<urn:aberdeen:S308003747_26> schema:jobTitle "It Manager";schema:worksFor <urn:aberdeen:S308003747> ;a schema:Person.
 
-<> prov:generatedAtTime "2017-08-09T14:35:14+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
+<> prov:generatedAtTime "2017-08-12T10:20:58+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
 <#dataset> a void:Dataset; void:datadump <>;void:triples 90 ;void:entities 19.
 # Generated 90 good triples from 19 entities (0 ignored), 0 errors

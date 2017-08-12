@@ -18,14 +18,14 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~6.4",
+            "botk/core": "~7.0",
         }
     }
 ```
 
 ## Usage
 
-This package provides some quink and dirty tools to map raw data to [BOTK language profile](vocabularies),
+This package provides some quick and dirty tools to map csv data files to [BOTK language profile](vocabularies).
 
 See [examples](examples/) directory.
 
@@ -86,21 +86,26 @@ All BOTK-core code is shared in /opt/BOTK-core inside virtual host.
 Retrieve BOTK-core's dependencies using [Composer](http://getcomposer.org/):
 
 ```shell
-cd /opt/BOTK-core
+cd /vagrant/BOTK-core
 composer install	
 ```
 
 Unit tests are performed through PHPUnit. To launch unit tests:
 
 ```shell
-./vendor/bin/phpunit --coverage-html test/unit/report
+./vendor/bin/phpunit
 ```
 
+Functional tests are performed through simple bash scrips. To launch functional tests:
+
+```shell
+./tests/functional/examples.sh #  This creates alos output files in examples/output dir
+```
 
 Free testenv resources with:
 
 ```shell
-vagrant destroy --force
+vagrant destroy
 ```
 
 

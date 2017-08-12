@@ -84,49 +84,75 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultOptions()
     {	
     	$expectedOptions =  array (
-    		'uri'				=> array(
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'base'				=> array(
-    			'default'	=> 'urn:local:',
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'id'				=> array(
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'page'				=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'homepage'			=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'near'				=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'similarName'		=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'disambiguatingDescription'=> array(	
-    			'filter'    => FILTER_DEFAULT,
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
- 
+
+		'uri'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'base'				=> array(
+								'default'	=> 'urn:local:',
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'id'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'page'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'homepage'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'disambiguatingDescription'=> array(	
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'subject'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'image'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'sameas'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'name'				=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'alternateName'		=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'description'		=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'similarName'		=> array(	
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_FORCE_ARRAY
+			),	
+	
+		//**************************************************************************
+		
+
+
 		'businessType'		=> array(		
-								// additional types  as extension of schema:LocalBusiness
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_FORCE_ARRAY
 			),
@@ -146,7 +172,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'businessName'		=> array(
-								// a schema:alternateName for schema:PostalAddress
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_FORCE_ARRAY
 			),
@@ -226,12 +251,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_FORCE_ARRAY
-			),
-		'similarName'		=> array(	
-			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY
-			),		
+			),	
 		'numberOfEmployees'	  => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
@@ -257,13 +277,11 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
-		
 		'naceV2'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{1,2}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),			
-		/*==========================================6.3.0==========================================*/
 		'isicV4'	=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{4}$/'),
@@ -279,7 +297,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
 			),
-		/*==========================================6.3.0 range==========================================*/
 		'hasITEmployees'	 => array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
@@ -460,7 +477,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
-		/*=======================================6.3.0 string=======================================*/
 		'hasServerManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_REQUIRE_SCALAR
@@ -717,8 +733,9 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[A-Z]{3}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
-			)
-
+			)		
+		
+		
 		);
 
 	$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());
@@ -742,7 +759,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     	return array(
     		array( 
     			array('uri'=>'urn:test:a'),
-    			'<urn:test:a> a schema:LocalBusiness;schema:address <urn:test:a_address>. <urn:test:a_address> a schema:PostalAddress;schema:addressCountry "IT". ',
+    			'<urn:test:a> a schema:LocalBusiness;schema:address <urn:test:a_address>. <urn:test:a_address> schema:addressCountry "IT"; a schema:PostalAddress.',
     			4,
     			),
     		array(
@@ -754,8 +771,8 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
                     'hasTablets'        => '123',
                     'naics'             => '456'
     				),
-    			'<urn:test:b> a schema:LocalBusiness;dct:identifier "b";schema:vatID "01234567890";schema:legalName "CALENDA CHIODI SNC";botk:naics "456";schema:address <urn:test:b_address>. <urn:test:b_address> a schema:PostalAddress;schema:addressCountry "IT". <urn:test:b> botk:hasTablets <urn:test:123> .<urn:test:123> schema:value 123 .',
-    			11,
+    			'<urn:test:b> dct:identifier "b".<urn:test:b> a schema:LocalBusiness;botk:hasTablets <urn:test:123>;schema:vatID "01234567890";schema:legalName "CALENDA CHIODI SNC";botk:naics "456";schema:address <urn:test:b_address>. <urn:test:b_address> schema:addressCountry "IT"; a schema:PostalAddress.<urn:test:123> schema:value 123 .',
+    			10,
     			),
 
     		array(
@@ -781,8 +798,8 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     				'long'				=> '2.123456',
 
     				),
-    			'<urn:local:1234567890> a schema:LocalBusiness;foaf:page <http://linkeddata.center/>;schema:email <ADMIN@FAGNONI.COM>;a "schema:MedicalOrganization";dct:identifier "1234567890";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> a schema:PostalAddress;schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT". <geo:1.12345,2.123456> a schema:GeoCoordinates;wgs:lat "1.12345"^^xsd:float;wgs:long "2.123456"^^xsd:float . ',
-    			21,
+    			'<urn:local:1234567890> foaf:page <http://linkeddata.center/>;dct:identifier "1234567890".<urn:local:1234567890> a schema:LocalBusiness;schema:email <ADMIN@FAGNONI.COM>;a "schema:MedicalOrganization";schema:vatID "01234567890";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT"; a schema:PostalAddress.<geo:1.12345,2.123456> schema:latitude "1.12345"^^xsd:float;schema:longitude "2.123456"^^xsd:float.',
+    			20,
     			),
     		);
     }

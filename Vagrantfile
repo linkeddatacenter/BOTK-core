@@ -14,6 +14,9 @@ $script = <<-SCRIPT
 	apt-get -y install git curl php7.0-cli php7.0-common php7.0-mbstring php7.0-bz2 php7.0-zip php7.0-xml php7.0-curl
 	curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 	
+	# install rdf raptor for functional test
+	apt-get -y install raptor2-utils
+	
 	# turn on assertion engine on php cli engine
 	sed -i "s/zend.assertions =.*/zend.assertions = 1/" /etc/php/7.0/cli/php.ini
 SCRIPT

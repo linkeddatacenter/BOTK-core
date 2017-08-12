@@ -7,8 +7,8 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
      */	
     public function testConstructor($data, $expectedData)
     {
-    	$localBusiness = BOTK\Model\BusinessContact::fromArray($data);		
-    	$this->assertEquals($expectedData, $localBusiness->asArray());
+    	$contact = BOTK\Model\BusinessContact::fromArray($data);		
+    	$this->assertEquals($expectedData, $contact->asArray());
     }
     public function goodBusinessContact()
     {
@@ -22,7 +22,6 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 
     		array(
     			array(
-					'personType'		=> 'ex:myperson',
 					'taxID'				=> 'fgn nrc 63S0 6F205 A',
 					'alternateName'		=> 'E.Fagnoni',
 					'givenName'			=> 'Enrico',
@@ -40,7 +39,6 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
  
     			array( 
     				'base'				=> 'urn:local:',
-			  		'personType'		=> array('ex:myperson'),
 					'taxID'				=> 'FGNNRC63S06F205A',
 					'alternateName'		=> 'E.FAGNONI',
 					'givenName'			=> 'ENRICO',
@@ -63,41 +61,71 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultOptions()
     {	
     	$expectedOptions =  array (
-    		'uri'				=> array(
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'base'				=> array(
-    			'default'	=> 'urn:local:',
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'id'				=> array(
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-    			'flags'  	=> FILTER_REQUIRE_SCALAR,
-    			),
-    		'page'				=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'homepage'			=> array(	
-    			'filter'    => FILTER_CALLBACK,
-    			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-    		'disambiguatingDescription'=> array(	
-    			'filter'    => FILTER_DEFAULT,
-    			'flags'  	=> FILTER_FORCE_ARRAY,
-    			),
-		'personType'		=> array(		
-			// additional types  as extension of schema:Person
-			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_FORCE_ARRAY,
+		'uri'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'base'				=> array(
+								'default'	=> 'urn:local:',
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'id'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'page'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'homepage'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'disambiguatingDescription'=> array(	
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'subject'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'image'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'sameas'			=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'name'				=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'alternateName'		=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'description'		=> array(		
+								'filter'    => FILTER_DEFAULT,
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+		'similarName'		=> array(	
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
+			
+		//----------------------------------------------------------------------------
+		
 		'taxID'				=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
@@ -196,7 +224,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 					'base'				=> 'urn:test:',
 					'id'				=> 'a',
 				),
-    			'<urn:test:a> dct:identifier "a";a schema:Person .',
+    			'<urn:test:a> dct:identifier "a".<urn:test:a> a schema:Person.',
     			2,
     		),
     		array(
@@ -205,7 +233,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
     				'taxID'				=> '01234567890',
     				'alternateName'		=> 'Enrico Fagnoni',
     			),
-    			'<urn:test:b> schema:taxID "01234567890";schema:alternateName "ENRICO FAGNONI";a schema:Person .',
+    			'<urn:test:b> schema:alternateName "ENRICO FAGNONI".<urn:test:b> schema:taxID "01234567890";a schema:Person.',
     			3,
     		),
     		array(
@@ -213,7 +241,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
     				'uri'				=>'urn:test:b',
     				'familyName'		=> 'Fagnoni',
     			),
-    			'<urn:test:b> schema:familyName "FAGNONI";schema:alternateName "FAGNONI";a schema:Person .',
+    			'<urn:test:b> schema:alternateName "FAGNONI ".<urn:test:b> schema:familyName "FAGNONI";a schema:Person.',
     			3,
     		),
 			
@@ -235,8 +263,8 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 					'hasOptInOptOutDate'=> '10/10/2003',
 					'privacyFlag'		=> 1
     				),
-    				'<urn:test:b> a botk:Person;schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:alternateName "GIVEN ADDITIONAL FAMILY";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:gender "http://schema.org/Male";schema:worksFor <http:/a.c/> ;botk:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00";botk:privacyFlag true ;a schema:Person .',
-    				18,
+    				'<urn:test:b> schema:alternateName "GIVEN ADDITIONAL FAMILY ".<urn:test:b> schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:gender "http://schema.org/Male";schema:worksFor <http:/a.c/> ;botk:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00"^^xsd:dateTime;botk:privacyFlag true ;a schema:Person.',
+    				17,
     			),
 
     		);
@@ -245,7 +273,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 
 
   
-    public  function testBadLocalBusiness()
+    public  function testBadBusinessContact()
     {
     	$badData = array(
     		'gender'				=>	'uomo', // must start with m or f

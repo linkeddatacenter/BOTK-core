@@ -3,17 +3,15 @@ namespace BOTK\Model;
 
 
 /**
- * An ibrid class that merge the semantic of schema:organization, schema:place and schema:geo, 
- * it is similar to schema:LocalBusiness.
- * Allows the bulk setup of properties
+ * An ibrid class that merge the semantic of schema:organization, schema:place and schema:geo. 
+ * It is similar to schema:LocalBusiness.
  */
-class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface 
+class LocalBusiness extends Thing
 {
 
 	protected static $DEFAULT_OPTIONS = array (
 
 		'businessType'		=> array(		
-								// additional types  as extension of schema:LocalBusiness
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_FORCE_ARRAY
 			),
@@ -33,7 +31,6 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'businessName'		=> array(
-								// a schema:alternateName for schema:PostalAddress
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_FORCE_ARRAY
 			),
@@ -113,12 +110,7 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_FORCE_ARRAY
-			),
-		'similarName'		=> array(	
-			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY
-			),		
+			),	
 		'numberOfEmployees'	  => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
@@ -144,13 +136,11 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
-		
 		'naceV2'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{1,2}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),			
-		/*==========================================6.3.0==========================================*/
 		'isicV4'	=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{4}$/'),
@@ -166,7 +156,6 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_REQUIRE_SCALAR,
 			),
-		/*==========================================6.3.0 range==========================================*/
 		'hasITEmployees'	 => array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
@@ -347,7 +336,6 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
-		/*=======================================6.3.0 string=======================================*/
 		'hasServerManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_REQUIRE_SCALAR
@@ -626,41 +614,199 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 	 */
 	private function addAddressDescription()
 	{	
-		extract($this->data);
-
-		if(empty($addressDescription)){
-			if( !empty($streetAddress) && ( !empty($addressLocality) || !empty($postalCode))){
-				$addressDescription = "$streetAddress ,";
-				if(!empty($postalCode)) { $addressDescription.= " $postalCode";}
-				if(!empty($addressLocality)) { $addressDescription.= " $addressLocality"; }
-				if(!empty($addressRegion)) { $addressDescription.= " ($addressRegion)"; }
-			} else {
-				$addressDescription = null;
-			}
+		if(empty($this->data['addressDescription'])){
+			if( !empty($this->data['streetAddress']) && ( !empty($this->data['addressLocality']) || !empty($this->data['postalCode']))){
+				$this->data['addressDescription'] = "{$this->data['streetAddress']} ,";
+				if(!empty($this->data['postalCode'])) { $this->data['addressDescription'].= " {$this->data['postalCode']}";}
+				if(!empty($this->data['addressLocality'])) { $this->data['addressDescription'].= " {$this->data['addressLocality']}"; }
+				if(!empty($this->data['addressRegion'])) { $this->data['addressDescription'].= " ({$this->data['addressRegion']})"; }
+			} 
 		}
-		
-		$addressDescription = \BOTK\Filters::FILTER_SANITIZE_ADDRESS($addressDescription);
-		
-		if(!empty($addressDescription)){
-			$this->data['addressDescription']=$addressDescription;
+		if(!empty($this->data['addressDescription'])){
+			$this->data['addressDescription'] = \BOTK\Filters::FILTER_SANITIZE_ADDRESS($this->data['addressDescription']);
 		}
+	}
+	
+	
+	/**
+	 * return a structured info to generate rdf code for quantitative values
+	 */
+	private function getParsedQuantitativeVars()
+	{
+		static $quantitativeValuesVar = array(
+			'numberOfEmployees' => 'schema:numberOfEmployees',
+			'annualTurnover' => 'botk:annualTurnover',
+			'ebitda' => 'botk:ebitda' ,
+			'netProfit' => 'botk:netProfit',
+			'hasTotDevelopers' => 'botk:hasTotDevelopers',
+			'itBudget' => 'botk:itBudget',
+			'itStorageBudget' => 'botk:itStorageBudget',
+			'itHardwareBudget' => 'botk:itHardwareBudget',
+			'itServerBudget' => 'botk:itServerBudget',
+			'softwareBudget' => 'botk:softwareBudget',				
+			'hasITEmployees' => 'botk:hasITEmployees',
+			'hasNumberOfPCs' => 'botk:hasNumberOfPCs',
+			'hasITBudget' => 'botk:hasITBudget',
+			'hasTablets' => 'botk:hasTablets',
+			'hasWorkstations' => 'botk:hasWorkstations',
+			'hasStorageBudget' => 'botk:hasStorageBudget',
+			'hasServerBudget' => 'botk:hasServerBudget',
+			'hasServers' => 'botk:hasServers',
+			'hasDesktop' => 'botk:hasDesktop',
+			'hasLaptops' => 'botk:hasLaptops',
+			'hasPrinters' => 'botk:hasPrinters',
+			'hasMultifunctionPrinters' => 'botk:hasMultifunctionPrinters',
+			'hasColorPrinter' => 'botk:hasColorPrinter',
+			'hasInternetUsers' => 'botk:hasInternetUsers',
+			'hasWirelessUsers' => 'botk:hasWirelessUsers',
+			'hasNetworkLines' => 'botk:hasNetworkLines',
+			'hasRouters' => 'botk:hasRouters',
+			'hasStorageCapacity' => 'botk:hasStorageCapacity',
+			'hasExtensions' => 'botk:hasExtensions',
+			'hasTotCallCenterCallers' => 'botk:hasTotCallCenterCallers',
+			'hasThinPC' => 'botk:hasThinPC',
+			'hasSalesforce' => 'botk:hasSalesforce',
+			'hasRevenue' => 'botk:hasRevenue',
+			'hasCommercialBudget' => 'botk:hasCommercialBudget',
+			'hasHardwareBudget' => 'botk:hasHardwareBudget',
+			'hasSoftwareBudget' => 'botk:hasSoftwareBudget',
+			'hasOutsrcingBudget' => 'botk:hasOutsrcingBudget',
+			'hasOtherHardwareBudget' => 'botk:hasOtherHardwareBudget',
+			'hasPCBudget' => 'botk:hasPCBudget',
+			'hasPrinterBudget' => 'botk:hasPrinterBudget',
+			'hasTerminalBudget' => 'botk:hasTerminalBudget',
+			'hasPeripheralBudget' => 'botk:hasPeripheralBudget',
+			'hasDesktopPrinters' => 'botk:hasDesktopPrinters',
+			'hasNetworkPrinters' => 'botk:hasNetworkPrinters',
+			'hasSmartphoneUsers' => 'botk:hasSmartphoneUsers',
+			'hasEnterpriseSmartphoneUsers' => 'botk:hasSmartphoneUsers',
+		);
+		
+		$parsedVars=array();
+		foreach ($quantitativeValuesVar as $statVar => $property){
+			if(!empty($this->data[$statVar])&& ($range=\BOTK\Filters::PARSE_QUANTITATIVE_VALUE($this->data[$statVar])) ){
+				list($min,$max)=$range;
+				if( $min===$max){
+					$statUri =  "{$this->data['base']}{$min}";			
+					$turtleString = "<$statUri> schema:value $min .";	
+					$tripleCounter = 1;					
+				} else {
+					$statUri =  "{$this->data['base']}{$min}to{$max}";			
+					$turtleString = "<$statUri> schema:minValue $min ;schema:maxValue $max .";	
+					$tripleCounter = 2;											
+				}
+				$parsedVars[$statVar] = array($property,$statUri,$turtleString,$tripleCounter);
+			}		
+		}
+		return  $parsedVars;
 	}
 	
 	
 	public function asTurtleFragment()
 	{
+		static $uriVars = array(
+			'parentOrganization' => 'schema:parentOrganization',
+			'email' => 'schema:email',
+			'geoUri' => 'schema:geo',
+			'$hasMap' => 'schema:hasMap',
+		);
+		static $stringVars = array(
+			'businessType' => 'a',
+			'vatID' => 'schema:vatID',
+			'taxtID' => 'schema:taxtID',
+			'legalName' => 'schema:legalName',
+			'businessName' => 'schema:alternateName',
+			'telephone' => 'schema:telephone',
+			'faxNumber' => 'schema:faxNumber',
+			'openingHours' => 'schema:openingHours ',
+			'disambiguatingDescription' => 'schema:disambiguatingDescription',
+			'ateco2007' => 'botk:ateco2007',
+			'naceV2' => 'botk:naceV2',
+			'isicV4' => 'schema:isicV4',
+			'hasServerManufacturer' => 'botk:hasServerManufacturer',
+			'hasServerVirtualizationManufacturer' => 'botk:hasServerVirtualizationManufacturer',
+			'hasDASManufacturer' => 'botk:hasDASManufacturer',
+			'hasNASManufacturer' => 'botk:hasNASManufacturer',
+			'hasSANManufacturer' => 'botk:hasSANManufacturer',
+			'hasTapeLibraryManufacturer' => 'botk:hasTapeLibraryManufacturer',
+			'hasStorageVirtualizationManufacturer' => 'botk:hasStorageVirtualizationManufacturer',
+			'naics' => 'botk:naics',
+			'hasNAFCode' => 'botk:hasNAFCode',
+			'hasServerSeries' => 'botk:hasServerSeries',
+			'hasDesktopManufacturer' => 'botk:hasDesktopManufacturer',
+			'hasLaptopManufacturer' => 'botk:hasLaptopManufacturer',
+			'hasDesktopVirtualizationManufacturer' => 'botk:hasDesktopVirtualizationManufacturer',
+			'hasWorkstationManufacturer' => 'botk:hasWorkstationManufacturer',
+			'hasNetworkPrinterManufacturer' => 'botk:hasNetworkPrinterManufacturer',
+			'hasHighVolumePrinterManufacturer' => 'botk:hasHighVolumePrinterManufacturer',
+			'hasCopierManufacturer' => 'botk:hasCopierManufacturer',
+			'hasUPSManufacturer' => 'botk:hasUPSManufacturer',
+			'hasERPSuiteVendor' => 'botk:hasERPSuiteVendor',
+			'hasERPSoftwareasaServiceManufacturer' => 'botk:hasERPSoftwareasaServiceManufacturer',
+			'hasAppServerSoftwareVendor' => 'botk:hasAppServerSoftwareVendor',
+			'hasBusIntellSoftwareVendor' => 'botk:hasBusIntellSoftwareVendor',
+			'hasCollaborativeSoftwareVendor' => 'botk:hasCollaborativeSoftwareVendor',
+			'hasCRMSoftwareVendor' => 'botk:hasCRMSoftwareVendor',
+			'hasCRMSoftwareasaServiceManufacturer' => 'botk:hasCRMSoftwareasaServiceManufacturer',
+			'hasDocumentMgmtSoftwareVendor' => 'botk:hasDocumentMgmtSoftwareVendor',
+			'hasAppConsolidationSoftwareVendor' => 'botk:hasAppConsolidationSoftwareVendor',
+			'hasHumanResourceSoftwareVendor' => 'botk:hasHumanResourceSoftwareVendor',
+			'hasSupplyChainSoftwareVendor' => 'botk:hasSupplyChainSoftwareVendor',
+			'hasWebServiceSoftwareVendor' => 'botk:hasWebServiceSoftwareVendor',
+			'hasDatawarehouseSoftwareVendor' => 'botk:hasDatawarehouseSoftwareVendor',
+			'hasSaaSVendor' => 'botk:hasSaaSVendor',
+			'hasEmailMessagingVendor' => 'botk:hasEmailMessagingVendor',
+			'hasEmailSaaSManufacturer' => 'botk:hasEmailSaaSManufacturer',
+			'hasOSVendor' => 'botk:hasOSVendor',
+			'hasOSModel' => 'botk:hasOSModel',
+			'hasDBMSVendor' => 'botk:hasDBMSVendor',
+			'hasAcctingVendor' => 'botk:hasAcctingVendor',
+			'hasAntiVirusVendor' => 'botk:hasAntiVirusVendor',
+			'hasAssetManagementSoftwareVendor' => 'botk:hasAssetManagementSoftwareVendor',
+			'hasEnterpriseManagementSoftwareVendor' => 'botk:hasEnterpriseManagementSoftwareVendor',
+			'hasIDAccessSoftwareVendor' => 'botk:hasIDAccessSoftwareVendor',
+			'hasStorageManagementSoftwareVendor' => 'botk:hasStorageManagementSoftwareVendor',
+			'hasStorageSaaSManufacturer' => 'botk:hasStorageSaaSManufacturer',
+			'hasEthernetTechnology' => 'botk:hasEthernetTechnology',
+			'haseCommerceType' => 'botk:haseCommerceType',
+			'hasHostorRemoteStatus' => 'botk:hasHostorRemoteStatus',
+			'hasNetworkLineCarrier' => 'botk:hasNetworkLineCarrier',
+			'hasVideoConfServicesProvider' => 'botk:hasVideoConfServicesProvider',
+			'hasUnifiedCommSvcProvider' => 'botk:hasUnifiedCommSvcProvider',
+			'hasRouterManufacturer' => 'botk:hasRouterManufacturer',
+			'hasSwitchManufacturer' => 'botk:hasSwitchManufacturer',
+			'hasVPNManufacturer' => 'botk:hasVPNManufacturer',
+			'hasISP' => 'botk:hasISP',
+			'hasNetworkServiceProvider' => 'botk:hasNetworkServiceProvider',
+			'hasPhoneSystemManufacturer' => 'botk:hasPhoneSystemManufacturer',
+			'hasVoIPManufacturer' => 'botk:hasVoIPManufacturer',
+			'hasVoIPHosting' => 'botk:hasVoIPHosting',
+			'hasLongDistanceCarrier' => 'botk:hasLongDistanceCarrier',
+			'hasWirelessProvider' => 'botk:hasWirelessProvider',
+			'hasPhoneSystemMaintenanceProvider' => 'botk:hasPhoneSystemMaintenanceProvider',
+			'hasSmartphoneManufacturer' => 'botk:hasSmartphoneManufacturer',
+			'hasSmartphoneOS' => 'botk:hasSmartphoneOS',
+			'hasFYE'=> 'botk:hasFYE',
+		);
+		static $addressVars= array(
+			'addressDescription' => 'schema:description',
+			'streetAddress' => 'schema:streetAddress',
+			'postalCode' => 'schema:postalCode',
+			'addressLocality' => 'schema:addressLocality',
+			'addressRegion' => 'schema:addressRegion',
+			'addressCountry' => 'schema:addressCountry',
+		);
+		
+		$parsedQuantitativeVars=$this->getParsedQuantitativeVars();
+		
 		if(is_null($this->rdf)) {
-			extract($this->data);
-
-			//die(print_r($this->data, true));
-
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
-			$geoUri = ( !empty($lat) && !empty($long) )?"geo:$lat,$long":null;
+			$geoUri = ( !empty( $this->data['lat']) && !empty( $this->data['long']) )?"geo:{$this->data['lat']},{$this->data['long']}":null;
 			
-			$tripleCounter =0;
-			$turtleString='';
+			$turtleString=parent::asTurtleFragment();
+			$tripleCounter = $this->tripleCount;
 			
 			// define $_ as a macro to write simple rdf
 			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
@@ -672,101 +818,17 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 				}
 			};
 
-	 		// serialize schema:LocalBusiness
-			$_('<%s> a schema:LocalBusiness;', $organizationUri);	
-			$uriVars= array(
-				'parentOrganization' => 'schema:parentOrganization',
-				'page' => 'foaf:page',
-				'email' => 'schema:email',
-				'homepage' => 'foaf:homepage',
-				'geoUri' => 'schema:geo',
-				'$hasMap' => 'schema:hasMap',
-			);
-			foreach ($uriVars as $uriVar => $property) {
+			// serializes LocalBusiness properties
+			$_('<%s> a schema:LocalBusiness;', $organizationUri);
+			foreach ( $uriVars as $uriVar => $property) {
 				if(!empty($this->data[$uriVar])){
 					$_("$property <%s>;", $this->data[$uriVar],false);	
 				}
 			}
-			
-			$stringVars= array(
-				'businessType' => 'a',
-				'id' => 'dct:identifier',
-				'vatID' => 'schema:vatID',
-				'taxtID' => 'schema:taxtID',
-				'legalName' => 'schema:legalName',
-				'businessName' => 'schema:alternateName',
-				'telephone' => 'schema:telephone',
-				'faxNumber' => 'schema:faxNumber',
-				'openingHours' => 'schema:openingHours ',
-				'disambiguatingDescription' => 'schema:disambiguatingDescription',
-				'ateco2007' => 'botk:ateco2007',
-				'naceV2' => 'botk:naceV2',
-				'isicV4' => 'schema:isicV4',
-				'hasServerManufacturer' => 'botk:hasServerManufacturer',
-				'hasServerVirtualizationManufacturer' => 'botk:hasServerVirtualizationManufacturer',
-				'hasDASManufacturer' => 'botk:hasDASManufacturer',
-				'hasNASManufacturer' => 'botk:hasNASManufacturer',
-				'hasSANManufacturer' => 'botk:hasSANManufacturer',
-				'hasTapeLibraryManufacturer' => 'botk:hasTapeLibraryManufacturer',
-				'hasStorageVirtualizationManufacturer' => 'botk:hasStorageVirtualizationManufacturer',
-				'naics' => 'botk:naics',
-				'hasNAFCode' => 'botk:hasNAFCode',
-				'hasServerSeries' => 'botk:hasServerSeries',
-				'hasDesktopManufacturer' => 'botk:hasDesktopManufacturer',
-				'hasLaptopManufacturer' => 'botk:hasLaptopManufacturer',
-				'hasDesktopVirtualizationManufacturer' => 'botk:hasDesktopVirtualizationManufacturer',
-				'hasWorkstationManufacturer' => 'botk:hasWorkstationManufacturer',
-				'hasNetworkPrinterManufacturer' => 'botk:hasNetworkPrinterManufacturer',
-				'hasHighVolumePrinterManufacturer' => 'botk:hasHighVolumePrinterManufacturer',
-				'hasCopierManufacturer' => 'botk:hasCopierManufacturer',
-				'hasUPSManufacturer' => 'botk:hasUPSManufacturer',
-				'hasERPSuiteVendor' => 'botk:hasERPSuiteVendor',
-				'hasERPSoftwareasaServiceManufacturer' => 'botk:hasERPSoftwareasaServiceManufacturer',
-				'hasAppServerSoftwareVendor' => 'botk:hasAppServerSoftwareVendor',
-				'hasBusIntellSoftwareVendor' => 'botk:hasBusIntellSoftwareVendor',
-				'hasCollaborativeSoftwareVendor' => 'botk:hasCollaborativeSoftwareVendor',
-				'hasCRMSoftwareVendor' => 'botk:hasCRMSoftwareVendor',
-				'hasCRMSoftwareasaServiceManufacturer' => 'botk:hasCRMSoftwareasaServiceManufacturer',
-				'hasDocumentMgmtSoftwareVendor' => 'botk:hasDocumentMgmtSoftwareVendor',
-				'hasAppConsolidationSoftwareVendor' => 'botk:hasAppConsolidationSoftwareVendor',
-				'hasHumanResourceSoftwareVendor' => 'botk:hasHumanResourceSoftwareVendor',
-				'hasSupplyChainSoftwareVendor' => 'botk:hasSupplyChainSoftwareVendor',
-				'hasWebServiceSoftwareVendor' => 'botk:hasWebServiceSoftwareVendor',
-				'hasDatawarehouseSoftwareVendor' => 'botk:hasDatawarehouseSoftwareVendor',
-				'hasSaaSVendor' => 'botk:hasSaaSVendor',
-				'hasEmailMessagingVendor' => 'botk:hasEmailMessagingVendor',
-				'hasEmailSaaSManufacturer' => 'botk:hasEmailSaaSManufacturer',
-				'hasOSVendor' => 'botk:hasOSVendor',
-				'hasOSModel' => 'botk:hasOSModel',
-				'hasDBMSVendor' => 'botk:hasDBMSVendor',
-				'hasAcctingVendor' => 'botk:hasAcctingVendor',
-				'hasAntiVirusVendor' => 'botk:hasAntiVirusVendor',
-				'hasAssetManagementSoftwareVendor' => 'botk:hasAssetManagementSoftwareVendor',
-				'hasEnterpriseManagementSoftwareVendor' => 'botk:hasEnterpriseManagementSoftwareVendor',
-				'hasIDAccessSoftwareVendor' => 'botk:hasIDAccessSoftwareVendor',
-				'hasStorageManagementSoftwareVendor' => 'botk:hasStorageManagementSoftwareVendor',
-				'hasStorageSaaSManufacturer' => 'botk:hasStorageSaaSManufacturer',
-				'hasEthernetTechnology' => 'botk:hasEthernetTechnology',
-				'haseCommerceType' => 'botk:haseCommerceType',
-				'hasHostorRemoteStatus' => 'botk:hasHostorRemoteStatus',
-				'hasNetworkLineCarrier' => 'botk:hasNetworkLineCarrier',
-				'hasVideoConfServicesProvider' => 'botk:hasVideoConfServicesProvider',
-				'hasUnifiedCommSvcProvider' => 'botk:hasUnifiedCommSvcProvider',
-				'hasRouterManufacturer' => 'botk:hasRouterManufacturer',
-				'hasSwitchManufacturer' => 'botk:hasSwitchManufacturer',
-				'hasVPNManufacturer' => 'botk:hasVPNManufacturer',
-				'hasISP' => 'botk:hasISP',
-				'hasNetworkServiceProvider' => 'botk:hasNetworkServiceProvider',
-				'hasPhoneSystemManufacturer' => 'botk:hasPhoneSystemManufacturer',
-				'hasVoIPManufacturer' => 'botk:hasVoIPManufacturer',
-				'hasVoIPHosting' => 'botk:hasVoIPHosting',
-				'hasLongDistanceCarrier' => 'botk:hasLongDistanceCarrier',
-				'hasWirelessProvider' => 'botk:hasWirelessProvider',
-				'hasPhoneSystemMaintenanceProvider' => 'botk:hasPhoneSystemMaintenanceProvider',
-				'hasSmartphoneManufacturer' => 'botk:hasSmartphoneManufacturer',
-				'hasSmartphoneOS' => 'botk:hasSmartphoneOS',
-				'hasFYE'=> 'botk:hasFYE',
-			);
+			foreach ( $parsedQuantitativeVars as $quantitativeVar => $parsedVal) {
+				list($property,$statUri,,)=$parsedVal;
+				$_("$property <%s>;", $statUri,false);
+			}
 			foreach ($stringVars as $stringVar => $property) {
 				if(!empty($this->data[$stringVar])){
 					$_("$property \"%s\";", $this->data[$stringVar]);	
@@ -774,84 +836,27 @@ class LocalBusiness extends AbstractModel implements \BOTK\ModelInterface
 			}
 			$_('schema:address <%s>. ', $addressUri);
 			
-			// serialize schema:PostalAddress 
-			$_('<%s> a schema:PostalAddress;', $addressUri);
-			!empty($addressDescription) && $_('schema:description "%s";', $addressDescription);
-			!empty($streetAddress) 		&& $_('schema:streetAddress "%s";', $streetAddress);
-			!empty($postalCode) 		&& $_('schema:postalCode "%s";', $postalCode);
-			!empty($addressLocality) 	&& $_('schema:addressLocality "%s";', $addressLocality);
-			!empty($addressRegion) 		&& $_('schema:addressRegion "%s";', $addressRegion);
-			$_('schema:addressCountry "%s". ', $addressCountry);	
-			
-			
-			$statVars = array(
-				'numberOfEmployees' => 'schema:numberOfEmployees',
-				'annualTurnover' => 'botk:annualTurnover',
-				'ebitda' => 'botk:ebitda' ,
-				'netProfit' => 'botk:netProfit',
-				'hasTotDevelopers' => 'botk:hasTotDevelopers',
-				'itBudget' => 'botk:itBudget',
-				'itStorageBudget' => 'botk:itStorageBudget',
-				'itHardwareBudget' => 'botk:itHardwareBudget',
-				'itServerBudget' => 'botk:itServerBudget',
-				'softwareBudget' => 'botk:softwareBudget',				
-				'hasITEmployees' => 'botk:hasITEmployees',
-				'hasNumberOfPCs' => 'botk:hasNumberOfPCs',
-				'hasITBudget' => 'botk:hasITBudget',
-				'hasTablets' => 'botk:hasTablets',
-				'hasWorkstations' => 'botk:hasWorkstations',
-				'hasStorageBudget' => 'botk:hasStorageBudget',
-				'hasServerBudget' => 'botk:hasServerBudget',
-				'hasServers' => 'botk:hasServers',
-				'hasDesktop' => 'botk:hasDesktop',
-				'hasLaptops' => 'botk:hasLaptops',
-				'hasPrinters' => 'botk:hasPrinters',
-				'hasMultifunctionPrinters' => 'botk:hasMultifunctionPrinters',
-				'hasColorPrinter' => 'botk:hasColorPrinter',
-				'hasInternetUsers' => 'botk:hasInternetUsers',
-				'hasWirelessUsers' => 'botk:hasWirelessUsers',
-				'hasNetworkLines' => 'botk:hasNetworkLines',
-				'hasRouters' => 'botk:hasRouters',
-				'hasStorageCapacity' => 'botk:hasStorageCapacity',
-				'hasExtensions' => 'botk:hasExtensions',
-				'hasTotCallCenterCallers' => 'botk:hasTotCallCenterCallers',
-				'hasThinPC' => 'botk:hasThinPC',
-				'hasSalesforce' => 'botk:hasSalesforce',
-				'hasRevenue' => 'botk:hasRevenue',
-				'hasCommercialBudget' => 'botk:hasCommercialBudget',
-				'hasHardwareBudget' => 'botk:hasHardwareBudget',
-				'hasSoftwareBudget' => 'botk:hasSoftwareBudget',
-				'hasOutsrcingBudget' => 'botk:hasOutsrcingBudget',
-				'hasOtherHardwareBudget' => 'botk:hasOtherHardwareBudget',
-				'hasPCBudget' => 'botk:hasPCBudget',
-				'hasPrinterBudget' => 'botk:hasPrinterBudget',
-				'hasTerminalBudget' => 'botk:hasTerminalBudget',
-				'hasPeripheralBudget' => 'botk:hasPeripheralBudget',
-				'hasDesktopPrinters' => 'botk:hasDesktopPrinters',
-				'hasNetworkPrinters' => 'botk:hasNetworkPrinters',
-				'hasSmartphoneUsers' => 'botk:hasSmartphoneUsers',
-				'hasEnterpriseSmartphoneUsers'				
-				);
-			foreach ( $statVars as $statVar => $property){
-				if(!empty($this->data[$statVar])&& ($range=\BOTK\Filters::PARSE_QUANTITATIVE_VALUE($this->data[$statVar])) ){
-					list($min,$max)=$range;
-					if( $min===$max){
-						$statUri =  "<{$base}{$min}>";			
-						$turtleString.= "<$organizationUri> $property $statUri .$statUri schema:value $min .";	
-						$tripleCounter +=3;					
-					} else {
-						$statUri =  "<{$base}{$min}to{$max}>";			
-						$turtleString.= "<$organizationUri> $property $statUri .$statUri schema:minValue $min ;schema:maxValue $max .";	
-						$tripleCounter +=4;											
-					}
-				}		
+			// serializes postal address properies
+			$turtleString .= "<$addressUri> ";
+			foreach( $addressVars as $stringVar=>$property) {
+				if(!empty($this->data[$stringVar])){
+					$_("$property \"%s\";", $this->data[$stringVar]);	
+				}
 			}
+			$turtleString .= " a schema:PostalAddress.";
+			$tripleCounter++;
+			
+			// serializes quantitative values
+			foreach ( $parsedQuantitativeVars as $quantitativeVar => $parsedVal){
+				list(,,$ttl,$tc)=$parsedVal;
+				$turtleString.=$ttl;
+				$tripleCounter +=$tc;
+			};	
 
-			// serialize schema:GeoCoordinates
+			// serializes schema:GeoCoordinates
 			if( !empty($geoUri)){
-				$_('<%s> a schema:GeoCoordinates;', $geoUri); 
-				$_('wgs:lat "%s"^^xsd:float;', $lat);
-				$_('wgs:long "%s"^^xsd:float . ', $long); 
+				$turtleString.="<$geoUri> schema:latitude \"{$this->data['lat']}\"^^xsd:float;schema:longitude \"{$this->data['long']}\"^^xsd:float.";
+				$tripleCounter +=2;
 			}
 
 			$this->rdf = $turtleString;

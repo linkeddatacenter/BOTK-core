@@ -3,7 +3,7 @@
     "description": "Super lightweight classes for developing RDF gateways for shema.org and other business vocabolaries.",
     "type": "library",
     "license": "MIT",
-    "homepage": "http://linkeddata.center/botk4",
+    "homepage": "http://linkeddata.center/botk",
     "keywords": ["BOTK", "KEES", "RDF", "OPEN DATA", "LINKEDATA"],
     "authors": [
         {

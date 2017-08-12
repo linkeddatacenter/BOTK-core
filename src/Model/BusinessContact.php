@@ -7,15 +7,10 @@ namespace BOTK\Model;
  * it is similar to schema:LocalBusiness.
  * Allows the bulk setup of properties
  */
-class BusinessContact extends AbstractModel implements \BOTK\ModelInterface 
+class BusinessContact extends Thing 
 {
 
 	protected static $DEFAULT_OPTIONS = array (
-		'personType'		=> array(		
-			// additional types  as extension of schema:Person
-			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_FORCE_ARRAY,
-			),
 		'taxID'				=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TOKEN',
@@ -93,16 +88,17 @@ class BusinessContact extends AbstractModel implements \BOTK\ModelInterface
 
 	private function makePersonNameDescription()
 	{	
-		extract($this->data);
-			
-		if(empty($alternateName)){
-			$alternateName ='';
-			if(!empty($givenName)) { $alternateName.= "$givenName ";}						
-			if(!empty($additionalName)) { $alternateName.= "$additionalName ";}		
-			if(!empty($familyName)) { $alternateName.= "$familyName ";}
+		if(empty($this->data['alternateName'])){
+			$this->data['alternateName'] ='';
+			if(!empty($this->data['givenName'])) { $this->data['alternateName'].= $this->data['givenName'].' ';}						
+			if(!empty($this->data['additionalName'])) { $this->data['alternateName'].= $this->data['additionalName'].' ';}		
+			if(!empty($this->data['familyName'])) { $this->data['alternateName'].= $this->data['familyName'].' ';}
 		}
 		
-		return \BOTK\Filters::FILTER_SANITIZE_PERSON_NAME($alternateName);
+		if(!empty($this->data['alternateName'])){
+			$this->data['alternateName']=\BOTK\Filters::FILTER_SANITIZE_PERSON_NAME($this->data['alternateName']);
+		}
+
 	}
 	
 	
@@ -115,9 +111,15 @@ class BusinessContact extends AbstractModel implements \BOTK\ModelInterface
 			$personUri = $this->getUri();
 			
 			// make a default for altenatename (can be empty)
-			$alternateName = $this->makePersonNameDescription();
+			if(empty($alternateName)){
+				$this->data['alternateName'] ='';
+				if(!empty($givenName)) { $this->data['alternateName'].= $givenName.' ';}						
+				if(!empty($additionalName)) { $this->data['alternateName'].= $additionalName.' ';}		
+				if(!empty($familyName)) { $this->data['alternateName'].= $familyName.' ';}
+			}
 			
-			$tripleCounter =0;
+			$turtleString = parent::asTurtleFragment();
+			$tripleCounter = $this->tripleCount;
 			
 			// define $_ as a macro to write simple rdf
 			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
@@ -129,20 +131,13 @@ class BusinessContact extends AbstractModel implements \BOTK\ModelInterface
 				}
 			};
 
-	 		// serialize schema:LocalBusiness
-	 		
-			$turtleString= "<$personUri> ";			
-			!empty($id) 				&& $_('dct:identifier "%s";', $id); 
-			!empty($disambiguatingDescription)&& $_('schema:disambiguatingDescription "%s";', $disambiguatingDescription);
+	 		// serialize schema:LocalBusiness	
+			$turtleString .= "<$personUri> ";	
 			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
-			!empty($page) 				&& $_('foaf:page <%s>;', $page,false);
-			!empty($homepage) 			&& $_('foaf:homepage <%s>;', $homepage,false);
-			!empty($personType) 		&& $_('a %s;', $personType);
 			!empty($taxID) 				&& $_('schema:taxID "%s";', $taxID);
 			!empty($givenName)			&& $_('schema:givenName "%s";', $givenName);
 			!empty($familyName)			&& $_('schema:familyName "%s";', $familyName);
 			!empty($additionalName) 	&& $_('schema:additionalName "%s";', $additionalName);
-			!empty($alternateName) 		&& $_('schema:alternateName "%s";', $alternateName);
 			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
 			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
 			!empty($jobTitle)			&& $_('schema:jobTitle "%s";', $jobTitle);
@@ -152,9 +147,9 @@ class BusinessContact extends AbstractModel implements \BOTK\ModelInterface
 			!empty($gender)				&& $_('schema:gender "%s";', $gender);
 			!empty($worksFor)			&& $_('schema:worksFor <%s> ;', $worksFor,false);
 			!empty($spokenLanguage)		&& $_('botk:spokenLanguage "%s";', $spokenLanguage);
-			!empty($hasOptInOptOutDate)	&& $_('botk:hasOptInOptOutDate "%s";', $hasOptInOptOutDate);
+			!empty($hasOptInOptOutDate)	&& $_('botk:hasOptInOptOutDate "%s"^^xsd:dateTime;', $hasOptInOptOutDate);
 			!empty($privacyFlag)		&& $_('botk:privacyFlag %s ;', $privacyFlag);		
-			$_('a schema:Person .', $personUri);
+			$_('a schema:Person.', $personUri);
 
 			$this->rdf = $turtleString;
 			$this->tripleCount = $tripleCounter;

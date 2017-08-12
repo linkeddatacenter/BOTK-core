@@ -29,38 +29,7 @@ abstract class AbstractModel
 	 *		                   ),
 	 * )
 	 */
-	protected static $DEFAULT_OPTIONS  = array(
-		'uri'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'base'				=> array(
-								'default'	=> 'urn:local:',
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'id'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'page'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'homepage'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'disambiguatingDescription'=> array(	
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-	);
+	protected static $DEFAULT_OPTIONS  = array();
 	
 	/**
 	 * known vocabularies
@@ -142,11 +111,7 @@ abstract class AbstractModel
 				$this->droppedFields[]=$property;
 			}
 		}
-		
-		// uri or base MUST be presen
-		if( empty($data['uri']) && empty($data['base']) ){
-			throw new \InvalidArgumentException("Can't find uri nor base property.");		
-		}
+
 
 		$this->options = $options;
 		$this->data = $sanitizedData;

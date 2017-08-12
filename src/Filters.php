@@ -190,7 +190,7 @@ class Filters {
 	 * 	if max is not specified max= PHP_INT_MAX
 	 * 	if min is not specified min= -PHP_INT_MAX
 	 * 
-	 * @return array() or false
+	 * @return array | false
 	 * 
 	 */
 	public static function PARSE_QUANTITATIVE_VALUE($value)
@@ -338,4 +338,25 @@ class Filters {
 			return null;
 		}
 	}
+
+
+	public static function LEFT_PAD_INT_WITH_ZERO($value, $size)
+	{
+		$intValue = (int) $value;
+		$value = str_pad( $intValue, $size, '0', STR_PAD_LEFT );
+		return ($intValue>0 && strlen($value)==$size)?$value:null;	
+	}
+
+
+	public static function FILTER_SANITIZE_GTIN8($value)
+	{
+		return static::LEFT_PAD_INT_WITH_ZERO($value, 8);
+	}
+
+
+	public static function FILTER_SANITIZE_GTIN13($value)
+	{
+		return static::LEFT_PAD_INT_WITH_ZERO($value, 13);
+	}
+	
 }
