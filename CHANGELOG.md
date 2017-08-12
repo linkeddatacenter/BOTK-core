@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+## [7.0.2]
+
+### Changed
+
+- minor bug fixing and code opimization
+
 ## [7.0.1]
 
 ### Changed
@@ -144,7 +150,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.1...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.2...HEAD
+[7.0.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.1...7.0.2
 [7.0.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.0...7.0.1
 [7.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.4.0...7.0.0
 [6.4.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/6.3.0...6.4.0

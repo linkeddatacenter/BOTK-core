@@ -95,19 +95,8 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 		if(is_null($this->rdf)) {
 			$uri = $this->getUri();
 			
-			// define $_ as a macro to write simple rdf
-			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
-				foreach((array)$var as $v){
-					if($var){
-						$turtleString.= sprintf($format,$sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
-						$tripleCounter++;
-					}
-				}
-			};
-
 	 		// serialize uri properies
-			$tripleCounter =0;
-			$turtleString="<$uri> ";
+			$this->rdf = "<$uri> ";
 			foreach (array(
 				'page' 			=> 'foaf:page',
 				'homepage'		=> 'foaf:homepage',
@@ -116,7 +105,7 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 				'sameAs'		=> 'owl:sameAs',	
 			) as $uriVar=>$property) {
 				if(!empty($this->data[$uriVar])){
-					$_("$property <%s>;", $this->data[$uriVar],false);	
+					$this->addFragment("$property <%s>;", $this->data[$uriVar],false);	
 				}
 			}
 			
@@ -129,13 +118,12 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 				'description'				=> 'schema:description',
 			) as $stringVar=>$property) {
 				if(!empty($this->data[$stringVar])){
-					$_("$property \"%s\";", $this->data[$stringVar]);	
+					$this->addFragment("$property \"%s\";", $this->data[$stringVar]);	
 				}
 			}
 			
-			if($tripleCounter){
-				$this->rdf = substr($turtleString, 0, -1).'.';
-				$this->tripleCount = $tripleCounter;
+			if($this->tripleCount){
+				$this->rdf = substr($this->rdf, 0, -1).'.';
 			} else {
 				$this->rdf = ''; // no serialize if uri has no attributes
 			}

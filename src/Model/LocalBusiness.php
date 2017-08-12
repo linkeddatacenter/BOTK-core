@@ -797,70 +797,60 @@ class LocalBusiness extends Thing
 			'addressCountry' => 'schema:addressCountry',
 		);
 		
-		$parsedQuantitativeVars=$this->getParsedQuantitativeVars();
 		
 		if(is_null($this->rdf)) {
+			
+			$this->rdf=parent::asTurtleFragment();
+
 			// create uris
 			$organizationUri = $this->getUri();
 			$addressUri = $organizationUri.'_address';
 			$geoUri = ( !empty( $this->data['lat']) && !empty( $this->data['long']) )?"geo:{$this->data['lat']},{$this->data['long']}":null;
 			
-			$turtleString=parent::asTurtleFragment();
-			$tripleCounter = $this->tripleCount;
 			
-			// define $_ as a macro to write simple rdf
-			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
-				foreach((array)$var as $v){
-					if($var){
-						$turtleString.= sprintf($format,$sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
-						$tripleCounter++;
-					}
-				}
-			};
+			$parsedQuantitativeVars=$this->getParsedQuantitativeVars();
 
 			// serializes LocalBusiness properties
-			$_('<%s> a schema:LocalBusiness;', $organizationUri);
+			$this->addFragment('<%s> a schema:LocalBusiness;', $organizationUri);
 			foreach ( $uriVars as $uriVar => $property) {
 				if(!empty($this->data[$uriVar])){
-					$_("$property <%s>;", $this->data[$uriVar],false);	
+					$this->addFragment("$property <%s>;", $this->data[$uriVar],false);	
 				}
 			}
 			foreach ( $parsedQuantitativeVars as $quantitativeVar => $parsedVal) {
 				list($property,$statUri,,)=$parsedVal;
-				$_("$property <%s>;", $statUri,false);
+				$this->addFragment("$property <%s>;", $statUri,false);
 			}
 			foreach ($stringVars as $stringVar => $property) {
 				if(!empty($this->data[$stringVar])){
-					$_("$property \"%s\";", $this->data[$stringVar]);	
+					$this->addFragment("$property \"%s\";", $this->data[$stringVar]);	
 				}
 			}
-			$_('schema:address <%s>. ', $addressUri);
+			$this->addFragment('schema:address <%s>. ', $addressUri);
 			
 			// serializes postal address properies
-			$turtleString .= "<$addressUri> ";
+			$this->rdf .= "<$addressUri> ";
 			foreach( $addressVars as $stringVar=>$property) {
 				if(!empty($this->data[$stringVar])){
-					$_("$property \"%s\";", $this->data[$stringVar]);	
+					$this->addFragment("$property \"%s\";", $this->data[$stringVar]);	
 				}
 			}
-			$turtleString .= " a schema:PostalAddress.";
-			$tripleCounter++;
+			$this->rdf .= " a schema:PostalAddress.";
+			$this->tripleCount++;
 			
 			// serializes quantitative values
 			foreach ( $parsedQuantitativeVars as $quantitativeVar => $parsedVal){
 				list(,,$ttl,$tc)=$parsedVal;
-				$turtleString.=$ttl;
-				$tripleCounter +=$tc;
+				$this->rdf.=$ttl;
+				$this->tripleCount +=$tc;
 			};	
 
 			// serializes schema:GeoCoordinates
 			if( !empty($geoUri)){
-				$turtleString.="<$geoUri> schema:latitude \"{$this->data['lat']}\"^^xsd:float;schema:longitude \"{$this->data['long']}\"^^xsd:float.";
-				$tripleCounter +=2;
+				$this->rdf.="<$geoUri> schema:latitude \"{$this->data['lat']}\"^^xsd:float;schema:longitude \"{$this->data['long']}\"^^xsd:float.";
+				$this->tripleCount +=2;
 			}
 
-			$this->rdf = $turtleString;
-			$this->tripleCount = $tripleCounter;
 		}
 
 		return $this->rdf;

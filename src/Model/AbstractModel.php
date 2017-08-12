@@ -249,7 +249,19 @@ abstract class AbstractModel
 	{
 		return $this->asString();
 	}
-	
+
+
+	/**
+	 * adds a turtle fragment managing cardinality > 1
+	 */
+	protected function addFragment($format, $var, $sanitize=true){
+		foreach((array)$var as $v){
+			if($var){
+				$this->rdf .= sprintf($format, $sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
+				$this->tripleCount++;
+			}
+		}
+	}
 
 	/**
 	 * this must be implemented

@@ -126,44 +126,34 @@ class Product extends Thing
 		
 		if(is_null($this->rdf)) {
 			
-			$productUri = $this->getUri();
-			$turtleString=parent::asTurtleFragment();
-			$tripleCounter = $this->tripleCount;
+			$this->rdf = parent::asTurtleFragment();
 			
-			// define $_ as a macro to write simple rdf
-			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
-				foreach((array)$var as $v){
-					if($var){
-						$turtleString.= sprintf($format,$sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
-						$tripleCounter++;
-					}
-				}
-			};
+			$productUri = $this->getUri();
 
 	 		// serialize uri properies
-			$turtleString.="<$productUri> ";
+			$this->rdf .= "<$productUri> ";
 			foreach ($uriVars as $uriVar) {
 				if(!empty($this->data[$uriVar])){
-					$_("schema:$uriVar <%s>;", $this->data[$uriVar],false);	
+					$this->addFragment("schema:$uriVar <%s>;", $this->data[$uriVar],false);	
 				}
 			}
 			
 			// serialize string properies		
 			foreach ($stringVars as $stringVar) {
 				if(!empty($this->data[$stringVar])){
-					$_("schema:$stringVar \"%s\";", $this->data[$stringVar]);	
+					$this->addFragment("schema:$stringVar \"%s\";", $this->data[$stringVar]);	
 				}
 			}
 			
 			// serialize date properies
 			foreach ($dateVars as $dateVar ) {
 				if(!empty($this->data[$stringVar])){
-					$_("schema:$dateVar \"%s\"^^xsd:dateTime;", $this->data[$dateVar]);	
+					$this->addFragment("schema:$dateVar \"%s\"^^xsd:dateTime;", $this->data[$dateVar]);	
 				}
 			}
 			
-			$turtleString.='a schema:Product.';
-			$tripleCounter++;	
+			$this->rdf.='a schema:Product.';
+			$this->tripleCount++;	
 			
 			// serialize quantitative values		
 			$statVars = array('depth','height','weight','width' );
@@ -173,22 +163,19 @@ class Product extends Thing
 					$base = $this->data['base'];
 					if( $min===$max){
 						$statUri =  "{$base}{$min}";			
-						$turtleString.= "<$productUri> schema:$statVar <$statUri>.<$statUri> schema:value $min .";	
-						$tripleCounter +=3;					
+						$this->rdf.= "<$productUri> schema:$statVar <$statUri>.<$statUri> schema:value $min .";	
+						$this->tripleCount +=3;					
 					} else {
 						$statUri =  "{$base}{$min}to{$max}";			
-						$turtleString.= "<$productUri> schema:$statVar <$statUri>.<$statUri> schema:minValue $min ;schema:maxValue $max .";	
-						$tripleCounter +=4;											
+						$this->rdf.= "<$productUri> schema:$statVar <$statUri>.<$statUri> schema:minValue $min ;schema:maxValue $max .";	
+						$this->tripleCount +=4;											
 					}
 				}		
 			}
 
-			$this->rdf = $turtleString;
-			$this->tripleCount = $tripleCounter;
 		}
 
 		return $this->rdf;
-
 	}
 
 }

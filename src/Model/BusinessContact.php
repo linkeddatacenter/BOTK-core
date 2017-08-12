@@ -85,74 +85,44 @@ class BusinessContact extends Thing
 			),
 		);
 
-
-	private function makePersonNameDescription()
-	{	
-		if(empty($this->data['alternateName'])){
-			$this->data['alternateName'] ='';
-			if(!empty($this->data['givenName'])) { $this->data['alternateName'].= $this->data['givenName'].' ';}						
-			if(!empty($this->data['additionalName'])) { $this->data['alternateName'].= $this->data['additionalName'].' ';}		
-			if(!empty($this->data['familyName'])) { $this->data['alternateName'].= $this->data['familyName'].' ';}
-		}
-		
-		if(!empty($this->data['alternateName'])){
-			$this->data['alternateName']=\BOTK\Filters::FILTER_SANITIZE_PERSON_NAME($this->data['alternateName']);
-		}
-
-	}
-	
 	
 	public function asTurtleFragment()
 	{
 		if(is_null($this->rdf)) {
-			extract($this->data);
-
-			// create uris
-			$personUri = $this->getUri();
 			
-			// make a default for altenatename (can be empty)
+			extract($this->data);
+			
+			// make a default for altenatename (can be empty) before calling parent::asTurtleFragment
 			if(empty($alternateName)){
 				$this->data['alternateName'] ='';
 				if(!empty($givenName)) { $this->data['alternateName'].= $givenName.' ';}						
 				if(!empty($additionalName)) { $this->data['alternateName'].= $additionalName.' ';}		
 				if(!empty($familyName)) { $this->data['alternateName'].= $familyName.' ';}
-			}
+			}			
+			$this->rdf = parent::asTurtleFragment();
+		
+			$personUri = $this->getUri();
 			
-			$turtleString = parent::asTurtleFragment();
-			$tripleCounter = $this->tripleCount;
-			
-			// define $_ as a macro to write simple rdf
-			$_= function($format, $var,$sanitize=true) use(&$turtleString, &$tripleCounter){
-				foreach((array)$var as $v){
-					if($var){
-						$turtleString.= sprintf($format,$sanitize?\BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($v):$v);
-						$tripleCounter++;
-					}
-				}
-			};
-
 	 		// serialize schema:LocalBusiness	
-			$turtleString .= "<$personUri> ";	
-			!empty($aggregateRatingValue)&& $_('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
-			!empty($taxID) 				&& $_('schema:taxID "%s";', $taxID);
-			!empty($givenName)			&& $_('schema:givenName "%s";', $givenName);
-			!empty($familyName)			&& $_('schema:familyName "%s";', $familyName);
-			!empty($additionalName) 	&& $_('schema:additionalName "%s";', $additionalName);
-			!empty($telephone) 			&& $_('schema:telephone "%s";', $telephone);
-			!empty($faxNumber) 			&& $_('schema:faxNumber "%s";', $faxNumber);
-			!empty($jobTitle)			&& $_('schema:jobTitle "%s";', $jobTitle);
-			!empty($honorificPrefix)	&& $_('schema:honorificPrefix "%s";', $honorificPrefix);
-			!empty($honorificSuffix)	&& $_('schema:honorificSuffix "%s";', $honorificSuffix);
-			!empty($email) 				&& $_('schema:email "%s";', $email);
-			!empty($gender)				&& $_('schema:gender "%s";', $gender);
-			!empty($worksFor)			&& $_('schema:worksFor <%s> ;', $worksFor,false);
-			!empty($spokenLanguage)		&& $_('botk:spokenLanguage "%s";', $spokenLanguage);
-			!empty($hasOptInOptOutDate)	&& $_('botk:hasOptInOptOutDate "%s"^^xsd:dateTime;', $hasOptInOptOutDate);
-			!empty($privacyFlag)		&& $_('botk:privacyFlag %s ;', $privacyFlag);		
-			$_('a schema:Person.', $personUri);
+			$this->rdf .= "<$personUri> ";	
+			!empty($aggregateRatingValue)&& $this->addFragment('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
+			!empty($taxID) 				&& $this->addFragment('schema:taxID "%s";', $taxID);
+			!empty($givenName)			&& $this->addFragment('schema:givenName "%s";', $givenName);
+			!empty($familyName)			&& $this->addFragment('schema:familyName "%s";', $familyName);
+			!empty($additionalName) 	&& $this->addFragment('schema:additionalName "%s";', $additionalName);
+			!empty($telephone) 			&& $this->addFragment('schema:telephone "%s";', $telephone);
+			!empty($faxNumber) 			&& $this->addFragment('schema:faxNumber "%s";', $faxNumber);
+			!empty($jobTitle)			&& $this->addFragment('schema:jobTitle "%s";', $jobTitle);
+			!empty($honorificPrefix)	&& $this->addFragment('schema:honorificPrefix "%s";', $honorificPrefix);
+			!empty($honorificSuffix)	&& $this->addFragment('schema:honorificSuffix "%s";', $honorificSuffix);
+			!empty($email) 				&& $this->addFragment('schema:email "%s";', $email);
+			!empty($gender)				&& $this->addFragment('schema:gender "%s";', $gender);
+			!empty($worksFor)			&& $this->addFragment('schema:worksFor <%s> ;', $worksFor,false);
+			!empty($spokenLanguage)		&& $this->addFragment('botk:spokenLanguage "%s";', $spokenLanguage);
+			!empty($hasOptInOptOutDate)	&& $this->addFragment('botk:hasOptInOptOutDate "%s"^^xsd:dateTime;', $hasOptInOptOutDate);
+			!empty($privacyFlag)		&& $this->addFragment('botk:privacyFlag %s ;', $privacyFlag);		
+			$this->addFragment('a schema:Person.', $personUri);
 
-			$this->rdf = $turtleString;
-			$this->tripleCount = $tripleCounter;
 		}
 
 		return $this->rdf;
