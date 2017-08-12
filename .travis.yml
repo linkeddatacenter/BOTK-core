@@ -1,11 +1,9 @@
 language: php
 
 before_script:
-  - composer install --dev --prefer-source
+  - composer install --prefer-source
 
-script: 
-  - vendor/bin/phpunit
-  - tests/functional/examples.sh
+script: vendor/bin/phpunit
 
 php:
   - 7.0
