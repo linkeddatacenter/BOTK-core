@@ -453,6 +453,7 @@ Following properties/annotations supported for all object:
 - skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
 - [schema:name](http://schema.org/name )the preferred name for the individual, slimilar to skos:preferredLabel.
 - [schema:alternateName](http://schema.org/alternateNamame )an alternative name for the individual, slimilar to skos:altLabel. This axiom applies:
+
 		```
 		CONSTRUCT { ?s schema:alternateName ?name }
 		WHERE { ?s schema:name ?name}
