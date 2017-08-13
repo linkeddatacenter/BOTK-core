@@ -88,16 +88,33 @@ class BusinessContact extends Thing
 	
 	public function asTurtleFragment()
 	{
+		static $uriVars = array(
+			'gender' => 'schema:gender',
+			'worksFor' => 'schema:worksFor',
+		);
+		static $stringVars = array(
+			'taxID' => 'schema:taxID',
+			'givenName' => 'schema:givenName',
+			'familyName' => 'schema:familyName',
+			'additionalName' => 'schema:additionalName',
+			'telephone' => 'schema:telephone',
+			'faxNumber' => 'schema:faxNumber',
+			'jobTitle' => 'schema:jobTitle',
+			'honorificPrefix' => 'schema:honorificPrefix',
+			'honorificSuffix' => 'schema:honorificSuffix',
+			'email' => 'schema:email',
+			'spokenLanguage' => 'schema:spokenLanguage',
+		);
+		
+		
 		if(is_null($this->rdf)) {
 			
-			extract($this->data);
-			
 			// make a default for altenatename (can be empty) before calling parent::asTurtleFragment
-			if(empty($alternateName)){
+			if(empty($this->data['alternateName'])){
 				$this->data['alternateName'] ='';
-				if(!empty($givenName)) { $this->data['alternateName'].= $givenName.' ';}						
-				if(!empty($additionalName)) { $this->data['alternateName'].= $additionalName.' ';}		
-				if(!empty($familyName)) { $this->data['alternateName'].= $familyName.' ';}
+				if(!empty($this->data['givenName'])) { $this->data['alternateName'].= $this->data['givenName'].' ';}						
+				if(!empty($this->data['additionalName'])) { $this->data['alternateName'].= $this->data['additionalName'].' ';}		
+				if(!empty($this->data['familyName'])) { $this->data['alternateName'].= $this->data['familyName'].' ';}
 			}			
 			$this->rdf = parent::asTurtleFragment();
 		
@@ -105,23 +122,25 @@ class BusinessContact extends Thing
 			
 	 		// serialize schema:LocalBusiness	
 			$this->rdf .= "<$personUri> ";	
-			!empty($aggregateRatingValue)&& $this->addFragment('schema:aggregateRating [a schema:AggregateRating; schema:ratingValue "%s"^^xsd:float];', $aggregateRatingValue);
-			!empty($taxID) 				&& $this->addFragment('schema:taxID "%s";', $taxID);
-			!empty($givenName)			&& $this->addFragment('schema:givenName "%s";', $givenName);
-			!empty($familyName)			&& $this->addFragment('schema:familyName "%s";', $familyName);
-			!empty($additionalName) 	&& $this->addFragment('schema:additionalName "%s";', $additionalName);
-			!empty($telephone) 			&& $this->addFragment('schema:telephone "%s";', $telephone);
-			!empty($faxNumber) 			&& $this->addFragment('schema:faxNumber "%s";', $faxNumber);
-			!empty($jobTitle)			&& $this->addFragment('schema:jobTitle "%s";', $jobTitle);
-			!empty($honorificPrefix)	&& $this->addFragment('schema:honorificPrefix "%s";', $honorificPrefix);
-			!empty($honorificSuffix)	&& $this->addFragment('schema:honorificSuffix "%s";', $honorificSuffix);
-			!empty($email) 				&& $this->addFragment('schema:email "%s";', $email);
-			!empty($gender)				&& $this->addFragment('schema:gender "%s";', $gender);
-			!empty($worksFor)			&& $this->addFragment('schema:worksFor <%s> ;', $worksFor,false);
-			!empty($spokenLanguage)		&& $this->addFragment('botk:spokenLanguage "%s";', $spokenLanguage);
-			!empty($hasOptInOptOutDate)	&& $this->addFragment('botk:hasOptInOptOutDate "%s"^^xsd:dateTime;', $hasOptInOptOutDate);
-			!empty($privacyFlag)		&& $this->addFragment('botk:privacyFlag %s ;', $privacyFlag);		
+			foreach ( $uriVars as $uriVar => $property) {
+				if(!empty($this->data[$uriVar])){
+					$this->addFragment("$property <%s>;", $this->data[$uriVar],false);	
+				}
+			}
+			foreach ($stringVars as $stringVar => $property) {
+				if(!empty($this->data[$stringVar])){
+					$this->addFragment("$property \"%s\";", $this->data[$stringVar]);	
+				}
+			}
+			!empty($this->data['hasOptInOptOutDate'])&& $this->addFragment('botk:hasOptInOptOutDate "%s"^^xsd:dateTime;', $this->data['hasOptInOptOutDate']);
+			!empty($this->data['privacyFlag'])	&& $this->addFragment('botk:privacyFlag %s ;', $this->data['privacyFlag']);			
 			$this->addFragment('a schema:Person.', $personUri);
+					
+			if(!empty($this->data['aggregateRatingValue'])){
+				$ratingUri=$this->data['base'].'rating_'.$this->data['aggregateRatingValue'].
+				$this->rdf .= "<$personUri> schema:aggregateRating <$ratingUri>.<$ratingUri> schema:ratingValue \"{$this->data['aggregateRatingValue']}\"^^xsd:float.";
+				$this->tripleCount +=2;
+			}
 
 		}
 

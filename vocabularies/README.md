@@ -61,114 +61,94 @@ where {
 ```
 
 
-## schema:Organization
+## botk:BusinesOrganization
 
-Just a collection of LocalBusiness and BusinessContact. BOTK extends schema:Organization with followind properties and restrictions:
+Just a virtual collection of LocalBusiness and BusinessContact with some statistic data. 
+Extends schema:Organization with following properties and restrictions:
 
-- botk:ateco2007 with cardinality <=1
-- botk:naceV2 with cardinality <=1
-- [schema:isicV4 ](http://schema.org/isicV4 )with cardinality <=1
-- botk:hasServerManufacturer with cardinality <=1
-- botk:hasServerVirtualizationManufacturer with cardinality <=1
-- botk:hasDASManufacturer with cardinality <=1
-- botk:hasNASManufacturer with cardinality <=1
-- botk:hasSANManufacturer with cardinality <=1
-- botk:hasTapeLibraryManufacturer with cardinality <=1
-- botk:hasStorageVirtualizationManufacturer with cardinality <=1
-- botk:naics with cardinality <=1
-- botk:hasNAFCode with cardinality <=1
-- botk:hasServerSeries with cardinality <=1
-- botk:hasDesktopManufacturer with cardinality <=1
-- botk:hasLaptopManufacturer with cardinality <=1
-- botk:hasDesktopVirtualizationManufacturer with cardinality <=1
-- botk:hasWorkstationManufacturer with cardinality <=1
-- botk:hasNetworkPrinterManufacturer with cardinality <=1
-- botk:hasHighVolumePrinterManufacturer with cardinality <=1
-- botk:hasCopierManufacturer with cardinality <=1
-- botk:hasUPSManufacturer with cardinality <=1
-- botk:hasERPSuiteVendor with cardinality <=1
-- botk:hasERPSoftwareasaServiceManufacturer with cardinality <=1
-- botk:hasAppServerSoftwareVendor with cardinality <=1
-- botk:hasBusIntellSoftwareVendor with cardinality <=1
-- botk:hasCollaborativeSoftwareVendor with cardinality <=1
-- botk:hasCRMSoftwareVendor with cardinality <=1
-- botk:hasCRMSoftwareasaServiceManufacturer with cardinality <=1
-- botk:hasDocumentMgmtSoftwareVendor with cardinality <=1
-- botk:hasAppConsolidationSoftwareVendor with cardinality <=1
-- botk:hasHumanResourceSoftwareVendor with cardinality <=1
-- botk:hasSupplyChainSoftwareVendor with cardinality <=1
-- botk:hasWebServiceSoftwareVendor with cardinality <=1
-- botk:hasDatawarehouseSoftwareVendor with cardinality <=1
-- botk:hasSaaSVendor with cardinality <=1
-- botk:hasEmailMessagingVendor with cardinality <=1
-- botk:hasEmailSaaSManufacturer with cardinality <=1
-- botk:hasOSVendor with cardinality <=1
-- botk:hasOSModel with cardinality <=1
-- botk:hasDBMSVendor with cardinality <=1
-- botk:hasAcctingVendor with cardinality <=1
-- botk:hasAntiVirusVendor with cardinality <=1
-- botk:hasAssetManagementSoftwareVendor with cardinality <=1
-- botk:hasEnterpriseManagementSoftwareVendor with cardinality <=1
-- botk:hasIDAccessSoftwareVendor with cardinality <=1
-- botk:hasStorageManagementSoftwareVendor with cardinality <=1
-- botk:hasStorageSaaSManufacturer with cardinality <=1
-- botk:hasEthernetTechnology with cardinality <=1
-- botk:haseCommerceType with cardinality <=1
+- botk:ateco2007 with cardinality >=0
+- botk:naceV2 with cardinality >=0
+- [schema:isicV4 ](http://schema.org/isicV4 )with cardinality =>0
+- botk:hasServerManufacturer with cardinality >=0
+- botk:hasServerVirtualizationManufacturer with cardinality >=0
+- botk:hasDASManufacturer with cardinality >=0
+- botk:hasNASManufacturer with cardinality >=0
+- botk:hasSANManufacturer with cardinality >=0
+- botk:hasTapeLibraryManufacturer with cardinality >=0
+- botk:hasStorageVirtualizationManufacturer with cardinality >=0
+- botk:naics with cardinality >=0
+- botk:hasNAFCode with cardinality >=0
+- botk:hasServerSeries with cardinality >=0
+- botk:hasDesktopManufacturer with cardinality >=0
+- botk:hasLaptopManufacturer with cardinality >=0
+- botk:hasDesktopVirtualizationManufacturer with cardinality >=0
+- botk:hasWorkstationManufacturer with cardinality >=0
+- botk:hasNetworkPrinterManufacturer with cardinality >=0
+- botk:hasHighVolumePrinterManufacturer with cardinality >=0
+- botk:hasCopierManufacturer with cardinality >=0
+- botk:hasUPSManufacturer with cardinality >=0
+- botk:hasERPSuiteVendor with cardinality >=0
+- botk:hasERPSoftwareasaServiceManufacturer with cardinality >=0
+- botk:hasAppServerSoftwareVendor with cardinality >=0
+- botk:hasBusIntellSoftwareVendor with cardinality >=0
+- botk:hasCollaborativeSoftwareVendor with cardinality >=0
+- botk:hasCRMSoftwareVendor with cardinality <>=0
+- botk:hasCRMSoftwareasaServiceManufacturer with cardinality >=0
+- botk:hasDocumentMgmtSoftwareVendor with cardinality >=0
+- botk:hasAppConsolidationSoftwareVendor with cardinality >=0
+- botk:hasHumanResourceSoftwareVendor with cardinality >=0
+- botk:hasSupplyChainSoftwareVendor with cardinality >=0
+- botk:hasWebServiceSoftwareVendor with cardinality >=0
+- botk:hasDatawarehouseSoftwareVendor with cardinality >=0
+- botk:hasSaaSVendor with cardinality >=0
+- botk:hasEmailMessagingVendor with cardinality >=0
+- botk:hasEmailSaaSManufacturer with cardinality >=0
+- botk:hasOSVendor with cardinality >=0
+- botk:hasOSModel with cardinality >=0
+- botk:hasDBMSVendor with cardinality >=0
+- botk:hasAcctingVendor with cardinality >=0
+- botk:hasAntiVirusVendor with cardinality >=0
+- botk:hasAssetManagementSoftwareVendor with cardinality >=0
+- botk:hasEnterpriseManagementSoftwareVendor with cardinality >=0
+- botk:hasIDAccessSoftwareVendor with cardinality >=0
+- botk:hasStorageManagementSoftwareVendor with cardinality >=0
+- botk:hasStorageSaaSManufacturer with cardinality >=0
+- botk:hasEthernetTechnology with cardinality >=0
+- botk:haseCommerceType with cardinality >=0
 - botk:hasHostorRemoteStatus with cardinality <=1
-- botk:hasNetworkLineCarrier with cardinality <=1
-- botk:hasVideoConfServicesProvider with cardinality <=1
-- botk:hasUnifiedCommSvcProvider with cardinality <=1
-- botk:hasRouterManufacturer with cardinality <=1
-- botk:hasSwitchManufacturer with cardinality <=1
-- botk:hasVPNManufacturer with cardinality <=1
-- botk:hasISP with cardinality <=1
-- botk:hasNetworkServiceProvider with cardinality <=1
-- botk:hasPhoneSystemManufacturer with cardinality <=1
-- botk:hasVoIPManufacturer with cardinality <=1
-- botk:hasVoIPHosting with cardinality <=1
-- botk:hasLongDistanceCarrier with cardinality <=1
-- botk:hasWirelessProvider with cardinality <=1
-- botk:hasPhoneSystemMaintenanceProvider with cardinality <=1
-- botk:hasSmartphoneManufacturer with cardinality <=1
-- botk:hasSmartphoneOS with cardinality <=1
+- botk:hasNetworkLineCarrier with cardinality >=0
+- botk:hasVideoConfServicesProvider with cardinality >=0
+- botk:hasUnifiedCommSvcProvider with cardinality >=0
+- botk:hasRouterManufacturer with cardinality >=0
+- botk:hasSwitchManufacturer with cardinality >=0
+- botk:hasVPNManufacturer with cardinality >=0
+- botk:hasISP with cardinality >=0
+- botk:hasNetworkServiceProvider with cardinality >=0
+- botk:hasPhoneSystemManufacturer with cardinality >=0
+- botk:hasVoIPManufacturer with cardinality >=0
+- botk:hasVoIPHosting with cardinality >=0
+- botk:hasLongDistanceCarrier with cardinality >=0
+- botk:hasWirelessProvider with cardinality >=0
+- botk:hasPhoneSystemMaintenanceProvider with cardinality >=0
+- botk:hasSmartphoneManufacturer with cardinality >=0
+- botk:hasSmartphoneOS with cardinality >=0
 - botk:hasFYE with cardinality <=1
+- [schema:foundingDate](http://schema.org/foundingDate) with cardinality <=1
 - [schema:subOrganization ](http://schema.org/subOrganization )with cardinality >= 0
 
 
-Following statistical dimensions also apply; all these properties have  cardinality <=1 and range schema:QuantitativeValue 
+Following statistical dimensions also apply; all these properties have  cardinality <=1 and range schema:QuantitativeValue. The range has an implicit unit of measure,
 
 - [schema:numberOfEmployees ](http://schema.org/numberOfEmployees )expressend in number of employees
 - botk:annualTurnover expressend in Thousand EURO
 - botk:netProfit expressend in Thousand EURO
-- botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization , expressend in Thousand EURO
-- botk:hasTotDevelopers expressend in number of people
 - botk:itBudget expressend in Thousand EURO
 - botk:itStorageBudget expressend in Thousand EURO
 - botk:itHardwareBudget expressend in Thousand EURO
 - botk:itServerBudget expressend in Thousand EURO
-- botk:softwareBudget expressend in Thousand EURO		
-- botk:hasITEmployees expressend in in number of people
-- botk:hasNumberOfPCs expressend in in pcs
-- botk:hasITBudget expressend in Thousand EURO	
-- botk:hasTablets expressend in pcs
-- botk:hasWorkstations expressend in in pcs
+- botk:softwareBudget expressend in Thousand EURO	
 - botk:hasStorageBudget expressend in Thousand EURO	
 - botk:hasServerBudget expressend in Thousand EURO	
-- botk:hasServers expressend in pcs
-- botk:hasDesktop expressend in pcs
-- botk:hasLaptops expressend in pcs
-- botk:hasPrinters expressend in pcs
-- botk:hasMultifunctionPrinters expressend in pcs
-- botk:hasColorPrinter expressend in pcs
-- botk:hasInternetUsers expressend in people
-- botk:hasWirelessUsers expressend in people
-- botk:hasNetworkLines expressend in pcs
-- botk:hasRouters expressend in pcs
-- botk:hasStorageCapacity expressend in TB 
-- botk:hasExtensions expressend in pcs
-- botk:hasTotCallCenterCallers expressend in people
-- botk:hasThinPC expressend in pcs
-- botk:hasSalesforce expressend in pcs
 - botk:hasRevenue expressend in Thousand EURO	
 - botk:hasCommercialBudget expressend in Thousand EURO	
 - botk:hasHardwareBudget expressend in Thousand EURO	
@@ -178,11 +158,33 @@ Following statistical dimensions also apply; all these properties have  cardinal
 - botk:hasPCBudget expressend in Thousand EURO	
 - botk:hasPrinterBudget expressend in Thousand EURO	
 - botk:hasTerminalBudget expressend in Thousand EURO	
-- botk:hasPeripheralBudget expressend in Thousand EURO	
+- botk:hasPeripheralBudget expressend in Thousand EURO		
+- botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization , expressend in Thousand EURO
+- botk:hasITBudget expressend in Thousand EURO
+- botk:hasITEmployees expressend in in number of people
+- botk:hasNumberOfPCs expressend in in pcs
+- botk:hasTotDevelopers expressend in number of people	
+- botk:hasTotCallCenterCallers expressend in people
+- botk:hasInternetUsers expressend in people
+- botk:hasWirelessUsers expressend in people
+- botk:hasEnterpriseSmartphoneUsers expressend in people
+- botk:hasTablets expressend in pcs
+- botk:hasWorkstations expressend in in pcs
+- botk:hasServers expressend in pcs
+- botk:hasDesktop expressend in pcs
+- botk:hasLaptops expressend in pcs
+- botk:hasPrinters expressend in pcs
+- botk:hasMultifunctionPrinters expressend in pcs
+- botk:hasColorPrinter expressend in pcs
+- botk:hasNetworkLines expressend in pcs
+- botk:hasRouters expressend in pcs
+- botk:hasExtensions expressend in pcs
+- botk:hasThinPC expressend in pcs
+- botk:hasSalesforce expressend in pcs
 - botk:hasDesktopPrinters expressend in pcs	
 - botk:hasNetworkPrinters expressend in pcs
-- botk:hasSmartphoneUsers expressend in pc s
-- botk:hasEnterpriseSmartphoneUsers expressend in users
+- botk:hasSmartphoneUsers expressend in pcs
+- botk:hasStorageCapacity expressend in TB (tera bytes)
 
 
 Example 2 (in rdf turtle):
@@ -242,7 +244,7 @@ ex:org1 a schema:Organization ;
 
 Captures the concept about a public legal registered business organization  with a contactable official contact point .	
 
-It is a subclass of schema:LocalBusiness that adds some properties an drestrictions.
+It is a subclass of schema:LocalBusiness and botk:BusinessOrganization that adds some properties and restrictions.
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
 
 
@@ -449,6 +451,13 @@ Following properties/annotations supported for all object:
 - owl:sameAs with cardinality >= 0,URL of a reference Web page that unambiguously indicates the item's identity.
 - [schema:disambiguatingDescription](http://schema.org/disambiguatingDescription )with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
 - skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
+- [schema:name](http://schema.org/name )the preferred name for the individual, slimilar to skos:preferredLabel.
+- [schema:alternateName](http://schema.org/alternateNamame )an alternative name for the individual, slimilar to skos:altLabel. This axiom applies:
+		```
+		CONSTRUCT { ?s schema:alternateName ?name }
+		WHERE { ?s schema:name ?name}
+		```
+
 
 Example (in rdf turtle):
 ```

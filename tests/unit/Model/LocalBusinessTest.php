@@ -149,9 +149,6 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			),	
 	
 		//**************************************************************************
-		
-
-
 		'businessType'		=> array(		
 			'filter'    => FILTER_DEFAULT,
 			'flags'  	=> FILTER_FORCE_ARRAY
@@ -253,8 +250,8 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'flags'  	=> FILTER_FORCE_ARRAY
 			),	
 		'numberOfEmployees'	  => array(	
-			'filter'    => FILTER_VALIDATE_REGEXP,
-			'options' 	=> array('regexp'=>'/^[0-9]+\s*-?\s*[0-9]*$/'),
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_RANGE',
 			'flags'  	=> FILTER_REQUIRE_SCALAR
 			),
 		'annualTurnover'	 => array(	
@@ -280,12 +277,12 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 		'naceV2'			=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{2}[.]?[0-9]{1,2}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),			
 		'isicV4'	=> array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{4}$/'),
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasTotDevelopers'	 => array(	
 			'filter'    => FILTER_CALLBACK,
@@ -295,7 +292,7 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 		'parentOrganization'	 => array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			'flags'  	=> FILTER_FORCE_ARRAY,
 			),
 		'hasITEmployees'	 => array(	
 			'filter'    => FILTER_CALLBACK,
@@ -479,263 +476,266 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			),
 		'hasServerManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasServerVirtualizationManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDASManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasNASManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSANManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasTapeLibraryManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasStorageVirtualizationManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'naics'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasNAFCode'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasServerSeries'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDesktopManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasLaptopManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDesktopVirtualizationManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasWorkstationManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasNetworkPrinterManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasHighVolumePrinterManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasCopierManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasUPSManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasERPSuiteVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasERPSoftwareasaServiceManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasAppServerSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasBusIntellSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasCollaborativeSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasCRMSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasCRMSoftwareasaServiceManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDocumentMgmtSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasAppConsolidationSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasHumanResourceSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSupplyChainSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasWebServiceSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDatawarehouseSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSaaSVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasEmailMessagingVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasEmailSaaSManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasOSVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasOSModel'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasDBMSVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasAcctingVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasAntiVirusVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasAssetManagementSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasEnterpriseManagementSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasIDAccessSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasStorageManagementSoftwareVendor'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasStorageSaaSManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasEthernetTechnology'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'haseCommerceType'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasHostorRemoteStatus'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasNetworkLineCarrier'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasVideoConfServicesProvider'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasUnifiedCommSvcProvider'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasRouterManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSwitchManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasVPNManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasISP'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasNetworkServiceProvider'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasPhoneSystemManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasVoIPManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasVoIPHosting'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasLongDistanceCarrier'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasWirelessProvider'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasPhoneSystemMaintenanceProvider'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSmartphoneManufacturer'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasSmartphoneOS'	 => array(	
 			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_REQUIRE_SCALAR
+			'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'hasFYE'	 => array(	
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[A-Z]{3}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
-			)		
-		
-		
+			),
+		'foundingDate'	 => array(
+			'filter'    => FILTER_CALLBACK,
+			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_DATETIME',
+			'flags'  	=> FILTER_REQUIRE_SCALAR,
+			),		
 		);
 
 	$localBusiness = BOTK\Model\LocalBusiness::fromArray(array());
