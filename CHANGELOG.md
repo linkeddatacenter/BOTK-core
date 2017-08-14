@@ -4,6 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [unrelised]
 
+### Changed
+
+- README.md improvements
+
+### Added
+
+- restored CONTRIBUTING.md file
+ 
+
 ## [7.1.0]
 
 ### Added
@@ -65,7 +74,6 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 - added lot of new properties
 - added sample5A.php
-
 
 ### Changed
 

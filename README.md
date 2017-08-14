@@ -25,102 +25,123 @@ Add following dependance to **composer.json** file in your project root:
 
 ## Usage
 
-This package provides some quick and dirty tools to map csv data files to [BOTK language profile](vocabularies).
+This package provides some simple tools to transform  raw data into rdf linked data according [BOTK language profile](vocabularies).
 
-See [examples](examples/) directory.
+For example this code snipplet:
 
-##Contributing to BOTK-core
+```
+<?php
+require_once __DIR__.'/../vendor/autoload.php';
 
-Contributions to BOTK-core are always welcome. You make our lives easier by
-sending us your contributions through pull requests.
+$options = array(
+	'source' => 'urn:dataset:example2',
+	'factsProfile' => array(
+		'datamapper'	=> function(array $rawdata){
+			$data = array();
+			$data['id'] = $rawdata[2];
+			$data['businessName']= $rawdata[4];
+			$data['streetAddress'] = $rawdata[5];
+			$data['addressLocality'] = $rawdata[6];
+			$data['telephone'] = $rawdata[7];
+			$data['faxNumber'] = $rawdata[8];
+			$data['email'] = $rawdata[9];
+			$data['long'] = $rawdata[14];			
+			$data['lat'] = $rawdata[13];	
+			return $data;
+		},
+	),
+);
 
-Pull requests for bug fixes must be based on the current stable branch whereas
-pull requests for new features must be based on `master`.
-
-Due to time constraints, we are not always able to respond as quickly as we
-would like. Please do not take delays personal and feel free to remind us here,
-on IRC, or on Gitter if you feel that we forgot to respond.
-
-##Set-up of a local workstation
-
-Before begin be sure to have:
-
-  - a virus free workstation with a fresh OS (windows, MAC, Linux)
-  - at least 512K Ram required to run the whole integration testing environment
-  - a processor with virtualization support
-  - an editor of your choice able read unix-style line endings docs (i.e. notepad++)
- 
-Local workstation installation process:
-
-  - install [GIT](http://git-scm.com/). Select â€œcheckout as is , commit Unix-style line endingsâ€. If your workstation is windows based and you to want to use pageant for authentication, in windows use putty plint interface as ssh proxy or reconfigure GIT to use ssh tool if needed.
-  - install [Vagrant](https://www.vagrantup.com/)
-  - install [Virtualbox](https://www.virtualbox.org/)
-
-You are free to optionally install your preferred language ide (aptana, eclipse, other)
-
-
-## Using BOTK-core from a git checkout
-
-The following commands can be used to perform the initial checkout from a bash shell:
-
-```shell
-git clone https://github.com/linkeddatacenter/BOTK-core.git
-cd BOTK-core
+BOTK\SimpleCsvGateway::factory($options)->run();
 ```
 
-## Developing code and unit tests
+processes [this csv dataset](examples/input/sample2.csv) producing  this rdf file:
 
-Vagrant and virtualbox will setup a complete integration test environment.
-
-To create and login into integrate testing environment, just type:
-
-```shell
-vagrant up
-vagrant ssh
 ```
-Note that on first execution the install script will ask for LinkedData.Center endpoint and credentials to use.
-The APIs will be available at http://localhost:8080/
+@prefix botk: <http://linkeddata.center/botk/v1#> .
+@prefix daq: <http://purl.org/eis/vocab/daq#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix kees: <http://linkeddata.center/kees/v1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-All BOTK-core code is shared in /opt/BOTK-core inside virtual host.
+<geo:45.822059,8.818115> schema:latitude "45.822059"^^xsd:float ;
+    schema:longitude "8.818115"^^xsd:float .
 
-Retrieve BOTK-core's dependencies using [Composer](http://getcomposer.org/):
+<http://salute.gov.it/resource/farmacie#3876> a schema:LocalBusiness;
+    dct:identifier "3876" ;
+    schema:address <http://salute.gov.it/resource/farmacie#3876_address> ;
+    schema:alternateName "Farmacia DELLA BRUNELLA Dr. Prof. A. RIGAMONTI" ;
+    schema:email <file:///base/data/home/apps/s%7Erdf-translator/1.380697414950152317/FARMACIA_BRUNELLA@LIBERO.IT> ;
+    schema:faxNumber "0332214856" ;
+    schema:telephone "0332289300" .
 
-```shell
-cd /vagrant/BOTK-core
-composer install	
+<http://salute.gov.it/resource/farmacie#3876_address> a schema:PostalAddress ;
+    schema:addressCountry "IT" ;
+    schema:addressLocality "VARESE" ;
+    schema:description "VIA SALVO D'ACQUISTO, 2, VARESE" ;
+    schema:streetAddress "VIA SALVO D'ACQUISTO, 2" .
+
+...
+
+<> prov:generatedAtTime "2017-08-14T08:24:03+00:00"^^xsd:dateTime;dct:source <urn:dataset:example2>;foaf:primaryTopic <#dataset>.
+<#dataset> a void:Dataset; void:datadump <>;void:triples 274 ;void:entities 18.
+# Generated 274 good triples from 18 entities (0 ignored), 0 errors
+
 ```
 
-Unit tests are performed through PHPUnit. To launch unit tests:
+The SimpleCsvGateway class is driven by this default options that you can override:
 
-```shell
-./vendor/bin/phpunit
+```
+'factsProfile'		=> array(
+	'model'					  => 'LocalBusiness',
+	'modelOptions'			  => array(
+		'base'				=> array(
+			'default'	=> 'urn:local:',
+			'filter'    => FILTER_CALLBACK,
+	        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+	    	'flags'  	=> FILTER_REQUIRE_SCALAR,
+		),
+		... here changes to other model options are exported by models in the [src/Model directory](src/Model directory)
+	),
+	'entityThreshold'		  => 100, // min numbers of entity that trigger error resilence computation.
+	'resilienceToErrors' 	  => 0.3, // if more than 30% of error throws a TooManyErrorException
+	'resilienceToInsanes'	  => 0.9, // if more than 90% of unacceptable data throws a TooManyErrorException
+	'source' 			  	  => 'http://example.com/', // the dataset source
+	'datamapper'			  => ** YOU must provide at least this function **
+	'dataCleaner' 		  	  => a function to clean fields, by default removes ampty fields,
+	'factsErrorDetector' 	  => a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated,
+	'rawdataSanitizer' 		  => a function that pre validate raw data before processing, can be used as a filter,
+),
+'missingFactsIsError' => true, // if a missing fact should considered an error
+'bufferSize' 		=> 2000,
+'skippFirstLine'	=> true,
+'fieldDelimiter' 	=> ',',
 ```
 
-Functional tests are performed through simple bash scrips. To launch functional tests:
 
-```shell
-./tests/functional/examples.sh #  This creates alos output files in examples/output dir
-```
+See [more examples here](examples).
 
-Free testenv resources with:
+## Contributing to this project
 
-```shell
-vagrant destroy
-```
-
-
-## Standards
-
-We are trying to follow the [PHP-FIG](http://www.php-fig.org)'s standards, so
-when you send us a pull request, be sure you are following them.
-
-Please see http://help.github.com/pull-requests/.
-
-
+See [Contributing guidelines](CONTRIBUTING.md)
 
 ## License
 
- Copyright © 2017 by  Enrico Fagnoni at [LinkedData.Center](http://LinkedData.Center/)®
+Copyright © 2017 by [LinkedData.Center](http://LinkedData.Center/)®
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
