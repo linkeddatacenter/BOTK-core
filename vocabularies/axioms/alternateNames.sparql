@@ -1,0 +1,4 @@
+PREFIX schema: <http://schema.org/> 
+
+CONSTRUCT { ?s schema:alternateName ?name }
+WHERE { ?s schema:name ?name}

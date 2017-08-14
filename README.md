@@ -103,35 +103,66 @@ processes [this csv dataset](examples/input/sample2.csv) producing  this rdf fil
 
 ```
 
-The SimpleCsvGateway class is driven by this default options that you can override:
+The the dataset processing is driven by the SimpleCsvGateway class that uses a set of options that you can override:
+
+| SimpleCsvGateway option | default | note |
+|--------|---------|------|
+| missingFactsIsError | true | if a missing fact should considered an error
+| bufferSize | 2000 | |
+| skippFirstLine | true | |
+| fieldDelimiter | ',' | |
+| factsProfile | array ...| see below |
+
+
+**factsProfile** are processed bt FactsFactory class that use following options:
+
+| factsProfile option | default | note |
+|--------|---------|------|
+| model | LocalBusiness | if no namespace spceified BOTK\Model is used |
+| modelOptions | array ...| see below |
+| entityThreshold | 100 | in numbers of entity that trigger error resilence computation |
+| resilienceToErrors | 0.3 | if more than 30% of error throws a TooManyErrorException |
+| resilienceToInsanes | 0.9 | if more than 90% of unacceptable data throws a TooManyErrorException |
+| source | 'http://example.com/' | the dataset source url |
+| datamapper | function | ** YOU must provide at least this function ** |
+| dataCleaner | function |  a function to clean fields, by default removes ampty fields |
+| factsErrorDetector | function |  a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated |
+| rawdataSanitizer |  function | a function that pre validate raw data before processing, can be used as a filter |
+
+
+**modelOptions** are override to the default field options provided by the selected model. 
+For example see this snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
 
 ```
-'factsProfile'		=> array(
-	'model'					  => 'LocalBusiness',
-	'modelOptions'			  => array(
+...
+	protected static $DEFAULT_OPTIONS  = array(
+		'uri'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
 		'base'				=> array(
-			'default'	=> 'urn:local:',
-			'filter'    => FILTER_CALLBACK,
-	        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-	    	'flags'  	=> FILTER_REQUIRE_SCALAR,
-		),
-		... here changes to other model options are exported by models in the [src/Model directory](src/Model directory)
-	),
-	'entityThreshold'		  => 100, // min numbers of entity that trigger error resilence computation.
-	'resilienceToErrors' 	  => 0.3, // if more than 30% of error throws a TooManyErrorException
-	'resilienceToInsanes'	  => 0.9, // if more than 90% of unacceptable data throws a TooManyErrorException
-	'source' 			  	  => 'http://example.com/', // the dataset source
-	'datamapper'			  => ** YOU must provide at least this function **
-	'dataCleaner' 		  	  => a function to clean fields, by default removes ampty fields,
-	'factsErrorDetector' 	  => a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated,
-	'rawdataSanitizer' 		  => a function that pre validate raw data before processing, can be used as a filter,
-),
-'missingFactsIsError' => true, // if a missing fact should considered an error
-'bufferSize' 		=> 2000,
-'skippFirstLine'	=> true,
-'fieldDelimiter' 	=> ',',
+								'default'	=> 'urn:local:',
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'id'				=> array(
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
+			                   ),
+		'page'				=> array(	
+								'filter'    => FILTER_CALLBACK,
+		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+                            	'flags'  	=> FILTER_FORCE_ARRAY,
+			                   ),
+...
 ```
 
+a field definition drives the process of data cleansing and rdf generation that is provided by model implementation.
+Note that not always a field  generate just a RDF triple: sometime the rdf genartion processing requires to create blank nodes or to reference named node.
+For named node generation the 'base' uri namespace is normally used ("urn:local:." by default)
 
 See [more examples here](examples).
 

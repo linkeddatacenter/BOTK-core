@@ -1,7 +1,7 @@
 # BOTK Language profile
 
-The BOTK language profile is a Semantic Web application that extends schema.org with some business related stuff. 
-BOTK is compatible with KEES (Knowledge Exchange Engine Schema) applications.
+The BOTK language profile is a Semantic Web application that extends schema.org and other well known ontologies with some business related stuff. 
+BOTK is compatible with [KEES (Knowledge Exchange Engine Schema)](http://linkeddata.center/kees) applications.
 
 Following vocabularies are partially supported:
 
@@ -38,6 +38,10 @@ The primary focus o BOTK are:
 
 BOTK extends and introduces some restrictions to the supported ontologies. 
 
+- the [BOTK schema](vocabularies/botk.rdf) provides a forma rdf schema description of the extensions
+- the [BOTK ontology](vocabularies/botk-restrictions.owl) provides a forma OWL 2 description of the restriction
+- the [BOTK axioms](vocabularies/axioms) provides other required axioms and mappings expressed as SPARQL contructs or owl description
+
 ## String context restriction
 
 No string context should be used to qualify strings.
@@ -51,15 +55,7 @@ schema:QuantitativeValue is used as an a-dimentional range of values with follow
 - [schema:maxValue ](http://schema.org/maxValue )with cardinality <= 1,
 - [schema:value ](http://schema.org/value )with cardinality <= 1,
 
-if schema:value with cardinality = 1 then schema:minValue = schema:maxValue =schema:minValue i.e.:
-
-```
-construct { ?s schema:minValue ?value; $schema:maxValue ?value} 
-where {
-	?s schema:value ?value
-}
-```
-
+if schema:value with cardinality = 1 then schema:minValue = schema:maxValue =schema:minValue see [quantitativeValues axiom](vocabularies/axioms/quantitativeValues.sparql)
 
 ## botk:BusinesOrganization
 
@@ -452,13 +448,8 @@ Following properties/annotations supported for all object:
 - [schema:disambiguatingDescription](http://schema.org/disambiguatingDescription )with cardinality >= 0, A short description of the item used to disambiguate from other, similar items (e.g a category)
 - skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
 - [schema:name](http://schema.org/name )the preferred name for the individual, slimilar to skos:preferredLabel.
-- [schema:alternateName](http://schema.org/alternateNamame )an alternative name for the individual, slimilar to skos:altLabel. This axiom applies:
-
-		```
-		CONSTRUCT { ?s schema:alternateName ?name }
-		WHERE { ?s schema:name ?name}
-		```
-
+- [schema:alternateName](http://schema.org/alternateNamame )an alternative name for the individual, slimilar to skos:altLabel. 
+  A name should be alwais o an alternateName, see [alternateNames axiom](vocabularies/axioms/alternateNames.sparql)
 
 Example (in rdf turtle):
 ```

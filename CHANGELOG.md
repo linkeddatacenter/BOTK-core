@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 ### Added
 
 - restored CONTRIBUTING.md file
+- example axioms
  
 
 ## [7.1.0]
