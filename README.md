@@ -130,33 +130,32 @@ The the dataset processing is driven by the SimpleCsvGateway class that uses a s
 | rawdataSanitizer |  function | a function that pre validate raw data before processing, can be used as a filter |
 
 
-**modelOptions** are override to the default field options provided by the selected model. 
-For example see this snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
+**modelOptions** are override to the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
+For example see this code snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
 
 ```
 ...
-	protected static $DEFAULT_OPTIONS  = array(
-		'uri'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'base'				=> array(
-								'default'	=> 'urn:local:',
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'id'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'page'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
+	'uri' => array(
+		'filter'    => FILTER_CALLBACK,
+		'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+		'flags'  	=> FILTER_REQUIRE_SCALAR
+	),
+	'base' => array(
+		'default'	=> 'urn:local:',
+		'filter'    => FILTER_CALLBACK,
+		'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+		'flags'  	=> FILTER_REQUIRE_SCALAR
+	),
+	'id' => array(
+		'filter'    => FILTER_CALLBACK,
+		'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+		'flags'  	=> FILTER_REQUIRE_SCALAR
+	),
+	'page' => array(	
+		'filter'    => FILTER_CALLBACK,
+		'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+		'flags'  	=> FILTER_FORCE_ARRAY
+	),
 ...
 ```
 
