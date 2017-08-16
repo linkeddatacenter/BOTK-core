@@ -38,9 +38,9 @@ The primary focus o BOTK are:
 
 BOTK extends and introduces some restrictions to the supported ontologies. 
 
-- the [BOTK schema](vocabularies/botk.rdf) provides a forma rdf schema description of the extensions
-- the [BOTK ontology](vocabularies/botk-restrictions.owl) provides a forma OWL 2 description of the restriction
-- the [BOTK axioms](vocabularies/axioms) provides other required axioms and mappings expressed as SPARQL contructs or owl description
+- the [BOTK schema](botk.rdf) provides a forma rdf schema description of the extensions
+- the [BOTK ontology](botk-restrictions.owl) provides a forma OWL 2 description of the restriction
+- the [BOTK axioms](axioms) provides other required axioms and mappings expressed as SPARQL contructs or owl description
 
 ## String context restriction
 
@@ -57,7 +57,7 @@ schema:QuantitativeValue is used as an a-dimentional range of values with follow
 
 if schema:value with cardinality = 1 then schema:minValue = schema:maxValue =schema:minValue see [quantitativeValues axiom](vocabularies/axioms/quantitativeValues.sparql)
 
-## botk:BusinesOrganization
+## botk:BusinessOrganization
 
 Just a virtual collection of LocalBusiness and BusinessContact with some statistic data. 
 Extends schema:Organization with following properties and restrictions:
@@ -287,8 +287,8 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 Captures a contact point with a postal address
 - [schema:description ](http://schema.org/description )with cardinality >= 1 possibly as normalized string from template "DUF DUG, CIVIC, ZIP LOCALITY", es "LUNGOLARIO CESARE BATTISTI, 5, 23900 LECCO LC" ) 
 - [schema:addressCountry ](http://schema.org/addressCountry )with cardinality = 1, Country  in two-letter ISO 3166-1 alpha-2 country code no language specs
-- [schema:addressLocality ](http://schema.org/addressLocality )with cardinality <= 1, The locality as normalized string. For example, "MILANO". Should be present in an official country adminstrative db as SKOS:primaryName or rdfs:label
-- [schema:addressRegion](http://schema.org/addressRegion) with cardinality <= 1, The second administrative level as normalized string. For example, "MI". . Should be present in country adminstrative db as SKOS:primaryName
+- [schema:addressLocality ](http://schema.org/addressLocality )with cardinality <= 1,  is the name of the locality as normalized string. For example, "MILANO". Should be present in an official country adminstrative db
+- [schema:addressRegion](http://schema.org/addressRegion) with cardinality <= 1, is the name of the second administrative level as normalized string. For example, "MILANO".  Should be present in country adminstrative official db.
 - [schema:streetAddress](http://schema.org/streetAddress) with cardinality <= 1,	a normalizzed string from template "DUF DUG, CIVIC". For example, "VIA ANTONIO MORDINI, 3"
 - [schema:postalCode](http://schema.org/postalCode)	with cardinality <= 1,	Text 	The postal code. For example, 94043.
 
@@ -381,12 +381,20 @@ Example (in rdf turtle):
 ```
 
 
+## schema:State
+
+captures a second level administrative area with these properties and restrictions:
+
+- botk:iso3166-2 with cardinality <=1 a sub property of schema:identifier and https://www.wikidata.org/wiki/Property:P300 
+  range a ISO 3166-2 code (e.g."IT-MI")
+
+
 ## schema:Product
 
 capture a product or service with these properties and restrictions:
 
 
-- dct:identifier with cardinality <= 1
+- [schema:productID](http://schema.org/brand ) with cardinality <= 1
 - [schema:brand ](http://schema.org/brand )with cardinality >=0
 - [schema:category ](http://schema.org/category )
 - [schema:color ](http://schema.org/color )
@@ -449,7 +457,7 @@ Following properties/annotations supported for all object:
 - skos:subject >=0 a link to a concept defined into a taxonomy schema described with skos
 - [schema:name](http://schema.org/name )the preferred name for the individual, slimilar to skos:preferredLabel.
 - [schema:alternateName](http://schema.org/alternateNamame )an alternative name for the individual, slimilar to skos:altLabel. 
-  A name should be alwais o an alternateName, see [alternateNames axiom](vocabularies/axioms/alternateNames.sparql)
+  A name should be alwais o an alternateName, see [alternateNames axiom](vocabularies/axioms/alternateNames.construct)
 
 Example (in rdf turtle):
 ```

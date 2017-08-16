@@ -10,25 +10,36 @@ Due to time constraints, we are not always able to respond as quickly as we
 would like. Please do not take delays personal and feel free to remind us here,
 on IRC, or on Gitter if you feel that we forgot to respond.
 
-## Set-up of a local workstation
+## Set-up of a local developmente workstation
 
-Before begin be sure to have:
+Before to begin be sure to have:
 
-  - a virus free workstation with a fresh OS (windows, MAC, Linux)
-  - at least 512K Ram required to run the whole integration testing environment
-  - a processor with virtualization support
-  - an editor of your choice able read unix-style line endings docs (i.e. notepad++)
- 
+- a virus free workstation with a fresh OS (windows, MAC, Linux)
+- at least 2GB Ram required to run the whole integration testing environment
+- a processor with virtualization support
+- a personal account to [BitBucket](https://bitbucket.org/)
+- an editor of your choice able read unix-style line endings docs (i.e. notepad++)
+- a valis linkedData.Center SDaaS subscription
+- a valid [Vagrant Cloud account](https://vagrantcloud.com/account/new)
+
 Local workstation installation process:
 
-  - install [GIT](http://git-scm.com/). Select â€œcheckout as is , commit Unix-style line endingsâ€. If your workstation is windows based and you to want to use pageant for authentication, in windows use putty plint interface as ssh proxy or reconfigure GIT to use ssh tool if needed.
-  - install [Vagrant](https://www.vagrantup.com/)
-  - install [Virtualbox](https://www.virtualbox.org/)
+- install [GIT](http://git-scm.com/). Select “checkout as is , commit Unix-style line endings”.
+- install [Vagrant](https://www.vagrantup.com/)
+- install [Virtualbox](https://www.virtualbox.org/)<
+- [download ngrok.exe](https://ngrok.com/) and copy executable file in a directory in PATH
 
 You are free to optionally install your preferred language ide (aptana, eclipse, other)
 
+This is the last known working configuration on Windows 10:
 
-## Using BOTK-core from a git checkout
+|git                | 2.13.3-64bit |
+|VirtualBox         | 5.1.24       |
+|Vagrant            | 1.9.7        |
+|bento/ubuntu-16.04 | 2.3.7        |
+
+
+## Usgit checkout
 
 The following commands can be used to perform the initial checkout from a bash shell:
 
