@@ -1,0 +1,9 @@
+#
+# This rule ensures that schema:name value is always present among schema:alternateNames
+#
+# Copyright (c) 2017 by LinkedData.Center. Some right reserved, refer to project license
+#
+PREFIX schema: <http://schema.org/> 
+
+CONSTRUCT { ?s schema:alternateName ?name }
+WHERE { ?s schema:name ?name}

@@ -18,7 +18,7 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~7.1",
+            "botk/core": "~7.2",
         }
     }
 ```
@@ -26,6 +26,8 @@ Add following dependance to **composer.json** file in your project root:
 ## Usage
 
 This package provides some simple tools to transform  raw data into rdf linked data according [BOTK language profile](vocabularies).
+
+This package is compatible both with [KEES architecture](http://linkeddata.center/kees and with [LinkedData.Center SDaaS plans](http://linkeddata.center/home/sdaas)
 
 For example this code snipplet:
 

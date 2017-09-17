@@ -1,0 +1,18 @@
+#
+# This rule create strong identity links between local entities based on vatID
+#
+# Copyright (c) 2017 by LinkedData.Center. Some right reserved, refer to project license
+#
+PREFIX schema: <http://schema.org/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+CONSTRUCT { ?s1 owl:sameAs ?s2}
+WHERE {
+  ?s1 a schema:LocalBusiness;
+        schema:vatID ?vat;
+        schema:address [ ?addressCountry ?country ].
+  ?s2 a schema:LocalBusiness;
+        schema:vatID ?vat;
+        schema:address [ ?addressCountry ?country ].
+  FILTER(?s1 != ?s2)
+}
