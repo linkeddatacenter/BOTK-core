@@ -5,7 +5,7 @@
 @prefix resource: <http://data.econocom.it/resource/> .
 
 
-resource:local_business:unknow_location a kees:Table ;
+resource:table_local_business_unknow_location a kees:Table ;
 	dct:identifier "local_business:unknow_location" ;
 	rdfs:label "Business entities without a recognized city."@en ;
 	rdfs:comment "Business entities with an address that does'nt match ISTAT classification"@en ;
@@ -29,7 +29,7 @@ WHERE {
 .
 
 
-resource:local_business:id a kees:Table ;
+resource:table_local_business_id a kees:Table ;
 	dct:identifier "local_business:id" ;
 	rdfs:label "Info about a specific id (in %ID% parameter)."@en ;
 	rdfs:comment "Display name, address and identities for a company whose id contains the string specified in %ID% parameter. Just firts 50 entries displayed."@en ;
@@ -49,7 +49,7 @@ WHERE {
 """ 
 .
 
-resource:local_business:same_as a kees:Table ;
+resource:table_local_business_same_as a kees:Table ;
 	dct:identifier "local_business:same_as" ;
 	rdfs:label "Business entities identities."@en ;
 	rdfs:comment "Business entities that could be identical to other business entities"@en ;
