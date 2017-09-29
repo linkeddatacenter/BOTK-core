@@ -132,23 +132,23 @@ class Product extends Thing
 
 	 		// serialize uri properies
 			$this->rdf .= "<$productUri> ";
-			foreach ($uriVars as $uriVar) {
-				if(!empty($this->data[$uriVar])){
-					$this->addFragment("schema:$uriVar <%s>;", $this->data[$uriVar],false);	
+			foreach ($uriVars as $var) {
+				if(!empty($this->data[$var])){
+					$this->addFragment("schema:$var <%s>;", $this->data[$var],false);	
 				}
 			}
 			
 			// serialize string properies		
-			foreach ($stringVars as $stringVar) {
-				if(!empty($this->data[$stringVar])){
-					$this->addFragment("schema:$stringVar \"%s\";", $this->data[$stringVar]);	
+			foreach ($stringVars as $var) {
+				if(!empty($this->data[$var])){
+					$this->addFragment("schema:$var \"%s\";", $this->data[$var]);	
 				}
 			}
 			
 			// serialize date properies
-			foreach ($dateVars as $dateVar ) {
-				if(!empty($this->data[$stringVar])){
-					$this->addFragment("schema:$dateVar \"%s\"^^xsd:dateTime;", $this->data[$dateVar]);	
+			foreach ($dateVars as $var ) {
+				if(!empty($this->data[$var])){
+					$this->addFragment("schema:$var \"%s\"^^xsd:dateTime;", $this->data[$var]);	
 				}
 			}
 			
