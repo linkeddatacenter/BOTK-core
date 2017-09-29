@@ -465,6 +465,10 @@ Example (in rdf turtle):
 	ex:org1_address schema:disambiguatingDescription "restaurant", "food", "point_of_interest","establishment" .
 ```
 
+## skos:Concept
+- skos:inScheme with cardinality = 1
+- skos:prefLabel with cardinality = 1  (multiple language tag allowed)
+
 ## Data trust ##
 
 Trust in data can be expressed according with the [Dataset Quality Vocabulary (daQ)](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq).

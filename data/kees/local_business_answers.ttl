@@ -2,7 +2,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix kees: <http://linkeddata.center/kees/v1#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix resource: <http://data.econocom.it/resource/> .
+@prefix resource: <https://bitbucket.org/linkeddatacenter/sd2ec1/raw/master/data/kees/local_business_answers.ttl#> .
 
 
 resource:table_local_business_unknow_location a kees:Table ;
