@@ -26,6 +26,7 @@ class SimpleCsvGateway
 			'bufferSize' 		=> 2000,
 			'skippFirstLine'	=> true,
 			'fieldDelimiter' 	=> ',',
+		    'silent'            => false,
 		);
 		$this->options = array_merge($defaults,$options);
 		$this->factsFactory = new \BOTK\FactsFactory($options['factsProfile']);
@@ -38,6 +39,13 @@ class SimpleCsvGateway
 		return fgetcsv(STDIN, $this->options['bufferSize'], $this->options['fieldDelimiter']);
 	}
 	
+	protected function message($message)
+	{
+	    if (!this->options['silent']){
+	        echo $message;
+	    }
+	}
+	
 	
 	public function run()
 	{
@@ -45,7 +53,7 @@ class SimpleCsvGateway
 	
 	    while ($rawdata = $this->readRawData()) {
 	    	if($this->currentRow==1 && $this->options['skippFirstLine']){
-	    		echo "# Header skipped\n";
+	    	    $this->message ("# Header skipped\n");
 	    		continue;
 			}
     		try {
@@ -53,11 +61,11 @@ class SimpleCsvGateway
 	    		echo $facts->asTurtleFragment(), "\n";
 				$droppedFields = $facts->getDroppedFields();
 		    	if(!empty($droppedFields) && $this->options['missingFactsIsError']) {
-				    echo "\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n";
+		    	    $this->message ("\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n");
 					$this->factsFactory->addToCounter('error');
 				}	    
 			} catch (\BOTK\Exception\Warning $e) {
-				echo "\n# WARNING on row {$this->currentRow}: ".$e->getMessage()."\n";
+			    $this->message ("\n# WARNING on row {$this->currentRow}: ".$e->getMessage()."\n");
 			} 
 	    }
 		
