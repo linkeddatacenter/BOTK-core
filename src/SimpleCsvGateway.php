@@ -41,7 +41,7 @@ class SimpleCsvGateway
 	
 	protected function message($message)
 	{
-	    if (!this->options['silent']){
+	    if (!$this->options['silent']){
 	        echo $message;
 	    }
 	}
