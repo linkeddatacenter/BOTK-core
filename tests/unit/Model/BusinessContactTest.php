@@ -101,7 +101,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'sameas'			=> array(	
+		'sameAs'			=> array(	
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
                             	'flags'  	=> FILTER_FORCE_ARRAY,

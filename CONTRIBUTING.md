@@ -39,7 +39,7 @@ This is the last known working configuration on Windows 10:
 |bento/ubuntu-16.04 | 2.3.7        |
 
 
-## Usgit checkout
+## git checkout
 
 The following commands can be used to perform the initial checkout from a bash shell:
 

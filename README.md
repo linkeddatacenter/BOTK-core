@@ -13,7 +13,7 @@ Super lightweight classes and ontologies for developing smart gateways to popula
 The package is available on [Packagist](https://packagist.org/packages/botk/core).
 You can install it using [Composer](http://getcomposer.org).
 
-Add following dependance to **composer.json** file in your project root:
+Add following dependence to **composer.json** file in your project root:
 
 ```
     {
@@ -29,7 +29,7 @@ This package provides some simple tools to transform  raw data into rdf linked d
 
 This package is compatible both with [KEES architecture](http://linkeddata.center/kees and with [LinkedData.Center SDaaS plans](http://linkeddata.center/home/sdaas)
 
-For example this code snipplet:
+For example this code snippet:
 
 ```
 <?php
@@ -120,7 +120,7 @@ The the dataset processing is driven by the SimpleCsvGateway class that uses a s
 
 | factsProfile option | default | note |
 |--------|---------|------|
-| model | LocalBusiness | if no namespace spceified BOTK\Model is used |
+| model | LocalBusiness | if no namespace specified BOTK\Model is used |
 | modelOptions | array ...| see below |
 | entityThreshold | 100 | in numbers of entity that trigger error resilence computation |
 | resilienceToErrors | 0.3 | if more than 30% of error throws a TooManyErrorException |
@@ -129,7 +129,7 @@ The the dataset processing is driven by the SimpleCsvGateway class that uses a s
 | datamapper | function | ** YOU must provide at least this function ** |
 | dataCleaner | function |  a function to clean fields, by default removes ampty fields |
 | factsErrorDetector | function |  a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated |
-| rawdataSanitizer |  function | a function that pre validate raw data before processing, can be used as a filter |
+| rawdataSanitizer |  function | a function that pre-validate raw data before processing, can be used as a filter |
 
 
 **modelOptions** are override to the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
@@ -162,7 +162,7 @@ For example see this code snippet extracted from [Thing model](src\Model\Thing.p
 ```
 
 a field definition drives the process of data cleansing and rdf generation that is provided by model implementation.
-Note that not always a field  generate just a RDF triple: sometime the rdf genartion processing requires to create blank nodes or to reference named node.
+Note that not always a field  generate just a RDF triple: sometime the rdf generation processing requires to create blank nodes or to reference named node.
 For named node generation the 'base' uri namespace is normally used ("urn:local:." by default)
 
 See [more examples here](examples).

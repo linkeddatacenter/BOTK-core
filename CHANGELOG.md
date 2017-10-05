@@ -2,7 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [changelog format](http://keepachangelog.com/)
 
-## [unrelised]
+## [Unreleased]
+
+## [7.3.0]
+
+### Fixed
+
+- sameas moved to sameAs in Thing
+
+
+### Added
+
+- silent option
+
+ 
+## [7.2.0]
+
 
 ### Changed
 
@@ -172,7 +187,10 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.1.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.0...HEAD
+[7.3.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.2.0...7.3.0
+[7.2.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.1.0...7.2.0
+[7.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.2...7.1.0
 [7.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.2...7.1.0
 [7.0.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.1...7.0.2
 [7.0.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.0...7.0.1
