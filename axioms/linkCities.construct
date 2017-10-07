@@ -7,7 +7,7 @@ PREFIX schema: <http://schema.org/>
 
 CONSTRUCT { ?s schema:containedInPlace ?city }
 WHERE { 
-	?s schema:address [ schema:addressLocality ?locality; schema:addressRegion ?prov ] .
+	?s a schema:LocalBusiness; schema:address [ schema:addressLocality ?locality; schema:addressRegion ?prov ] .
 	
 	?city a schema:City;
 		schema:alternateName ?locality;
