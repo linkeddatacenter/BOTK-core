@@ -115,6 +115,7 @@ class BusinessContact extends Thing
 				if(!empty($this->data['givenName'])) { $this->data['alternateName'].= $this->data['givenName'].' ';}						
 				if(!empty($this->data['additionalName'])) { $this->data['alternateName'].= $this->data['additionalName'].' ';}		
 				if(!empty($this->data['familyName'])) { $this->data['alternateName'].= $this->data['familyName'].' ';}
+				$this->data['alternateName'] = trim($this->data['alternateName']);
 			}			
 			$this->rdf = parent::asTurtleFragment();
 		
