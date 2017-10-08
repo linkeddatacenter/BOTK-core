@@ -241,7 +241,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
     				'uri'				=>'urn:test:b',
     				'familyName'		=> 'Fagnoni',
     			),
-    			'<urn:test:b> schema:alternateName "FAGNONI ".<urn:test:b> schema:familyName "FAGNONI";a schema:Person.',
+    			'<urn:test:b> schema:alternateName "FAGNONI".<urn:test:b> schema:familyName "FAGNONI";a schema:Person.',
     			3,
     		),
 			
