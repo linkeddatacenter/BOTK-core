@@ -7,24 +7,33 @@
 
 resource:table_local_business_unknow_location a kees:Table ;
 	dct:identifier "local_business:unknow_location" ;
-	rdfs:label "Business entities without a recognized city."@en ;
-	rdfs:comment "Business entities with an address that does'nt match ISTAT classification"@en ;
+	rdfs:label "Business entities without a recognized city by dataset (parameter DATASET)."@en ;
+	rdfs:comment "Business entities with an address that does'nt match ISTAT classification. Acceps parameter DATASET (defaut all) "@en ;
 	kees:queryText """# Business entities with an address that does'nt match ISTAT classification
 PREFIX schema: <http://schema.org/> 
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX sd: <http://www.w3.org/ns/sparql-service-description#>
 
-SELECT ?dataset ?azienda ?comune ?provincia
+SELECT DISTINCT ?dataset ?azienda ?comune ?provincia
 WHERE { 
-	GRAPH ?dataset { ?azienda schema:address  ?address }
+	GRAPH ?g { ?lb a schema:LocalBusiness; schema:address  ?address }
 	
 	OPTIONAL { ?address schema:addressLocality ?comune }
 	OPTIONAL { ?address schema:addressRegion ?provincia }
     OPTIONAL { 
-      ?azienda schema:containedInPlace ?city.
+      ?lb schema:containedInPlace ?city.
       ?city a schema:City;
     }
+          
+  	[] sd:name ?g; dct:source ?source.
+    [] dcat:distribution [ dcat:accessURL ?source ]; dct:title ?dataset.
+  
+    ?lb dct:identifier ?azienda.
   
   	FILTER( !BOUND(?city) )
-}
+  	FILTER REGEX (?dataset, "%DATASET=%", "i")
+} ORDER BY ?g ?provincia ?comune 
 """ 
 .
 
