@@ -263,7 +263,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 					'hasOptInOptOutDate'=> '10/10/2003',
 					'privacyFlag'		=> 1
     				),
-    				'<urn:test:b> schema:alternateName "GIVEN ADDITIONAL FAMILY ".<urn:test:b> schema:gender <http://schema.org/Male>;schema:worksFor <http:/a.c/>;schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00"^^xsd:dateTime;botk:privacyFlag true ;a schema:Person.',
+    				'<urn:test:b> schema:alternateName "GIVEN ADDITIONAL FAMILY".<urn:test:b> schema:gender <http://schema.org/Male>;schema:worksFor <http:/a.c/>;schema:taxID "1234";schema:givenName "GIVEN";schema:familyName "FAMILY";schema:additionalName "ADDITIONAL";schema:telephone "1234567";schema:jobTitle "dr.";schema:jobTitle "ing.";schema:jobTitle "grand.uff.";schema:jobTitle "lup.mannar.";schema:email "A@B.C";schema:spokenLanguage "it";botk:hasOptInOptOutDate "2003-10-10T00:00:00+00:00"^^xsd:dateTime;botk:privacyFlag true ;a schema:Person.',
     				17,
     			),
 

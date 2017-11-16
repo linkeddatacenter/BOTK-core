@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 - bug in linkCities.construct
 - bugs in some queries
 
+
 ## [7.3.0]
 
 ### Fixed
@@ -195,7 +196,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.1...HEAD
+[7.3.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.0...7.3.1
 [7.3.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.2.0...7.3.0
 [7.2.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.1.0...7.2.0
 [7.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.0.2...7.1.0
