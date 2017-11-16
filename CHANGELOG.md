@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.3.1] bug fixing release
+
+### fixed
+
+- bug in local_business_answers.ttl
+- bug in linkCities.construct
+- bugs in some queries
+
 ## [7.3.0]
 
 ### Fixed
