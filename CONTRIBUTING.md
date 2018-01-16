@@ -77,7 +77,8 @@ Unit tests are performed through PHPUnit. To launch unit tests:
 Functional tests are performed through simple bash scrips. To launch functional tests:
 
 ```shell
-./tests/functional/examples.sh #  This creates alos output files in examples/output dir
+sudo apt-get install raptor2-utils
+cd tests/functional; ./examples.sh #  This creates alos output files in examples/output dir
 ```
 
 Free testenv resources with:

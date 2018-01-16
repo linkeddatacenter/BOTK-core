@@ -1,9 +1,6 @@
 composer.phar
 /work/
 /vendor/
-.rake_test_cache
-/tmp/
-/.kitchen/
 /.vagrant/
 .project
 .settings

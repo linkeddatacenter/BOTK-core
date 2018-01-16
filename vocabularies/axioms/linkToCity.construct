@@ -1,5 +1,5 @@
 #
-# This rule links the proper city to any concept that has a schema:address property
+# This rule links the proper city to a LocalBusiness that has a schema:address property
 #
 # Copyright (c) 2017 by LinkedData.Center. Some right reserved, refer to project license
 #

@@ -1,0 +1,8 @@
+PREFIX schema: <http://schema.org/> 
+
+CONSTRUCT { ?s schema:value ?value } 
+WHERE { 
+	OPTIONAL { ?s schema:value ?x  }
+	?s schema:minValue ?minValue; schema:maxValue ?maxValue 
+	FILTER (!BOUND(?x))
+}

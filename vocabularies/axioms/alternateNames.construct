@@ -1,4 +1,7 @@
 PREFIX schema: <http://schema.org/> 
 
 CONSTRUCT { ?s schema:alternateName ?name }
-WHERE { ?s schema:name ?name}
+WHERE { 
+	?s schema:name ?name
+	FILTER NOT EXISTS  { ?s schema:alternateName ?name }
+}

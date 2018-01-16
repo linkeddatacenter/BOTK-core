@@ -18,7 +18,7 @@ Add following dependence to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "botk/core": "~7.2",
+            "botk/core": "~7.3",
         }
     }
 ```
@@ -57,7 +57,14 @@ $options = array(
 BOTK\SimpleCsvGateway::factory($options)->run();
 ```
 
-processes [this csv dataset](examples/input/sample2.csv) producing  this rdf file:
+processes this csv dataset:
+
+| CODICE_ASL | DENOM_ASL                     | CODICE_NAZIONALE | CODICE_REGIONALE | DENOM_FARMACIA                                 | INDIRIZZO               | LOCALITA  | TELEFONO   | FAX        | EMAIL                       | CARATTERIZZAZIONE | PRENOTAZIONI_CONSENSO | ESENZIONI | LAT       | LNG      | LOCATION              |
+|------------|-------------------------------|------------------|------------------|------------------------------------------------|-------------------------|-----------|------------|------------|-----------------------------|-------------------|-----------------------|-----------|-----------|----------|-----------------------|
+| 314        | ASL della Provincia di Varese | 3876             | VA0139           | Farmacia DELLA BRUNELLA Dr. Prof. A. RIGAMONTI | Via Salvo D'Acquisto, 2 | Varese    | 0332289300 | 0332214856 | farmacia_brunella@libero.it | urbana            |                       | true      | 45.822059 | 8.818115 | (45.822059, 8.818115) |
+| 303        | ASL della Provincia di Como   | 2100             | CO0392           | Farmacia Tagliabue Dr. Diego Maria             | VIA ADUA, 9             | Magreglio | 031965123  |            | farmmagreglio@tiscalinet.it | rurale sussidiata | true                  | true      | 45.92146  | 9.26228  | (45.92146, 9.26228)   |
+
+producing  this rdf file:
 
 ```
 @prefix botk: <http://linkeddata.center/botk/v1#> .
@@ -107,32 +114,31 @@ processes [this csv dataset](examples/input/sample2.csv) producing  this rdf fil
 
 The the dataset processing is driven by the SimpleCsvGateway class that uses a set of options that you can override:
 
-| SimpleCsvGateway option | default | note |
-|--------|---------|------|
-| missingFactsIsError | true | if a missing fact should considered an error
-| bufferSize | 2000 | |
-| skippFirstLine | true | |
-| fieldDelimiter | ',' | |
-| factsProfile | array ...| see below |
+| SimpleCsvGateway option | default   | note                                         |
+|-------------------------|-----------|----------------------------------------------|
+| missingFactsIsError     | true      | if a missing fact should considered an error |
+| bufferSize              | 2000      |                                              |
+| skippFirstLine          | true      |                                              |
+| fieldDelimiter          | ','       |                                              |
+| factsProfile            | array ... | see below                                    |
+
+**factsProfile** are processed by FactsFactory class that uses following options:
+
+| factsProfile option | default               | note                                                                                                              |
+|---------------------|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| model               | LocalBusiness         | if no namespace specified BOTK\Model is used                                                                      |
+| modelOptions        | array ...             | see below                                                                                                         |
+| entityThreshold     | 100                   | in numbers of entity that trigger error resilence computation                                                     |
+| resilienceToErrors  | 0.3                   | if more than 30% of error throws a TooManyErrorException                                                          |
+| resilienceToInsanes | 0.9                   | if more than 90% of unacceptable data throws a TooManyErrorException                                              |
+| source              | 'http://example.com/' | the dataset source url                                                                                            |
+| datamapper          | function              | ** YOU must provide at least this function **                                                                     |
+| dataCleaner         | function              | a function to clean fields, by default removes ampty fields                                                       |
+| factsErrorDetector  | function              | a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated |
+| rawdataSanitizer    | function              | a function that pre-validate raw data before processing, can be used as a filter                                  |
 
 
-**factsProfile** are processed bt FactsFactory class that use following options:
-
-| factsProfile option | default | note |
-|--------|---------|------|
-| model | LocalBusiness | if no namespace specified BOTK\Model is used |
-| modelOptions | array ...| see below |
-| entityThreshold | 100 | in numbers of entity that trigger error resilence computation |
-| resilienceToErrors | 0.3 | if more than 30% of error throws a TooManyErrorException |
-| resilienceToInsanes | 0.9 | if more than 90% of unacceptable data throws a TooManyErrorException |
-| source | 'http://example.com/' | the dataset source url |
-| datamapper | function | ** YOU must provide at least this function ** |
-| dataCleaner | function |  a function to clean fields, by default removes ampty fields |
-| factsErrorDetector | function |  a function that detects logical errors in facts, by default reurne false (i.e. error) if no rdf triples generated |
-| rawdataSanitizer |  function | a function that pre-validate raw data before processing, can be used as a filter |
-
-
-**modelOptions** are override to the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
+**modelOptions**  override the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
 For example see this code snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
 
 ```
@@ -165,7 +171,7 @@ a field definition drives the process of data cleansing and rdf generation that 
 Note that not always a field  generate just a RDF triple: sometime the rdf generation processing requires to create blank nodes or to reference named node.
 For named node generation the 'base' uri namespace is normally used ("urn:local:." by default)
 
-See [more examples here](examples).
+See [more examples here](tests/functional).
 
 ## Contributing to this project
 
@@ -173,7 +179,7 @@ See [Contributing guidelines](CONTRIBUTING.md)
 
 ## License
 
-Copyright © 2017 by [LinkedData.Center](http://LinkedData.Center/)®
+Copyright © 2018 by [LinkedData.Center](http://LinkedData.Center/)®
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

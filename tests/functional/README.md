@@ -13,4 +13,4 @@ php sample5A.php < input/sample5.csv > output/sample5A.ttl
 php sample5B.php < input/sample5.csv > output/sample5B.ttl
 ```
 
-See [tests/functional/examples.sh script](../tests/functional/examples.sh) for more info
+See [examples.sh script](examples.sh) for more info

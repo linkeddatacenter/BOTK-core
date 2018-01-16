@@ -31,16 +31,16 @@ SKOS vocabulary is used to categorize things
 The primary focus o BOTK are:
 - **Local Businesses**, defined as a legal business organization with a physical postal address contact point. Modelled as schema:LocalBusiness
 - **Business contacts**, modelled as a schema:Person, it define the business identity of a person (i.e. his/her business card)
-- **Products**, modelled as schema:Product
+- **Products**, modeled as schema:Product
 
 
 ## BOTK Axioms
 
 BOTK extends and introduces some restrictions to the supported ontologies. 
 
-- the [BOTK schema](botk.rdf) provides a forma rdf schema description of the extensions
-- the [BOTK ontology](botk-restrictions.owl) provides a forma OWL 2 description of the restriction
-- the [BOTK axioms](axioms) provides other required axioms and mappings expressed as SPARQL contructs or owl description
+- **TBD** the [BOTK schema](botk.ttl) provides schema.org extensions in RDFS
+- **TBD** the [BOTK ontology](botk-restrictions.ttl) provides a SHACL description of the restrictions
+- the [BOTK axioms](axioms) provides other required axioms and mappings expressed as SPARQL construct 
 
 ## String context restriction
 
@@ -133,30 +133,31 @@ Extends schema:Organization with following properties and restrictions:
 - [schema:subOrganization ](http://schema.org/subOrganization )with cardinality >= 0
 
 
-Following statistical dimensions also apply; all these properties have  cardinality <=1 and range schema:QuantitativeValue. The range has an implicit unit of measure,
+Following statistical dimensions also apply; all these properties have cardinality <=1 and range schema:QuantitativeValue. The range has an implicit unit of measure, and represents the last known value for a dimension.
+If you need more control on statistical dimensions  you should use the datacube vocabulary (https://www.w3.org/TR/vocab-data-cube/).
 
 - [schema:numberOfEmployees ](http://schema.org/numberOfEmployees )expressend in number of employees
-- botk:annualTurnover expressend in Thousand EURO
-- botk:netProfit expressend in Thousand EURO
-- botk:itBudget expressend in Thousand EURO
-- botk:itStorageBudget expressend in Thousand EURO
-- botk:itHardwareBudget expressend in Thousand EURO
-- botk:itServerBudget expressend in Thousand EURO
-- botk:softwareBudget expressend in Thousand EURO	
-- botk:hasStorageBudget expressend in Thousand EURO	
-- botk:hasServerBudget expressend in Thousand EURO	
-- botk:hasRevenue expressend in Thousand EURO	
-- botk:hasCommercialBudget expressend in Thousand EURO	
-- botk:hasHardwareBudget expressend in Thousand EURO	
-- botk:hasSoftwareBudget expressend in Thousand EURO	
-- botk:hasOutsrcingBudget expressend in Thousand EURO	
-- botk:hasOtherHardwareBudget expressend in Thousand EURO	
-- botk:hasPCBudget expressend in Thousand EURO	
-- botk:hasPrinterBudget expressend in Thousand EURO	
-- botk:hasTerminalBudget expressend in Thousand EURO	
-- botk:hasPeripheralBudget expressend in Thousand EURO		
-- botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization , expressend in Thousand EURO
-- botk:hasITBudget expressend in Thousand EURO
+- botk:annualTurnover expressend in a predefined currency
+- botk:netProfit expressend in a predefined currency
+- botk:itBudget expressend in a predefined currency
+- botk:itStorageBudget expressend in a predefined currency
+- botk:itHardwareBudget expressend in a predefined currency
+- botk:itServerBudget expressend in a predefined currency
+- botk:softwareBudget expressend in a predefined currency	
+- botk:hasStorageBudget expressend in a predefined currency	
+- botk:hasServerBudget expressend in a predefined currency	
+- botk:hasRevenue expressend in a predefined currency	
+- botk:hasCommercialBudget expressend in a predefined currency	
+- botk:hasHardwareBudget expressend in a predefined currency	
+- botk:hasSoftwareBudget expressend in a predefined currency	
+- botk:hasOutsrcingBudget expressend in a predefined currency	
+- botk:hasOtherHardwareBudget expressend in a predefined currency	
+- botk:hasPCBudget expressend in a predefined currency	
+- botk:hasPrinterBudget expressend in a predefined currency	
+- botk:hasTerminalBudget expressend in a predefined currency	
+- botk:hasPeripheralBudget expressend in a predefined currency		
+- botk:ebitda last known  net earnings, before interest expenses, taxes, depreciation and amortization , expressend in a predefined currency
+- botk:hasITBudget expressend in a predefined currency
 - botk:hasITEmployees expressend in in number of people
 - botk:hasNumberOfPCs expressend in in pcs
 - botk:hasTotDevelopers expressend in number of people	
@@ -238,7 +239,7 @@ ex:org1 a schema:Organization ;
 
 ## schema:LocalBusiness
 
-Captures the concept about a public legal registered business organization  with a contactable official contact point .	
+Captures the concept about a public legal registered business organization with a contactable official contact point .	
 
 It is a subclass of schema:LocalBusiness and botk:BusinessOrganization that adds some properties and restrictions.
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
@@ -261,6 +262,7 @@ Following properties/annotations supported:
 - [schema:openingHours ](http://schema.org/openingHours )with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
 - [schema:department ](http://schema.org/department )with cardinality >= 0,  as an office or sub organization
 - [schema:parentOrganization ](http://schema.org/parentOrganization )with cardinality > 0;
+- [schema:containedInPlace ](http://schema.org/parentOrganization )with cardinality > 0; 
 
 
 Example1 (in rdf turtle):
@@ -277,6 +279,7 @@ ex:org1 a schema:LocalBusiness, schema:HealthAndBeautyBusiness ;
 	schema:hasMap <https://maps.google.com/?cid=11195466023234233409836>;
 	botk:numberOfEmployees [ schema:maxValue 10 ];
 	botk:annualTurnover [ schema:minValue 1000; schema:maxValue 10000 ];
+	schema:containedInPlace istat_id:058091 ## citta di Roma
 .
 
 ```
@@ -305,6 +308,8 @@ ex:org1_address1 a schema:PostalAddress ;
 	schema:postalCode "00195";
 .
 ```
+
+Please note that a PostaAddres **is not* a place but just a set of labels.
 
 ## schema:GeoCoordinates
 
@@ -472,7 +477,10 @@ Example (in rdf turtle):
 ## Data trust ##
 
 Trust in data can be expressed according with the [Dataset Quality Vocabulary (daQ)](http://butterbur04.iai.uni-bonn.de/ontologies/daq/daq).
-Quality observation can be associated to any uri or reficated statements :
+Quality observation can be associated to any uri or reficated statements depending from the metri definition:
+
+- kees:trustGraphMetric should be computed on a graph name resource
+- kees:trustMetric expect to be computed on any uri
 
 Example (in rdf turtle):
 ```
