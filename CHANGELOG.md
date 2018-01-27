@@ -4,11 +4,23 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+
+## [7.3.3] bug fixing release
+
+### fixed
+
+- bugs in language profile documentation and Readme
+
+## removed
+
+- alternateNames.constuct and linkToCityConstruct
+
+
 ## [7.3.2] bug fixing release
 
 ### fixed
 
-- bugs in language pprofile documentation
+- bugs in language profile documentation
 
 
 ## [7.3.1] bug fixing release
@@ -203,7 +215,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.2...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.3...HEAD
+[7.3.3]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.2...7.3.3
 [7.3.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.1...7.3.2
 [7.3.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.0...7.3.1
 [7.3.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.2.0...7.3.0

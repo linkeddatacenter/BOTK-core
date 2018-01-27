@@ -841,7 +841,7 @@ class LocalBusiness extends Thing
 			}
 			$this->addFragment('schema:address <%s>. ', $addressUri);
 			
-			// serializes postal address properies
+			// serializes postal address properties
 			$this->rdf .= "<$addressUri> ";
 			foreach( $addressVars as $stringVar=>$property) {
 				if(!empty($this->data[$stringVar])){

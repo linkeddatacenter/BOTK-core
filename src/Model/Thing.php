@@ -95,7 +95,7 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 		if(is_null($this->rdf)) {
 			$uri = $this->getUri();
 			
-	 		// serialize uri properies
+	 		// serialize uri properties
 			$this->rdf = "<$uri> ";
 			foreach (array(
 				'page' 			=> 'foaf:page',
@@ -109,7 +109,7 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 				}
 			}
 			
-			// serialize string properies
+			// serialize string properties
 			foreach(array(
 				'id'						=> 'dct:identifier',
 				'disambiguatingDescription'	=> 'schema:disambiguatingDescription',
