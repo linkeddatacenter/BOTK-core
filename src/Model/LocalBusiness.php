@@ -718,7 +718,7 @@ class LocalBusiness extends Thing
 		static $stringVars = array(
 			'businessType' => 'a',
 			'vatID' => 'schema:vatID',
-			'taxtID' => 'schema:taxtID',
+			'taxtID' => 'schema:taxID',
 			'legalName' => 'schema:legalName',
 			'businessName' => 'schema:alternateName',
 			'telephone' => 'schema:telephone',
