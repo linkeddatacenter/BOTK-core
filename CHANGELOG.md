@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+### fixed
+
+- bug #9
 
 ## [7.3.3] bug fixing release
 
