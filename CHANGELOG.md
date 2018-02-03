@@ -4,9 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.3.5] bug fixing release
+
 ### fixed
 
-- bug #9
+- bug #9 (taxID)
+
+## [7.3.4] bug fixing release
 
 ## [7.3.3] bug fixing release
 
@@ -218,7 +222,9 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.3...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.5...HEAD
+[7.3.5]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.4...7.3.5
+[7.3.4]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.3...7.3.4
 [7.3.3]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.2...7.3.3
 [7.3.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.1...7.3.2
 [7.3.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.0...7.3.1
