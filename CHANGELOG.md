@@ -4,6 +4,20 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.3.7] bug fixing release
+
+### fixed
+
+- bug #10
+
+
+
+## [7.3.6] bug fixing release
+
+### fixed
+
+- fixed failing test
+
 
 ## [7.3.6] bug fixing release
 

@@ -38,6 +38,8 @@ class Filters {
 		$value = preg_replace('/;\s;\s/', '; ', $value);		// remove multiple semicolon
 		$value = preg_replace('/\-\s\-\s/', '- ', $value);		// remove multiple dash
 		$value = preg_replace('/^\s*[\,\;]/', '', $value);		// remove  comma and semicolon at start
+		$value = preg_replace('/\\\\\'/', '\'', $value);		// unwanted single quoting
+		$value = preg_replace('/\\\\"/', '"', $value);		    // unwanted double quoting
 		$value = preg_replace('/\\\\+/', '/', $value);			// backslash changed to slash
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
 		$value = preg_replace('/\s?,?\s?(N|N\.|NUM\.|NUM|NUMERO|NUMBER|#)\s?(\d+)/i', ', $2', $value);		

@@ -19,7 +19,9 @@ class FiltersTest extends PHPUnit_Framework_TestCase
     		array( 'Lungolario L. Cadorna 1-23900-Italy',	'LUNGOLARIO L.CADORNA 1 - 23900 - ITALY'),
     		array( 'Lungolario Luigi Cadorna num 1',	'LUNGOLARIO LUIGI CADORNA, 1'),
     		array( 'Lungolario Luigi Cadorna n.1, Lecco',	'LUNGOLARIO LUIGI CADORNA, 1, LECCO'),
-    		array( 'Lungolario Luigi Cadorna n. 1, Lecco',	'LUNGOLARIO LUIGI CADORNA, 1, LECCO'),
+    	    array( 'Lungolario Luigi Cadorna n. 1, Lecco',	'LUNGOLARIO LUIGI CADORNA, 1, LECCO'),
+    	    array( "Lungolario all\'anima n. 1, Lecco",	"LUNGOLARIO ALL'ANIMA, 1, LECCO"),
+    	    array( "Lungolario a \"l'anima\" n. 1, Lecco",	"LUNGOLARIO A \"L'ANIMA\", 1, LECCO"),
     		array( ',,test;;',	'TEST;'),
     		array( '',			null), 
 		);
