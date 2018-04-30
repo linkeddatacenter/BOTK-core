@@ -711,11 +711,11 @@ class LocalBusiness extends Thing
 	{
 		static $uriVars = array(
 			'parentOrganization' => 'schema:parentOrganization',
-			'email' => 'schema:email',
 			'geoUri' => 'schema:geo',
 			'$hasMap' => 'schema:hasMap',
 		);
 		static $stringVars = array(
+		    'email' => 'schema:email',
 			'businessType' => 'a',
 			'vatID' => 'schema:vatID',
 			'taxID' => 'schema:taxID',

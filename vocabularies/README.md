@@ -257,7 +257,7 @@ Following properties/annotations supported:
 - [schema:hasMap ](http://schema.org/hasMap )with cardinality >= 0 pointer an URL with a map of the place
 - [schema:telephone ](http://schema.org/telephone )with cardinality >= 0, formatted as string with no space, can start with '+', if 00 is present at the beginning,it is substituted with +, as primary telephone contact point for this location
 - [schema:faxNumber ](http://schema.org/faxNumber )with cardinality >= 0, same formatting of telephone, as primary fax  contact point for this organization
-- [schema:email ](http://schema.org/email )with cardinality >= 0,  as  email for a contact point for this organization
+- [schema:email ](http://schema.org/email )with cardinality >= 0,  as  email for a contact point for this organization. email is expressed as a string
 - [schema:aggregateRating ](http://schema.org/aggregateRating )with cardinality <= 1,  as a schema:AggregateRating instance, schema:ratingValue attribute must be present as non negative float value
 - [schema:openingHours ](http://schema.org/openingHours )with cardinality <= 1,  if  ="permanantly closed" the local business is permanantly closed
 - [schema:department ](http://schema.org/department )with cardinality >= 0,  as an office or sub organization

@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.4.1]
+
+
+### fixed
+
+- email in LocalBusiness is string not an uri.
+
+
 ### changed
 
 - readme fix
