@@ -47,7 +47,7 @@ BOTK extends and introduces some restrictions to the supported ontologies.
 No string context should be used to qualify strings.
 
 
-### schema:QuantitativeValue
+## schema:QuantitativeValue
 
 schema:QuantitativeValue is used as an a-dimentional range of values with following restriction:
 
@@ -239,7 +239,7 @@ ex:org1 a schema:Organization ;
 
 ## schema:LocalBusiness
 
-Captures the concept about a public legal registered business organization with a contactable official contact point .	
+Captures the concept about a public legal registered business organization with an official contact point .	
 
 It is a subclass of schema:LocalBusiness and botk:BusinessOrganization that adds some properties and restrictions.
 This class can be specialized  to state the reason of the business interest (e.g. see schema:LocalBusiness classifications).
@@ -385,13 +385,47 @@ Example (in rdf turtle):
     schema:worksFor <http:/a.c/> .
 ```
 
+## Specific restriction for Italian administrative places
 
-## schema:State
 
-captures a second level administrative area with these properties and restrictions:
+### schema:City
+
+captures the first level of administrative area (comune) with these properties and restrictions:
+
+- schema:containedInPlace with cardinality <=1 , if present object must be a schema:State
+
+
+### schema:State
+
+captures a second level of administrative area (provincie o città metropolitane) with these properties and restrictions:
 
 - botk:iso3166-2 with cardinality <=1 a sub property of schema:identifier and https://www.wikidata.org/wiki/Property:P300 
   range a ISO 3166-2 code (e.g."IT-MI")
+- schema:containedInPlace with cardinality <=1 , if present object must be a botk:Regione
+
+### botk:Provincia
+
+a subclass of schema:State disjointed from botk:CittaMetropolitana
+
+### botk:CittaMetropolitana
+
+a subclass of schema:State disjointed from botk:Provincia
+
+
+### botk:Regione
+
+captures a third level of administrative area in Italy (regioni) with these properties and restrictions:
+
+- schema:containedInPlace with cardinality <=1 , if present object must be a botk:RipartizioneGeografica
+
+
+### botk:RipartizioneGeografica
+
+captures an aggregation of botk:Regione in Italy (macro regioni) with these properties and restrictions:
+
+- schema:containedInPlace with cardinality <=1 , if present object must be a schema:Country 
+
+
 
 
 ## schema:Product

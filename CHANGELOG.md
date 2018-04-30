@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+
+## [7.4.0] update language profile
+
+### added
+
+- added administrative area definition for italy
+
 ## [7.3.7] bug fixing release
 
 ### fixed
@@ -244,7 +251,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.7...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.0...HEAD
+[7.4.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.7...7.4.0
 [7.3.7]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.6...7.3.7
 [7.3.6]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.5...7.3.6
 [7.3.5]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.3.4...7.3.5
