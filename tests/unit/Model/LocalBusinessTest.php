@@ -202,7 +202,22 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
-			),
+		  ),
+	    'addressFrazione'   => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
+	    'addressRipartizioneIstat'      => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
+	    'addressRegioneIstat'      => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
 		'telephone'			=> array(	
 			'filter'    => FILTER_CALLBACK,	
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
@@ -800,8 +815,20 @@ class LocalBusinessTest extends PHPUnit_Framework_TestCase
     				),
     			'<urn:local:1234567890> foaf:page <http://linkeddata.center/>;dct:identifier "1234567890".<urn:local:1234567890> a schema:LocalBusiness;schema:email "ADMIN@FAGNONI.COM";a "schema:MedicalOrganization";schema:vatID "01234567890";schema:taxID "FGNNRC63S06F205A";schema:legalName "EXAMPLE SRL";schema:alternateName "Example";schema:telephone "3356382949";schema:faxNumber "3356382949";schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> schema:description "VIA F.VALSECCHI, 124 - 23900 LECCO (LC)";schema:streetAddress "VIA FAUSTO VALSECCHI, 124";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT"; a schema:PostalAddress.<geo:1.12345,2.123456> schema:latitude "1.12345"^^xsd:float;schema:longitude "2.123456"^^xsd:float.',
     			21,
-    			),
-    		);
+    		),
+    	    
+    	    array(
+    	        array(
+    	            'id'				         => '1234567890',
+    	            'addressCountry'	         => 'IT',
+    	            'addressFrazione'	         => 'frazione',
+    	            'addressRegioneIstat'        => 'lombardia',
+    	            'addressRipartizioneIstat'	 => 'nord',
+    	        ),
+    	        '<urn:local:1234567890> dct:identifier "1234567890".<urn:local:1234567890> a schema:LocalBusiness;schema:address <urn:local:1234567890_address>. <urn:local:1234567890_address> schema:addressCountry "IT";botk:addressRegioneIstat "LOMBARDIA";botk:addressRipartizioneIstat "NORD";botk:addressFrazione "FRAZIONE"; a schema:PostalAddress.',
+    	        8,
+    	    ),
+		);
     }
 
 

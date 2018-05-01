@@ -385,8 +385,26 @@ Example (in rdf turtle):
     schema:worksFor <http:/a.c/> .
 ```
 
-## Specific restriction for Italian administrative places
+## schema:PostalAddress
 
+captures a postal address with these properties and restrictions:
+
+- schema:addressCountry with cardinality <=1, provides the two-letter ISO 3166-1 alpha-2 country code.
+- schema:addressLocality with cardinality <=1
+- addressRegion with cardinality <=1
+- schema:postalCode with cardinality <=1
+- schema: streetAddress <=1
+
+
+## botk:ItalianPostalAddress
+
+A subclass schema:PostalAddressto describe Italian PostalAddress :
+
+- addressRegion with cardinality <=1, provides the name of provicia o città metropolitana as a istat string or ACI two letter code.
+- schema:addressLocality with cardinality <=1, provides the comune name
+- botk:addressFrazione with cardinality <=1, località istat
+- botk:addressRegioneIstat with cardinality <=1, regione italiana, could be inferred from schema:addressLocality
+- botk:addressRipartizioneIstat with cardinality <=1,r ripartizione geografica regione (es. norrd, sud, isole, etc) , could be inferred from botk:addressRegioneIstat
 
 ### schema:City
 

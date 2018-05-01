@@ -64,7 +64,22 @@ class LocalBusiness extends Thing
 			'filter'    => FILTER_VALIDATE_REGEXP,
 			'options' 	=> array('regexp'=>'/^[0-9]{5}$/'),
 			'flags'  	=> FILTER_REQUIRE_SCALAR
-			),
+			),    
+	    'addressFrazione'   => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
+	    'addressRipartizioneIstat'      => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
+	    'addressRegioneIstat'      => array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options'   => '\BOTK\Filters::FILTER_SANITIZE_ADDRESS',
+	        'flags'     => FILTER_REQUIRE_SCALAR
+	       ),
 		'telephone'			=> array(	
 			'filter'    => FILTER_CALLBACK,	
 			'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_TELEPHONE',
@@ -800,6 +815,10 @@ class LocalBusiness extends Thing
 			'addressLocality' => 'schema:addressLocality',
 			'addressRegion' => 'schema:addressRegion',
 			'addressCountry' => 'schema:addressCountry',
+		    
+		    'addressRegioneIstat' => 'botk:addressRegioneIstat',
+		    'addressRipartizioneIstat' => 'botk:addressRipartizioneIstat',
+		    'addressFrazione' => 'botk:addressFrazione',
 		);
 		static $dateTimeVars= array(
 			'foundingDate' => 'schema:foundingDate',
