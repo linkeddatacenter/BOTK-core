@@ -11,9 +11,10 @@ class LocalBusiness extends Thing
 
 	protected static $DEFAULT_OPTIONS = array (
 
-		'businessType'		=> array(		
-			'filter'    => FILTER_DEFAULT,
-			'flags'  	=> FILTER_FORCE_ARRAY
+	    'businessType'		=> array(
+	        'filter'    => FILTER_CALLBACK,
+	        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+	        'flags'  	=> FILTER_FORCE_ARRAY
 			),
 		'taxID'				=> array(	
 			'filter'    => FILTER_CALLBACK,
@@ -727,11 +728,11 @@ class LocalBusiness extends Thing
 		static $uriVars = array(
 			'parentOrganization' => 'schema:parentOrganization',
 			'geoUri' => 'schema:geo',
-			'$hasMap' => 'schema:hasMap',
+		    '$hasMap' => 'schema:hasMap',
+		    'businessType' => 'a',
 		);
 		static $stringVars = array(
 		    'email' => 'schema:email',
-			'businessType' => 'a',
 			'vatID' => 'schema:vatID',
 			'taxID' => 'schema:taxID',
 			'legalName' => 'schema:legalName',
@@ -739,7 +740,6 @@ class LocalBusiness extends Thing
 			'telephone' => 'schema:telephone',
 			'faxNumber' => 'schema:faxNumber',
 			'openingHours' => 'schema:openingHours ',
-			'disambiguatingDescription' => 'schema:disambiguatingDescription',
 			'ateco2007' => 'botk:ateco2007',
 			'naceV2' => 'botk:naceV2',
 			'isicV4' => 'schema:isicV4',

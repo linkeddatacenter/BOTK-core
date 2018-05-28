@@ -118,7 +118,7 @@ class BusinessContactTest extends PHPUnit_Framework_TestCase
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'similarName'		=> array(	
+		'similarTo'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_FORCE_ARRAY

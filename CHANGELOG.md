@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+### added
+
+- normalized quantitative value axioms
 
 ## [7.4.2]
 

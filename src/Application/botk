@@ -1,0 +1,12 @@
+﻿<?php
+require __DIR__.'/../../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$factsFactory = new BOTK\FactsFactory();
+
+$application->add(new \BOTK\Command\GoogleMapQueryCommand($factsFactory));
+
+$application->run();

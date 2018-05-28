@@ -62,7 +62,7 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'similarName'		=> array(	
+		'similarTo'		=> array(	
 			'filter'    => FILTER_CALLBACK,
 			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
 			'flags'  	=> FILTER_FORCE_ARRAY
@@ -102,7 +102,8 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 				'homepage'		=> 'foaf:homepage',
 				'subject'		=> 'skos:subject',
 				'image'			=> 'schema:image',
-				'sameAs'		=> 'owl:sameAs',	
+				'sameAs'		=> 'owl:sameAs',
+			    'similarTo'     => 'botk:similarTo',
 			) as $uriVar=>$property) {
 				if(!empty($this->data[$uriVar])){
 					$this->addFragment("$property <%s>;", $this->data[$uriVar],false);	
