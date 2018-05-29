@@ -75,7 +75,7 @@ processes this csv dataset:
 
 producing  this rdf file:
 
-```
+```turtle
 @prefix botk: <http://linkeddata.center/botk/v1#> .
 @prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix dct: <http://purl.org/dc/terms/> .
@@ -187,32 +187,56 @@ See [more examples here](tests/functional).
 This command line tool implements a set of smart algorithms,
 for example **postman:reasoning**: a command that mimics a postman reasoning in learning data from a string containing a place name and/or a postal address (also incomplete).
 
-```
+```turtle
 $> echo "Linked Data Center sede legale - LECCO" | vendor/bin/botk postman:reasoning -s0 --key="hereyourgoogleapikey"
 
+@prefix botk: <http://linkeddata.center/botk/v1#> .
+@prefix daq: <http://purl.org/eis/vocab/daq#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix kees: <http://linkeddata.center/kees/v1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix void: <http://rdfs.org/ns/void#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
 @prefix schema: <http://schema.org/> .
-@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix kees: <http://linkeddata.center/kees/v1#> .
-@prefix botk: <http://linkeddata.center/botk/v1#> .
-# discovered data for 'Linked Data Center sede legale - LECCO'.
-<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> dct:identifier "ChIJAQCQNDsdhEcRXy7pYgPP6F0";schema:disambiguatingDescription "point_of_interest";schema:disambiguatingDescription "establishment".<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> a schema:LocalBusiness;a <http://schema.org/Place>;schema:alternateName "LinkedData.Center sede legale";schema:address <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address>. <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> schema:description "VIA LEONARDO DA VINCI, 10, 23900 LECCO LC";schema:streetAddress "VIA L.DA VINCI, 10";schema:postalCode "23900";schema:addressLocality "LECCO";schema:addressRegion "LC";schema:addressCountry "IT";botk:addressRegioneIstat "LOMBARDIA"; a schema:PostalAddress.<geo:45.851679,9.388483> schema:latitude "45.851679"^^xsd:float;schema:longitude "9.388483"^^xsd:float.
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<> prov:generatedAtTime "2018-05-29T17:55:25+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
-<#dataset> a void:Dataset; void:datadump <>;void:triples 23 ;void:entities 1.
-# Generated 23 good triples from 1 entities (0 ignored), 0 errors
-# Called 2 APIs, 0 errors.
+<geo:45.851679,9.388483> schema:latitude "45.851679"^^xsd:float ;
+    schema:longitude "9.388483"^^xsd:float .
+
+<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> a schema:LocalBusiness,
+        schema:Place ;
+    dct:identifier "ChIJAQCQNDsdhEcRXy7pYgPP6F0" ;
+    schema:address <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> ;
+    schema:alternateName "LinkedData.Center sede legale" ;
+    schema:disambiguatingDescription "establishment",
+        "point_of_interest" .
+
+<file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/> prov:generatedAtTime "2018-05-29T17:55:25+00:00"^^xsd:dateTime ;
+    foaf:primaryTopic <file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/#dataset> .
+
+<file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/#dataset> a void:Dataset ;
+    void:datadump <file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/> ;
+    void:entities 1 ;
+    void:triples 23 .
+
+<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> a schema:PostalAddress ;
+    botk:addressRegioneIstat "LOMBARDIA" ;
+    schema:addressCountry "IT" ;
+    schema:addressLocality "LECCO" ;
+    schema:addressRegion "LC" ;
+    schema:description "VIA LEONARDO DA VINCI, 10, 23900 LECCO LC" ;
+    schema:postalCode "23900" ;
+    schema:streetAddress "VIA L.DA VINCI, 10" .
 ```
 
 N.B. this command requires a valid google places api key, [get one in google console](https://developers.google.com/places/web-service/get-api-key)
