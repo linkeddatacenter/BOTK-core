@@ -1,9 +1,0 @@
-PREFIX schema: <http://schema.org/> 
-
-CONSTRUCT { ?s schema:minValue ?value; $schema:maxValue ?value} 
-WHERE { 
-	?s schema:value ?value 
-	OPTIONAL { ?s schema:minValue ?minValue }
-	OPTIONAL { ?s schema:maxValue ?maxValue }
-	FILTER (!BOUND(?minValue) && !BOUND(?maxValue))
-}

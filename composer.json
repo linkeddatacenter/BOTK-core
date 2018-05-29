@@ -12,7 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "skagarwal/google-places-api": "~1.2",
+        "symfony/console": "~3.4"
     },
     "require-dev" : {
     	"phpunit/phpunit": "~5.3",
@@ -20,5 +22,8 @@
     },
     "autoload" : {
         "psr-4": { "BOTK\\": "src/" }
-    }
+    },
+	"bin" : [
+		"src/Application/botk"
+	]
 }

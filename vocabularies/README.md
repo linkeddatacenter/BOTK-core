@@ -46,6 +46,9 @@ BOTK extends and introduces some restrictions to the supported ontologies.
 
 No string context should be used to qualify strings.
 
+## schema:Things
+
+- botk:similarTo a less stringent property than owl:sameAs
 
 ## schema:QuantitativeValue
 
