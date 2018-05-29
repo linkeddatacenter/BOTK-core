@@ -1,6 +1,21 @@
 #!/usr/bin/env php
 <?php
-require __DIR__.'/../../vendor/autoload.php';
+function requireIfExists($file)
+{
+    if (file_exists($file)) {
+        return require $file;
+    }
+}
+if ((!$loader = requireIfExists(__DIR__.'/../../vendor/autoload.php')) && (!$loader = requireIfExists(__DIR__.'/../../../../autoload.php'))) {
+    fwrite(STDERR,
+        'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
+        'php composer.phar install'.PHP_EOL
+    );
+    exit(1);
+}
+
+
 
 use Symfony\Component\Console\Application;
 
