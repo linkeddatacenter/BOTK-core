@@ -5,31 +5,24 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use SKAgarwal\GoogleApi\PlacesApi;
+use BOTK\FactsFactory;
 
 class GoogleMapQueryCommand extends Command
-{
-    const GOOGLE_PLACES_PREFIX = 'http://google.com/resource/place_';
-    
-    private $factsFactory;
-    
-    public function __construct(\BOTK\FactsFactory $factsFactory)
-    {
-        $this->factsFactory = $factsFactory;
-        
-        parent::__construct();
-    }
-
-    
+{    
     protected function configure()
     {
         $this
-        ->setName('google:places:search')
-        ->setDescription('Search a Place using Google places APIs.')
+        ->setName('google:places:reasoner')
+        ->setDescription('Discover information about a local business using Google places APIs.')
         ->setHelp('This command search a name in google places returning a ttl file according botk Language profile....')
         ->addOption('key','k',  InputOption::VALUE_REQUIRED, 
-            'the google place api key or an environment variable that contains the api key prefixed by "@"',
-            '@BOTK_API_KEY'
+            'the mandatory google place api key (see https://developers.google.com/places/web-service/get-api-key)'
+        )
+        ->addOption('namespace','u',  InputOption::VALUE_REQUIRED,
+            'the namespace for created URI',
+            'http://linkeddata.center/resource/'
         )
         ->addOption('delay','d',  InputOption::VALUE_REQUIRED,
             'delay each call of a fixed amount of seconds',
@@ -37,15 +30,23 @@ class GoogleMapQueryCommand extends Command
         )
         ->addOption('skip','s', InputOption::VALUE_REQUIRED,
             'number of INPUT lines to skip',
-            0
+            1
         )
         ->addOption('resilience','r', InputOption::VALUE_REQUIRED,
             'max number of errors tolerated before aborting',
             10
         )
-        ->addOption('details','t', InputOption::VALUE_REQUIRED,
+        ->addOption('fields','f', InputOption::VALUE_REQUIRED,
             'detalis level required (none|contact)',
             'contact'
+        )
+        ->addOption('type','t', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+            'additional RDF type as uri',
+            array('http://schema.org/Place')
+        )
+        ->addOption('assert','a', InputOption::VALUE_REQUIRED,
+            'asserted link predicate (sameAs|similarTo)',
+            'similarTo'
         )
         ->addOption('limit','l', InputOption::VALUE_REQUIRED,
             'max number of calls to google APIs',
@@ -56,33 +57,57 @@ class GoogleMapQueryCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {    
-        //input paramaters
+        //cache input parameters
+        $uriNameSpace = $input->getOption('namespace');
         $limit = $input->getOption('limit');
         $sleepTime = $input->getOption('delay');
-        $detailLevel = $input->getOption('details');
+        $detailLevel = $input->getOption('fields');
         $resilience = $input->getOption('resilience');
-        $key = $input->getOption('key');
+        $types = $input->getOption('type');
+        $similarityPredicate = $input->getOption('assert');
         
-        // get google places api key, reading it from an environment variable if requested
-        if ( (strlen($key)>1) && $key[0]==='@') {
-            $key = getenv(trim($key, '@'));
+        if( !($key = $input->getOption('key'))){
+            
+            $helper = $this->getHelper('question');
+            $question = new Question('Please enter your google place api key: ');
+            $question->setValidator(function ($value) {
+                if (trim($value) == '') {
+                    throw new \Exception('The key cannot be empty');
+                }
+                
+                return $value;
+            });
+            $question->setHidden(true);
+            $question->setMaxAttempts(20);
+            
+            $key = $helper->ask($input, $output, $question);
         }
+        
         $googlePlaces = new PlacesApi($key);
+        $factsFactory = new FactsFactory( array(
+            'model'			=> 'LocalBusiness',
+            'modelOptions'		=> array(
+                // override the default lowercase filter for id because placeId is case sensitive
+                'id' => array('filter'=> FILTER_DEFAULT)
+            )
+        ));
         
         // print turtle prefixes
-        echo $this->factsFactory->generateLinkedDataHeader();
+        echo $factsFactory->generateLinkedDataHeader();
 
+        $lineCount=$callErrorCount = $consecutiveErrorsCount = $callCount = 0; 
+        
         // skip input headers
         for ($i = 0; $i < $input->getOption('skip'); $i++) {
-            $output->writeln("<info># Ignored header: ". fgets(STDIN) . '</info>'); 
+            $lineCount++;
+            $output->writeln("<info># Ignored header $lineCount: ". trim(fgets(STDIN)) . '</info>'); 
         }
         
         // main input loop
-        $lineCount=$callErrorCount = $consecutiveErrorsCount = $callCount = 0; 
         while( ($rawData= fgetcsv(STDIN)) && ($callCount <$limit)  ){
             $lineCount++;
             if(!is_array($rawData) || (count($rawData)!=2)) { 
-                $output->writeln("<error># Invalid row found at line $lineCount.</error>");
+                $output->writeln("<error># Ignored invalid row at line $lineCount.</error>");
                 continue; 
             }
             list($uri, $query) = $rawData;
@@ -94,14 +119,14 @@ class GoogleMapQueryCommand extends Command
             try {
                 $searchResultsCollection=$googlePlaces->textSearch($query, array('region'=>'IT'));
                 $consecutiveErrorsCount=0;
-                sleep($sleepTime);
                 $callCount++;
             } catch (\Exception $e) {
                 $consecutiveErrorsCount++;$callErrorCount++;
                 if( $consecutiveErrorsCount > $resilience ){
                     throw $e;
                 }
-                $output->writeln("<error># Ignored Api ERROR ($consecutiveErrorsCount): ". $e->getMessage().'</error>');
+                $messageString = trim(preg_replace('/\s+/', ' ', $e->getMessage()));
+                $output->writeln("<error># Ignored Search Api ERROR ($consecutiveErrorsCount): $messageString</error>");
                 continue;
             }
             
@@ -115,9 +140,10 @@ class GoogleMapQueryCommand extends Command
             // factualize textSearch results
             $result =$searchResultsCollection['results']->first();
             $placeId = $result['place_id'];
-            $data['uri'] = self::GOOGLE_PLACES_PREFIX . $placeId;;
-            $data['businessType'] = 'http://schema.org/Place';
-            $data['similarTo'] = $uri; 
+            $data['id'] = $placeId;
+            $data['uri'] = $uriNameSpace . $placeId;
+            $data['businessType'] = $types;
+            $data[$similarityPredicate] = $uri; 
             
             if( isset($result['geometry']['location'])) {
                 $data['lat'] = $result['geometry']['location']['lat'];
@@ -147,7 +173,8 @@ class GoogleMapQueryCommand extends Command
                     if( $consecutiveErrorsCount > $resilience){
                         throw $e;
                     }
-                    $output->writeln("<error># Ignored Api ERROR ($consecutiveErrorsCount): ". $e->getMessage().'</error>');
+                    $messageString = trim(preg_replace('/\s+/', ' ', $e->getMessage()));
+                    $output->writeln("<error># Ignored Details Api ERROR ($consecutiveErrorsCount): $messageString</error>");
                 }
                 
                 // skip empty results
@@ -187,7 +214,7 @@ class GoogleMapQueryCommand extends Command
             }
             
             try {
-                $facts =$this->factsFactory->factualize($data);
+                $facts =$factsFactory->factualize($data);
                 echo $facts->asTurtleFragment(), "\n";
                 $droppedFields = $facts->getDroppedFields();
                 if(!empty($droppedFields)) {
@@ -197,6 +224,9 @@ class GoogleMapQueryCommand extends Command
             } catch (\BOTK\Exception\Warning $e) {
                 $output->writeln("<comment># ".$e->getMessage().'</comment>');
             } 
+            
+            
+            sleep($sleepTime);
         }
         
         if ($callCount >= $limit && $placeId) {
@@ -204,7 +234,7 @@ class GoogleMapQueryCommand extends Command
         }
         
         // prints provenances and other metadata
-        echo $this->factsFactory->generateLinkedDataFooter();
+        echo $factsFactory->generateLinkedDataFooter();
         $output->writeln("<info># Called $callCount APIs, $callErrorCount errors.</info>");
     }
 }

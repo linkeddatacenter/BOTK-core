@@ -3,10 +3,8 @@ require __DIR__.'/../../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
-$application = new Application();
+$application = new Application( 'botk', '1.0.0');
 
-$factsFactory = new BOTK\FactsFactory();
-
-$application->add(new \BOTK\Command\GoogleMapQueryCommand($factsFactory));
+$application->add(new \BOTK\Command\GoogleMapQueryCommand());
 
 $application->run();
