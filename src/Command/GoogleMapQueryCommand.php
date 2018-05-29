@@ -10,18 +10,23 @@ use SKAgarwal\GoogleApi\PlacesApi;
 use BOTK\FactsFactory;
 
 class GoogleMapQueryCommand extends Command
-{    
+{
+    
     protected function configure()
     {
         $this
-        ->setName('google:places:reasoner')
-        ->setDescription('Discover information about a local business using Google places APIs.')
-        ->setHelp('This command search a name in google places returning a ttl file according botk Language profile....')
-        ->addOption('key','k',  InputOption::VALUE_REQUIRED, 
-            'the mandatory google place api key (see https://developers.google.com/places/web-service/get-api-key)'
+        ->setName('postman:reasoning')
+        ->setDescription('Discover information about local business from its postal address.')
+        ->setHelp(
+             'This command mimics a postman reasoning in learning data from a string containing ' 
+            .'a place name and/or a postal address (also incomplete) '."\n"
+            .'It tries to googling the internet returning a ttl file according '
+            .'botk Language profile. '."\n"
+            .'As input it requires a csv like streams with two fields: a search string and '
+            .'an uri to be linked (optional)'
         )
-        ->addOption('namespace','u',  InputOption::VALUE_REQUIRED,
-            'the namespace for created URI',
+        ->addOption('namespace','U',  InputOption::VALUE_REQUIRED,
+            'the namespace for created Local Business URI',
             'http://linkeddata.center/resource/'
         )
         ->addOption('delay','d',  InputOption::VALUE_REQUIRED,
@@ -51,7 +56,19 @@ class GoogleMapQueryCommand extends Command
         ->addOption('limit','l', InputOption::VALUE_REQUIRED,
             'max number of calls to google APIs',
             4000
+        )
+        ->addOption('region', 'R',  InputOption::VALUE_REQUIRED,
+            'the two character country id (e.g. IT) for postman brain imprinting.',
+            'IT'
+        )
+        ->addOption('provenance', 'P', InputOption::VALUE_REQUIRED,
+            'add provenance info level',
+            0
+        )
+        ->addOption('key','k',  InputOption::VALUE_REQUIRED,
+            'a valid google place api key (see https://developers.google.com/places/web-service/get-api-key)'
         );
+            
     }
     
     
@@ -65,9 +82,11 @@ class GoogleMapQueryCommand extends Command
         $resilience = $input->getOption('resilience');
         $types = $input->getOption('type');
         $similarityPredicate = $input->getOption('assert');
+        $provenance = $input->getOption('provenance');
+        $region = $input->getOption('region');
+        $key = $input->getOption('key');
         
-        if( !($key = $input->getOption('key'))){
-            
+        if( empty($key)){
             $helper = $this->getHelper('question');
             $question = new Question('Please enter your google place api key: ');
             $question->setValidator(function ($value) {
@@ -106,18 +125,20 @@ class GoogleMapQueryCommand extends Command
         // main input loop
         while( ($rawData= fgetcsv(STDIN)) && ($callCount <$limit)  ){
             $lineCount++;
-            if(!is_array($rawData) || (count($rawData)!=2)) { 
+            
+            $query = isset($rawData[0])?$rawData[0]:null;
+            $uri = isset($rawData[1])?\BOTK\Filters::FILTER_VALIDATE_URI($rawData[1]):null;
+            if(!$query) { 
                 $output->writeln("<error># Ignored invalid row at line $lineCount.</error>");
                 continue; 
             }
-            list($uri, $query) = $rawData;
             
                       
             //--------------------------------------------------------------------------------
             // call google place textSearch api, tolerating some errors.
             //--------------------------------------------------------------------------------
             try {
-                $searchResultsCollection=$googlePlaces->textSearch($query, array('region'=>'IT'));
+                $searchResultsCollection=$googlePlaces->textSearch($query, array('region'=> $region));
                 $consecutiveErrorsCount=0;
                 $callCount++;
             } catch (\Exception $e) {
@@ -140,10 +161,13 @@ class GoogleMapQueryCommand extends Command
             // factualize textSearch results
             $result =$searchResultsCollection['results']->first();
             $placeId = $result['place_id'];
+            $placeUri = $uriNameSpace . $placeId;
             $data['id'] = $placeId;
-            $data['uri'] = $uriNameSpace . $placeId;
+            $data['uri'] = $placeUri;
             $data['businessType'] = $types;
-            $data[$similarityPredicate] = $uri; 
+            if($uri) {
+                $data[$similarityPredicate] = $uri; 
+            }
             
             if( isset($result['geometry']['location'])) {
                 $data['lat'] = $result['geometry']['location']['lat'];
@@ -165,7 +189,7 @@ class GoogleMapQueryCommand extends Command
             //--------------------------------------------------------------------------------            
             if ($detailLevel==='contact') {
                 try {
-                    $details=$googlePlaces->placeDetails($placeId, array('region'=>'IT'));
+                    $details=$googlePlaces->placeDetails($placeId, array('region'=> $region));
                     $consecutiveErrorsCount=0;
                     $callCount++;
                 } catch (\Exception $e) {
@@ -220,6 +244,11 @@ class GoogleMapQueryCommand extends Command
                 if(!empty($droppedFields)) {
                     $output->writeln("<error># Dropped ".implode(", ", $droppedFields).'</error>');
                     $this->factsFactory->addToCounter('error');
+                }                
+                if($provenance){
+                    $searchString = \BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($query);
+                    $now = date('c');
+                    echo "<$placeUri> prov:generatedAtTime \"$now\"^^xsd:dateTime; prov:wasDerivedFrom [prov:value \"$searchString\"].\n";
                 }
             } catch (\BOTK\Exception\Warning $e) {
                 $output->writeln("<comment># ".$e->getMessage().'</comment>');

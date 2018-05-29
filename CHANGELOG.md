@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 ### added
 
 - normalized quantitative value axioms
-- botk application and commands
+- botk application and postman	:reasoning command
 
 ## fixed
 
