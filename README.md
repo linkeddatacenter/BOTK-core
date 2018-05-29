@@ -40,7 +40,7 @@ It provides:
 ## Libraries usage
 For example this code snippet:
 
-```
+```php
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -150,7 +150,7 @@ The the dataset processing is driven by the SimpleCsvGateway class that uses a s
 **modelOptions**  override the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
 For example see this code snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
 
-```
+```php
 ...
 	'uri' => array(
 		'filter'    => FILTER_CALLBACK,
