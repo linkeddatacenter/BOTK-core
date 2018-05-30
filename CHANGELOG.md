@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.5.1]
+
+### addded
+
+- factsFactory as conatiner
+- file argument
+
 ## [7.5.0]
 
 ### added
@@ -283,7 +290,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.1...HEAD
+[7.5.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.0...7.5.1
 [7.5.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.2...7.5.0
 [7.4.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.1...7.4.2
 [7.4.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.0...7.4.1

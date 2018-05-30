@@ -11,16 +11,10 @@ Super lightweight classes and ontologies for developing smart gateways to popula
 ## Installation
 
 The package is available on [Packagist](https://packagist.org/packages/botk/core).
-You can install it using [Composer](http://getcomposer.org).
-
-Add following dependence to **composer.json** file in your project root:
+You can install it using [Composer](http://getcomposer.org):
 
 ```
-    {
-        "require": {
-            "botk/core": "~7.5",
-        }
-    }
+composer require botk/core
 ```
 
 ## Overview
@@ -38,6 +32,7 @@ It provides:
 
 
 ## Libraries usage
+
 For example this code snippet:
 
 ```php
@@ -188,7 +183,7 @@ This command line tool implements a set of smart algorithms,
 for example **postman:reasoning**: a command that mimics a postman reasoning in learning data from a string containing a place name and/or a postal address (also incomplete).
 
 ```turtle
-$> echo "Linked Data Center sede legale - LECCO" | vendor/bin/botk postman:reasoning -s0 --key="hereyourgoogleapikey"
+$> echo "Linked Data Center" | vendor/bin/botk postman:reasoning -s0 --key="hereyourgoogleapikey" -
 
 @prefix botk: <http://linkeddata.center/botk/v1#> .
 @prefix daq: <http://purl.org/eis/vocab/daq#> .
@@ -210,24 +205,13 @@ $> echo "Linked Data Center sede legale - LECCO" | vendor/bin/botk postman:reaso
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<geo:45.851679,9.388483> schema:latitude "45.851679"^^xsd:float ;
-    schema:longitude "9.388483"^^xsd:float .
-
-<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> a schema:LocalBusiness,
-        schema:Place ;
+<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> a schema:LocalBusiness, schema:Place ;
     dct:identifier "ChIJAQCQNDsdhEcRXy7pYgPP6F0" ;
     schema:address <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> ;
     schema:alternateName "LinkedData.Center sede legale" ;
-    schema:disambiguatingDescription "establishment",
-        "point_of_interest" .
-
-<file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/> prov:generatedAtTime "2018-05-29T17:55:25+00:00"^^xsd:dateTime ;
-    foaf:primaryTopic <file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/#dataset> .
-
-<file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/#dataset> a void:Dataset ;
-    void:datadump <file:///base/data/home/apps/s%7Erdf-translator/2.408516547054015808/> ;
-    void:entities 1 ;
-    void:triples 23 .
+    foaf:page <http://linkeddata.center/>;
+    schema:telephone "0341 245522342";
+    schema:disambiguatingDescription "establishment","point_of_interest" .
 
 <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> a schema:PostalAddress ;
     botk:addressRegioneIstat "LOMBARDIA" ;
@@ -237,9 +221,13 @@ $> echo "Linked Data Center sede legale - LECCO" | vendor/bin/botk postman:reaso
     schema:description "VIA LEONARDO DA VINCI, 10, 23900 LECCO LC" ;
     schema:postalCode "23900" ;
     schema:streetAddress "VIA L.DA VINCI, 10" .
+
+<geo:45.851679,9.388483> schema:latitude "45.851679"^^xsd:float ;
+    schema:longitude "9.388483"^^xsd:float .
+
 ```
 
-N.B. this command requires a valid google places api key, [get one in google console](https://developers.google.com/places/web-service/get-api-key)
+N.B. the postman:reasoning command requires a valid google places api key, [get one in google console](https://developers.google.com/places/web-service/get-api-key)
 
 To see all available commands and options execute `botk -h`
 

@@ -4,13 +4,29 @@ namespace BOTK\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use SKAgarwal\GoogleApi\PlacesApi;
 use BOTK\FactsFactory;
 
-class GoogleMapQueryCommand extends Command
+class PostmanReasoningCommand extends Command
 {
+    private $factsFactory;
+
+    public function __construct(FactsFactory $factsFactory = null)
+    {
+        if( is_null($factsFactory)){
+            $factsFactory = new \BOTK\FactsFactory( array(
+                'model'				=> 'LocalBusiness',
+                'modelOptions'		=> ['id' => ['filter'=> FILTER_DEFAULT]]
+            ));
+        }
+        $this->factsFactory = $factsFactory;
+
+        parent::__construct();
+    }
+    
     
     protected function configure()
     {
@@ -25,6 +41,9 @@ class GoogleMapQueryCommand extends Command
             .'As input it requires a csv like streams with two fields: a search string and '
             .'an uri to be linked (optional)'
         )
+        
+        ->addArgument('csvFile', InputArgument::REQUIRED, 'A CSV file of records in the form: "query", uri .  - means STDIN')
+        
         ->addOption('namespace','U',  InputOption::VALUE_REQUIRED,
             'the namespace for created Local Business URI',
             'http://linkeddata.center/resource/'
@@ -58,7 +77,7 @@ class GoogleMapQueryCommand extends Command
             4000
         )
         ->addOption('region', 'R',  InputOption::VALUE_REQUIRED,
-            'the two character country id (e.g. IT) for postman brain imprinting.',
+            'the two character country id (e.g. IT) for postman artificial brain imprinting.',
             'IT'
         )
         ->addOption('provenance', 'P', InputOption::VALUE_REQUIRED,
@@ -75,6 +94,7 @@ class GoogleMapQueryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {    
         //cache input parameters
+        $csvFile = $input->getArgument('csvFile');
         $uriNameSpace = $input->getOption('namespace');
         $limit = $input->getOption('limit');
         $sleepTime = $input->getOption('delay');
@@ -86,6 +106,8 @@ class GoogleMapQueryCommand extends Command
         $region = $input->getOption('region');
         $key = $input->getOption('key');
         
+        
+        // ask google api key, if not passed as option
         if( empty($key)){
             $helper = $this->getHelper('question');
             $question = new Question('Please enter your google place api key: ');
@@ -102,28 +124,28 @@ class GoogleMapQueryCommand extends Command
             $key = $helper->ask($input, $output, $question);
         }
         
+
+        
         $googlePlaces = new PlacesApi($key);
-        $factsFactory = new FactsFactory( array(
-            'model'			=> 'LocalBusiness',
-            'modelOptions'		=> array(
-                // override the default lowercase filter for id because placeId is case sensitive
-                'id' => array('filter'=> FILTER_DEFAULT)
-            )
-        ));
         
         // print turtle prefixes
-        echo $factsFactory->generateLinkedDataHeader();
+        echo $this->factsFactory->generateLinkedDataHeader();
 
         $lineCount=$callErrorCount = $consecutiveErrorsCount = $callCount = 0; 
         
+        
+        // open csv stream
+        $csvStream = ($csvFile === '-')?STDIN:fopen($csvFile, 'r');
+        if(!$csvStream ) {throw new \Exception("csvFile not found");}
+            
         // skip input headers
         for ($i = 0; $i < $input->getOption('skip'); $i++) {
             $lineCount++;
-            $output->writeln("<info># Ignored header $lineCount: ". trim(fgets(STDIN)) . '</info>'); 
+            $output->writeln("<info># Ignored header $lineCount: ". trim(fgets($csvStream)) . '</info>'); 
         }
         
-        // main input loop
-        while( ($rawData= fgetcsv(STDIN)) && ($callCount <$limit)  ){
+        
+        while( ($rawData= fgetcsv($csvStream)) && ($callCount <$limit)  ){
             $lineCount++;
             
             $query = isset($rawData[0])?$rawData[0]:null;
@@ -157,11 +179,15 @@ class GoogleMapQueryCommand extends Command
                 continue;
             }
             
+            
+            
             $output->writeln("<info># discovered data for '$query'.</info>");
             // factualize textSearch results
             $result =$searchResultsCollection['results']->first();
             $placeId = $result['place_id'];
             $placeUri = $uriNameSpace . $placeId;
+            
+            $data=array();
             $data['id'] = $placeId;
             $data['uri'] = $placeUri;
             $data['businessType'] = $types;
@@ -238,7 +264,7 @@ class GoogleMapQueryCommand extends Command
             }
             
             try {
-                $facts =$factsFactory->factualize($data);
+                $facts =$this->factsFactory->factualize($data);
                 echo $facts->asTurtleFragment(), "\n";
                 $droppedFields = $facts->getDroppedFields();
                 if(!empty($droppedFields)) {
@@ -263,7 +289,7 @@ class GoogleMapQueryCommand extends Command
         }
         
         // prints provenances and other metadata
-        echo $factsFactory->generateLinkedDataFooter();
+        echo $this->factsFactory->generateLinkedDataFooter();
         $output->writeln("<info># Called $callCount APIs, $callErrorCount errors.</info>");
     }
 }
