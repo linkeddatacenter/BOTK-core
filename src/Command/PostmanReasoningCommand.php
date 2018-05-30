@@ -50,7 +50,7 @@ class PostmanReasoningCommand extends Command
         )
         ->addOption('delay','d',  InputOption::VALUE_REQUIRED,
             'delay each call of a fixed amount of seconds',
-            0
+            1
         )
         ->addOption('skip','s', InputOption::VALUE_REQUIRED,
             'number of INPUT lines to skip',
@@ -160,6 +160,7 @@ class PostmanReasoningCommand extends Command
             // call google place textSearch api, tolerating some errors.
             //--------------------------------------------------------------------------------
             try {
+                sleep($sleepTime);
                 $searchResultsCollection=$googlePlaces->textSearch($query, array('region'=> $region));
                 $consecutiveErrorsCount=0;
                 $callCount++;
@@ -215,6 +216,7 @@ class PostmanReasoningCommand extends Command
             //--------------------------------------------------------------------------------            
             if ($detailLevel==='contact') {
                 try {
+                    sleep($sleepTime);
                     $details=$googlePlaces->placeDetails($placeId, array('region'=> $region));
                     $consecutiveErrorsCount=0;
                     $callCount++;
@@ -281,7 +283,6 @@ class PostmanReasoningCommand extends Command
             } 
             
             
-            sleep($sleepTime);
         }
         
         if ($callCount >= $limit && $placeId) {
