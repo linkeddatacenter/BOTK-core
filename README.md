@@ -33,6 +33,13 @@ It provides:
 
 ## Libraries usage
 
+The goal of the libraries is to simplify the conversion of raw data (e.g. .csv or  xml file) in RDF. There are tons of tools to do this job and this is yet another. The idea is just to use PHP to do trivial data conversion instead to build and configure complex tool.
+
+With BOTK you define simple models to describe things  with  a plain set of properties ( e.g a Business Entity, a contact, a product). Then a FactFactory processor cleans data and translates attributes in a RDF graph according with BOTK language profile.
+More or less this is what you have to do do when process csv or excel files row by row.
+
+With BOTK libraries it is easy to create "gateways" ie processors that get in stdin a data stream producing in sdout a RDF turtle stream
+
 For example this code snippet:
 
 ```php
@@ -68,7 +75,7 @@ processes this csv dataset:
 | 314        | ASL della Provincia di Varese | 3876             | VA0139           | Farmacia DELLA BRUNELLA Dr. Prof. A. RIGAMONTI | Via Salvo D'Acquisto, 2 | Varese    | 0332289300 | 0332214856 | farmacia_brunella@libero.it | urbana            |                       | true      | 45.822059 | 8.818115 | (45.822059, 8.818115) |
 | 303        | ASL della Provincia di Como   | 2100             | CO0392           | Farmacia Tagliabue Dr. Diego Maria             | VIA ADUA, 9             | Magreglio | 031965123  |            | farmmagreglio@tiscalinet.it | rurale sussidiata | true                  | true      | 45.92146  | 9.26228  | (45.92146, 9.26228)   |
 
-producing  this rdf file:
+and produces this rdf file:
 
 ```turtle
 @prefix botk: <http://linkeddata.center/botk/v1#> .
@@ -144,6 +151,8 @@ The the dataset processing is driven by the SimpleCsvGateway class that uses a s
 
 **modelOptions**  override the default field options provided by the selected model in the $DEFAULT_OPTIONS variable. 
 For example see this code snippet extracted from [Thing model](src\Model\Thing.php) that is a superclass of [LocalBusiness model](src\Model\LocalBusiness.php)
+
+Configuring models Options you can force field clenacing and validation.
 
 ```php
 ...
