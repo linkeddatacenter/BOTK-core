@@ -28,7 +28,8 @@ Following vocabularies are partially supported:
 BOTK vocabulary extends schema.org with some custom properties and restrictions.
 SKOS vocabulary is used to categorize things
 
-The primary focus o BOTK are:
+The primary focus of BOTK language profile are:
+
 - **Local Businesses**, defined as a legal business organization with a physical postal address contact point. Modelled as schema:LocalBusiness
 - **Business contacts**, modelled as a schema:Person, it define the business identity of a person (i.e. his/her business card)
 - **Products**, modeled as schema:Product
@@ -44,11 +45,12 @@ BOTK extends and introduces some restrictions to the supported ontologies.
 
 ## String context restriction
 
-No string context should be used to qualify strings.
+As default policy, no string context should be used to qualify strings.
 
 ## schema:Things
 
-- botk:similarTo a less stringent property than owl:sameAs
+- botk:similarTo a less stringent property than owl:sameAs. Has cardinality >= 0 and a URI as range. 
+It is reflexive and transitive but not associative.
 
 ## schema:QuantitativeValue
 
@@ -65,85 +67,85 @@ if schema:value with cardinality = 1 then schema:minValue = schema:maxValue =sch
 Just a virtual collection of LocalBusiness and BusinessContact with some statistic data. 
 Extends schema:Organization with following properties and restrictions:
 
-- botk:ateco2007 with cardinality >=0
-- botk:naceV2 with cardinality >=0
-- [schema:isicV4 ](http://schema.org/isicV4 )with cardinality =>0
-- botk:hasServerManufacturer with cardinality >=0
-- botk:hasServerVirtualizationManufacturer with cardinality >=0
-- botk:hasDASManufacturer with cardinality >=0
-- botk:hasNASManufacturer with cardinality >=0
-- botk:hasSANManufacturer with cardinality >=0
-- botk:hasTapeLibraryManufacturer with cardinality >=0
-- botk:hasStorageVirtualizationManufacturer with cardinality >=0
-- botk:naics with cardinality >=0
-- botk:hasNAFCode with cardinality >=0
-- botk:hasServerSeries with cardinality >=0
-- botk:hasDesktopManufacturer with cardinality >=0
-- botk:hasLaptopManufacturer with cardinality >=0
-- botk:hasDesktopVirtualizationManufacturer with cardinality >=0
-- botk:hasWorkstationManufacturer with cardinality >=0
-- botk:hasNetworkPrinterManufacturer with cardinality >=0
-- botk:hasHighVolumePrinterManufacturer with cardinality >=0
-- botk:hasCopierManufacturer with cardinality >=0
-- botk:hasUPSManufacturer with cardinality >=0
-- botk:hasERPSuiteVendor with cardinality >=0
-- botk:hasERPSoftwareasaServiceManufacturer with cardinality >=0
-- botk:hasAppServerSoftwareVendor with cardinality >=0
-- botk:hasBusIntellSoftwareVendor with cardinality >=0
-- botk:hasCollaborativeSoftwareVendor with cardinality >=0
-- botk:hasCRMSoftwareVendor with cardinality <>=0
-- botk:hasCRMSoftwareasaServiceManufacturer with cardinality >=0
-- botk:hasDocumentMgmtSoftwareVendor with cardinality >=0
-- botk:hasAppConsolidationSoftwareVendor with cardinality >=0
-- botk:hasHumanResourceSoftwareVendor with cardinality >=0
-- botk:hasSupplyChainSoftwareVendor with cardinality >=0
-- botk:hasWebServiceSoftwareVendor with cardinality >=0
-- botk:hasDatawarehouseSoftwareVendor with cardinality >=0
-- botk:hasSaaSVendor with cardinality >=0
-- botk:hasEmailMessagingVendor with cardinality >=0
-- botk:hasEmailSaaSManufacturer with cardinality >=0
-- botk:hasOSVendor with cardinality >=0
-- botk:hasOSModel with cardinality >=0
-- botk:hasDBMSVendor with cardinality >=0
-- botk:hasAcctingVendor with cardinality >=0
-- botk:hasAntiVirusVendor with cardinality >=0
-- botk:hasAssetManagementSoftwareVendor with cardinality >=0
-- botk:hasEnterpriseManagementSoftwareVendor with cardinality >=0
-- botk:hasIDAccessSoftwareVendor with cardinality >=0
-- botk:hasStorageManagementSoftwareVendor with cardinality >=0
-- botk:hasStorageSaaSManufacturer with cardinality >=0
-- botk:hasEthernetTechnology with cardinality >=0
-- botk:haseCommerceType with cardinality >=0
-- botk:hasHostorRemoteStatus with cardinality <=1
-- botk:hasNetworkLineCarrier with cardinality >=0
-- botk:hasVideoConfServicesProvider with cardinality >=0
-- botk:hasUnifiedCommSvcProvider with cardinality >=0
-- botk:hasRouterManufacturer with cardinality >=0
-- botk:hasSwitchManufacturer with cardinality >=0
-- botk:hasVPNManufacturer with cardinality >=0
-- botk:hasISP with cardinality >=0
-- botk:hasNetworkServiceProvider with cardinality >=0
-- botk:hasPhoneSystemManufacturer with cardinality >=0
-- botk:hasVoIPManufacturer with cardinality >=0
-- botk:hasVoIPHosting with cardinality >=0
-- botk:hasLongDistanceCarrier with cardinality >=0
-- botk:hasWirelessProvider with cardinality >=0
-- botk:hasPhoneSystemMaintenanceProvider with cardinality >=0
-- botk:hasSmartphoneManufacturer with cardinality >=0
-- botk:hasSmartphoneOS with cardinality >=0
-- botk:hasFYE with cardinality <=1
-- [schema:foundingDate](http://schema.org/foundingDate) with cardinality <=1
-- [schema:subOrganization ](http://schema.org/subOrganization )with cardinality >= 0
+- botk:ateco2007 with cardinality >=0 ( as a skos skos:notation label)
+- botk:naceV2 with cardinality >=0 ( as a skos skos:notation label)
+- [schema:isicV4 ](http://schema.org/isicV4 )with cardinality =>0 ( as a skos skos:notation label)
+- botk:hasServerManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasServerVirtualizationManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasDASManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasNASManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasSANManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasTapeLibraryManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasStorageVirtualizationManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:naics with cardinality >=0  as a skos skos:notation label)
+- botk:hasNAFCode with cardinality >=0  as a skos skos:notation label)
+- botk:hasServerSeries with cardinality >=0  (as a data cube osservable)
+- botk:hasDesktopManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasLaptopManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasDesktopVirtualizationManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasWorkstationManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasNetworkPrinterManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasHighVolumePrinterManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasCopierManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasUPSManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasERPSuiteVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasERPSoftwareasaServiceManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasAppServerSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasBusIntellSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasCollaborativeSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasCRMSoftwareVendor with cardinality <>=0 (as a data cube osservable)
+- botk:hasCRMSoftwareasaServiceManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasDocumentMgmtSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasAppConsolidationSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasHumanResourceSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasSupplyChainSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasWebServiceSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasDatawarehouseSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasSaaSVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasEmailMessagingVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasEmailSaaSManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasOSVendor with cardinality >=0  (as a data cube osservable)
+- botk:hasOSModel with cardinality >=0 (as a data cube osservable)
+- botk:hasDBMSVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasAcctingVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasAntiVirusVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasAssetManagementSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasEnterpriseManagementSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasIDAccessSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasStorageManagementSoftwareVendor with cardinality >=0 (as a data cube osservable)
+- botk:hasStorageSaaSManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasEthernetTechnology with cardinality >=0 (as a data cube osservable)
+- botk:haseCommerceType with cardinality >=0 (as a data cube osservable)
+- botk:hasHostorRemoteStatus with cardinality <=1 (as a data cube osservable)
+- botk:hasNetworkLineCarrier with cardinality >=0 (as a data cube osservable)
+- botk:hasVideoConfServicesProvider with cardinality >=0 (as a data cube osservable)
+- botk:hasUnifiedCommSvcProvider with cardinality >=0 (as a data cube osservable)
+- botk:hasRouterManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasSwitchManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasVPNManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasISP with cardinality >=0 (as a data cube osservable)
+- botk:hasNetworkServiceProvider with cardinality >=0 (as a data cube osservable)
+- botk:hasPhoneSystemManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasVoIPManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasVoIPHosting with cardinality >=0 (as a data cube osservable)
+- botk:hasLongDistanceCarrier with cardinality >=0 (as a data cube osservable)
+- botk:hasWirelessProvider with cardinality >=0 (as a data cube osservable)
+- botk:hasPhoneSystemMaintenanceProvider with cardinality >=0 (as a data cube osservable)
+- botk:hasSmartphoneManufacturer with cardinality >=0 (as a data cube osservable)
+- botk:hasSmartphoneOS with cardinality >=0 (as a data cube osservable)
+- botk:hasFYE with cardinality <=1 (as a data cube osservable)
+- [schema:foundingDate](http://schema.org/foundingDate) with cardinality <=1 (as a data cube osservable)
+- [schema:subOrganization ](http://schema.org/subOrganization )with cardinality >= 0 (as a data cube osservable)
 
 
 Following statistical dimensions also apply; all these properties have cardinality <=1 and range schema:QuantitativeValue. The range has an implicit unit of measure, and represents the last known value for a dimension.
 If you need more control on statistical dimensions  you should use the datacube vocabulary (https://www.w3.org/TR/vocab-data-cube/).
 
-- [schema:numberOfEmployees ](http://schema.org/numberOfEmployees )expressend in number of employees
-- botk:annualTurnover expressend in a predefined currency
-- botk:netProfit expressend in a predefined currency
-- botk:itBudget expressend in a predefined currency
-- botk:itStorageBudget expressend in a predefined currency
+- [schema:numberOfEmployees ](http://schema.org/numberOfEmployees )expressend in number of employees 
+- botk:annualTurnover expressend in a predefined currency 
+- botk:netProfit expressend in a predefined currency 
+- botk:itBudget expressend in a predefined currency 
+- botk:itStorageBudget expressend in a predefined currency 
 - botk:itHardwareBudget expressend in a predefined currency
 - botk:itServerBudget expressend in a predefined currency
 - botk:softwareBudget expressend in a predefined currency	
@@ -239,6 +241,9 @@ ex:org1 a schema:Organization ;
     schema:isicV4 "8699" ;
     schema:numberOfEmployees [ schema:minValu1e 1000 ; schema:maxValue 2000 ] ;
 ```
+
+This properies should be intended as shortcuts for data cube observables, dct:identifier specialization or skos vocabularypref labels. 
+
 
 ## schema:LocalBusiness
 
