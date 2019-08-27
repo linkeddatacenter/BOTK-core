@@ -312,7 +312,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.6.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.6.1...HEAD
+[7.6.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.6.1...7.6.0
 [7.6.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.1...7.6.0
 [7.5.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.0...7.5.1
 [7.5.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.2...7.5.0
