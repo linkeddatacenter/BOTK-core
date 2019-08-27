@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.6.1]
+
+
+## fixed
+
+- \mb_str.. in filters
+
 ## [7.6.0]
 
 ### Changed

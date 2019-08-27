@@ -44,7 +44,7 @@ class Filters {
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
 		$value = preg_replace('/\s?,?\s?(N|N\.|NUM\.|NUM|NUMERO|NUMBER|#)\s?(\d+)/i', ', $2', $value);		
 																// try normalizing civic numbers
-		$value = mb_strtoupper($value,'UTF-8');					// move to upper (preserving accents)
+		$value = \mb_strtoupper($value,'UTF-8');					// move to upper (preserving accents)
 		$value = trim($value); 									// no trailing and ending blancs
 		
 		return $value?:null;									// multibyte uppercase
@@ -119,7 +119,7 @@ class Filters {
 	 */
 	public static function FILTER_SANITIZE_ID($value)
 	{
-		$value = mb_strtolower($value, 'UTF-8');
+		$value = \mb_strtolower($value, 'UTF-8');
 		$value = preg_replace('/[^\p{L}0-9]+/u', ' ', $value);
 		$value = preg_replace('/\s+/', '_', trim($value));
 		
@@ -284,7 +284,7 @@ class Filters {
 	public static function FILTER_SANITIZE_PERSON_NAME($value)
 	{
 		$value = preg_replace('/\s+/', ' ', $value);			// no multiple spaces,
-		$value = mb_strtoupper($value,'UTF-8');					// move to upper (preserving accents)
+		$value = \mb_strtoupper($value,'UTF-8');					// move to upper (preserving accents)
 		$value = trim($value); 									// no trailing and ending blancs
 		
 		return $value?:null;									// multibyte uppercase
