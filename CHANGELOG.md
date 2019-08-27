@@ -4,6 +4,21 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [7.6.0]
+
+### Changed
+
+- Substituted vagrat with docker
+
+
+### addded
+
+- Abstract reasoner
+
+## removed
+
+- command line interface
+
 ## [7.5.1]
 
 ### addded
@@ -290,7 +305,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.1...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.6.0...HEAD
+[7.6.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.1...7.6.0
 [7.5.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.5.0...7.5.1
 [7.5.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.2...7.5.0
 [7.4.2]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.4.1...7.4.2

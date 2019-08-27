@@ -188,7 +188,7 @@ class Filters {
 		
 
 	/**
-	 * Parse a range string an returns mi and max values
+	 * Parse a range string an returns min and max values
 	 * 	if max is not specified max= PHP_INT_MAX
 	 * 	if min is not specified min= -PHP_INT_MAX
 	 * 

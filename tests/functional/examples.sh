@@ -15,7 +15,7 @@ function sampletest {
 sampletest sample1 289
 sampletest sample2 274
 sampletest sample3 171
-sampletest sample4 249
+sampletest sample4 260
 sampletest sample5 746
 sampletest sample6 90
 sampletest sample7 1810

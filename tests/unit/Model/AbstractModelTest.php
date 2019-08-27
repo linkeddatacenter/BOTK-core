@@ -1,11 +1,12 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
 class DummyModel extends BOTK\Model\AbstractModel
 {
 	public function asTurtleFragment() { return '<urn:a:b> owl:sameAs <urn:a:b> .';}
 }
 
-class AbstractModelTest extends PHPUnit_Framework_TestCase
+class AbstractModelTest extends TestCase
 {
 	protected $vocabulary =   array(
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',

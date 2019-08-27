@@ -10,81 +10,49 @@ Due to time constraints, we are not always able to respond as quickly as we
 would like. Please do not take delays personal and feel free to remind us here,
 on IRC, or on Gitter if you feel that we forgot to respond.
 
+Please see http://help.github.com/pull-requests/.
+
+We kindly ask you to add following sentence to your pull request:
+
+“I hereby assign copyright in this code to the project, to be licensed under the same terms as the rest of the code.”
+
 ## Set-up of a local developmente workstation
 
-Before to begin be sure to have:
+The platform is shipped with a [Docker](https://docker.com) setup that makes it easy to get a containerized environment up and running. 
+If you do not already have Docker on your computer, 
+[it's the right time to install it](https://docs.docker.com/install/). 
 
-- a virus free workstation with a fresh OS (windows, MAC, Linux)
-- at least 2GB Ram required to run the whole integration testing environment
-- a processor with virtualization support
-- a personal account to [BitBucket](https://bitbucket.org/)
-- an editor of your choice able read unix-style line endings docs (i.e. notepad++)
-- a valis linkedData.Center SDaaS subscription
-- a valid [Vagrant Cloud account](https://vagrantcloud.com/account/new)
-
-Local workstation installation process:
-
-- install [GIT](http://git-scm.com/). Select “checkout as is , commit Unix-style line endings”.
-- install [Vagrant](https://www.vagrantup.com/)
-- install [Virtualbox](https://www.virtualbox.org/)<
-- [download ngrok.exe](https://ngrok.com/) and copy executable file in a directory in PATH
-
-You are free to optionally install your preferred language ide (aptana, eclipse, other)
-
-This is the last known working configuration on Windows 10:
-
-|git                | 2.13.3-64bit |
-|VirtualBox         | 5.1.24       |
-|Vagrant            | 1.9.7        |
-|bento/ubuntu-16.04 | 2.3.7        |
-
-
-## git checkout
-
-The following commands can be used to perform the initial checkout from a bash shell:
-
-```shell
-git clone https://github.com/linkeddatacenter/BOTK-core.git
-cd BOTK-core
-```
 
 ## Developing code and unit tests
 
-Vagrant and virtualbox will setup a complete integration test environment.
-
-To create and login into integrate testing environment, just type:
-
-```shell
-vagrant up
-vagrant ssh
-```
-
-All BOTK-core code is shared in /vagrant inside virtual host.
-
 Retrieve BOTK-core's dependencies using [Composer](http://getcomposer.org/):
 
+
 ```shell
-cd /vagrant
-composer install	
+docker run --rm -ti -v $PWD/.:/app composer install
+docker run --rm -ti -v $PWD/.:/app composer update
 ```
+
 
 Unit tests are performed through PHPUnit. To launch unit tests:
 
 ```shell
+docker run --rm -ti -v $PWD/.:/app -w /app php bash
 ./vendor/bin/phpunit
 ```
 
 Functional tests are performed through simple bash scrips. To launch functional tests:
 
 ```shell
-sudo apt-get install raptor2-utils
-cd tests/functional; ./examples.sh #  This creates alos output files in examples/output dir
+apt-get update
+apt-get -y install raptor2-utils
+cd tests/functional; ./examples.sh #  This createsoutput files in examples/output dir
 ```
 
 Free testenv resources with:
 
 ```shell
-vagrant destroy
+exit
 ```
 
 

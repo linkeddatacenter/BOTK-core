@@ -25,9 +25,9 @@ This package is compatible both with [KEES architecture](http://linkeddata.cente
 
 It provides:
 
-- a semantic language profile
-- a set of libraries
-- a command line tool that implements some simple reasoning
+- an example semantic language profile that extend schema.org
+- a set of libraries to help gateways development
+- a set of libraries to help reasoners development
 
 
 
@@ -177,59 +177,6 @@ For named node generation the 'base' uri namespace is normally used ("urn:local:
 
 See [more examples here](tests/functional).
 
-## botk command line tool
-
-This command line tool implements a set of smart algorithms,
-for example **postman:reasoning**: a command that mimics a postman reasoning in learning data from a string containing a place name and/or a postal address (also incomplete).
-
-```turtle
-$> echo "Linked Data Center" | vendor/bin/botk postman:reasoning -s0 --key="hereyourgoogleapikey" -
-
-@prefix botk: <http://linkeddata.center/botk/v1#> .
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix kees: <http://linkeddata.center/kees/v1#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
-@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix void: <http://rdfs.org/ns/void#> .
-@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0> a schema:LocalBusiness, schema:Place ;
-    dct:identifier "ChIJAQCQNDsdhEcRXy7pYgPP6F0" ;
-    schema:address <http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> ;
-    schema:alternateName "LinkedData.Center sede legale" ;
-    foaf:page <http://linkeddata.center/>;
-    schema:telephone "0341 245522342";
-    schema:disambiguatingDescription "establishment","point_of_interest" .
-
-<http://linkeddata.center/resource/ChIJAQCQNDsdhEcRXy7pYgPP6F0_address> a schema:PostalAddress ;
-    botk:addressRegioneIstat "LOMBARDIA" ;
-    schema:addressCountry "IT" ;
-    schema:addressLocality "LECCO" ;
-    schema:addressRegion "LC" ;
-    schema:description "VIA LEONARDO DA VINCI, 10, 23900 LECCO LC" ;
-    schema:postalCode "23900" ;
-    schema:streetAddress "VIA L.DA VINCI, 10" .
-
-<geo:45.851679,9.388483> schema:latitude "45.851679"^^xsd:float ;
-    schema:longitude "9.388483"^^xsd:float .
-
-```
-
-N.B. the postman:reasoning command requires a valid google places api key, [get one in google console](https://developers.google.com/places/web-service/get-api-key)
-
-To see all available commands and options execute `botk -h`
 
 ## Contributing to this project
 
@@ -237,7 +184,7 @@ See [Contributing guidelines](CONTRIBUTING.md)
 
 ## License
 
-Copyright © 2018 by [LinkedData.Center](http://LinkedData.Center/)®
+Copyright © 2018-2019 by [LinkedData.Center](http://LinkedData.Center/)®
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

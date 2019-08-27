@@ -1,6 +1,7 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class BusinessContactTest extends PHPUnit_Framework_TestCase
+class BusinessContactTest extends TestCase
 {	
     /**
      * @dataProvider goodBusinessContact

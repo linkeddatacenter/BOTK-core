@@ -1,6 +1,7 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class FiltersTest extends PHPUnit_Framework_TestCase
+class FiltersTest extends TestCase
 {
 
 

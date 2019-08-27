@@ -35,6 +35,6 @@
 <urn:aberdeen:S308003747_23> schema:worksFor <urn:aberdeen:S308003747>;schema:jobTitle "Resp  Operazioni Informatiche";a schema:Person.
 <urn:aberdeen:S308003747_26> schema:worksFor <urn:aberdeen:S308003747>;schema:jobTitle "It Manager";a schema:Person.
 
-<> prov:generatedAtTime "2018-01-16T10:38:39+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
+<> prov:generatedAtTime "2019-08-27T14:30:07+00:00"^^xsd:dateTime;foaf:primaryTopic <#dataset>.
 <#dataset> a void:Dataset; void:datadump <>;void:triples 90 ;void:entities 19.
 # Generated 90 good triples from 19 entities (0 ignored), 0 errors
