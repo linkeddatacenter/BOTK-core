@@ -6,4 +6,4 @@ before_script:
 script: vendor/bin/phpunit
 
 php:
-  - 7.2
+  - 7.3
