@@ -39,21 +39,9 @@ Unit tests are performed through PHPUnit. To launch unit tests:
 ```shell
 docker run --rm -ti -v $PWD/.:/app -w /app php bash
 ./vendor/bin/phpunit
-```
-
-Functional tests are performed through simple bash scrips. To launch functional tests:
-
-```shell
-apt-get update
-apt-get -y install raptor2-utils
-cd tests/functional; ./examples.sh #  This createsoutput files in examples/output dir
-```
-
-Free testenv resources with:
-
-```shell
 exit
 ```
+
 
 
 ## Pull Request Process

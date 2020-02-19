@@ -5,22 +5,6 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 {
 	
 	protected static $DEFAULT_OPTIONS  = array(
-		'uri'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'base'				=> array(
-								'default'	=> 'urn:local:',
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'id'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
 		'page'				=> array(	
 								'filter'    => FILTER_CALLBACK,
 		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
@@ -62,32 +46,7 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 								'filter'    => FILTER_DEFAULT,
                             	'flags'  	=> FILTER_FORCE_ARRAY,
 			                   ),
-		'similarTo'		=> array(	
-			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY
-			),	
 	);
-	
-
-	/**
-	 * a generic implementation that use uri, base and id property (all optionals)
-	 */
-	public function getUri()
-	{
-		if(!empty($this->data['uri'])){
-			$uri =  $this->data['uri'];
-		} elseif(!empty($this->data['base'])) {
-			$idGenerator=$this->uniqueIdGenerator;
-			$uri = $this->data['base'];
-			$uri.=empty($this->data['id'])?$idGenerator($this->data):$this->data['id'];
-		} else{
-			$idGenerator=$this->uniqueIdGenerator;
-			$uri = 'urn:local:botk:'.$idGenerator($this->data);
-		}
-		
-		return $uri;
-	}
 
 	
 	public function asTurtleFragment()
@@ -103,7 +62,6 @@ class Thing extends AbstractModel implements \BOTK\ModelInterface
 				'subject'		=> 'skos:subject',
 				'image'			=> 'schema:image',
 				'sameAs'		=> 'owl:sameAs',
-			    'similarTo'     => 'botk:similarTo',
 			) as $uriVar=>$property) {
 				if(!empty($this->data[$uriVar])){
 					$this->addFragment("$property <%s>;", $this->data[$uriVar],false);	

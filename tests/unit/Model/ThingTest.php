@@ -3,8 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 
 class ThingTest extends TestCase
-{
-	
+{	
 
 	public function testConstructorWithCustomOptions()
 	{
@@ -31,68 +30,64 @@ class ThingTest extends TestCase
     public function testGetDefaultOptions()
     {	
     	$expectedOptions =  array (
-		'uri'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'base'				=> array(
-								'default'	=> 'urn:local:',
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'id'				=> array(
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-                            	'flags'  	=> FILTER_REQUIRE_SCALAR,
-			                   ),
-		'page'				=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'homepage'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'disambiguatingDescription'=> array(	
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'subject'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'image'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'sameAs'			=> array(	
-								'filter'    => FILTER_CALLBACK,
-		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'name'				=> array(		
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'alternateName'		=> array(		
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'description'		=> array(		
-								'filter'    => FILTER_DEFAULT,
-                            	'flags'  	=> FILTER_FORCE_ARRAY,
-			                   ),
-		'similarTo'		=> array(	
-			'filter'    => FILTER_CALLBACK,
-			'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-			'flags'  	=> FILTER_FORCE_ARRAY
-			),	
+    		'uri'				=> array(
+    								'filter'    => FILTER_CALLBACK,
+    		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                                	'flags'  	=> FILTER_REQUIRE_SCALAR,
+    			                   ),
+    		'base'				=> array(
+    								'default'	=> 'urn:local:',
+    								'filter'    => FILTER_CALLBACK,
+    		                        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+                                	'flags'  	=> FILTER_REQUIRE_SCALAR,
+    			                   ),
+    		'id'				=> array(
+    								'filter'    => FILTER_CALLBACK,
+    		                        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+                                	'flags'  	=> FILTER_REQUIRE_SCALAR,
+    			                   ),
+    	    
+    	    'page'				=> array(
+    	        'filter'    => FILTER_CALLBACK,
+    	        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'homepage'			=> array(
+    	        'filter'    => FILTER_CALLBACK,
+    	        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'disambiguatingDescription'=> array(
+    	        'filter'    => FILTER_DEFAULT,
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'subject'			=> array(
+    	        'filter'    => FILTER_CALLBACK,
+    	        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'image'			=> array(
+    	        'filter'    => FILTER_CALLBACK,
+    	        'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_HTTP_URL',
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'sameAs'			=> array(
+    	        'filter'    => FILTER_CALLBACK,
+    	        'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'name'				=> array(
+    	        'filter'    => FILTER_DEFAULT,
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'alternateName'		=> array(
+    	        'filter'    => FILTER_DEFAULT,
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
+    	    'description'		=> array(
+    	        'filter'    => FILTER_DEFAULT,
+    	        'flags'  	=> FILTER_FORCE_ARRAY,
+    	    ),
 
 		);
 

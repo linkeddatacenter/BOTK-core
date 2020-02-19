@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 [![License](https://img.shields.io/packagist/l/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 
-Super lightweight classes and ontologies for developing smart gateways to populate a business knowlege base.
+Super lightweight base classes for developing smart gateways to populate RDF knowlege base.
 
 
 ## Installation
@@ -19,13 +19,12 @@ composer require botk/core
 
 ## Overview
 
-This package provides some simple tools to transform  raw data into rdf linked data according [BOTK language profile](vocabularies).
+This package provides some simple tools to transform  raw data into rdf linked data.
 
-This package is compatible both with [KEES architecture](http://linkeddata.center/kees and with [LinkedData.Center SDaaS plans](http://linkeddata.center/home/sdaas)
+This package is compatible with [LinkedData.Center SDaaS architecture](http://linkeddata.center/home/sdaas)
 
 It provides:
 
-- an example semantic language profile that extend schema.org
 - a set of libraries to help gateways development
 - a set of libraries to help reasoners development
 
@@ -46,81 +45,56 @@ For example this code snippet:
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
-$options = array(
-	'source' => 'urn:dataset:example2',
-	'factsProfile' => array(
-		'datamapper'	=> function(array $rawdata){
+$options = [
+	'factsProfile' => [
+		'model' => 'Thing',
+		'modelOptions' => [
+			'base' => [ 'default'=> 'urn:yp:registry:' ]
+		],
+		'datamapper'	=> function($rawdata){
 			$data = array();
-			$data['id'] = $rawdata[2];
-			$data['businessName']= $rawdata[4];
-			$data['streetAddress'] = $rawdata[5];
-			$data['addressLocality'] = $rawdata[6];
-			$data['telephone'] = $rawdata[7];
-			$data['faxNumber'] = $rawdata[8];
-			$data['email'] = $rawdata[9];
-			$data['long'] = $rawdata[14];			
-			$data['lat'] = $rawdata[13];	
+			$data['id'] = $rawdata[0];
+			$data['homepage'] =  $rawdata[1];
+			$data['alternateName'] = [ $rawdata[2], $rawdata[3]] ;
 			return $data;
 		},
-	),
-);
+		'rawdataSanitizer' => function( $rawdata){
+			return is_empty($rawdata[0])?false:$rawdata;
+		},	
+	],
+	'skippFirstLine'	=> false,
+	'fieldDelimiter' => '|'
+];
 
 BOTK\SimpleCsvGateway::factory($options)->run();
 ```
 
 processes this csv dataset:
 
-| CODICE_ASL | DENOM_ASL                     | CODICE_NAZIONALE | CODICE_REGIONALE | DENOM_FARMACIA                                 | INDIRIZZO               | LOCALITA  | TELEFONO   | FAX        | EMAIL                       | CARATTERIZZAZIONE | PRENOTAZIONI_CONSENSO | ESENZIONI | LAT       | LNG      | LOCATION              |
-|------------|-------------------------------|------------------|------------------|------------------------------------------------|-------------------------|-----------|------------|------------|-----------------------------|-------------------|-----------------------|-----------|-----------|----------|-----------------------|
-| 314        | ASL della Provincia di Varese | 3876             | VA0139           | Farmacia DELLA BRUNELLA Dr. Prof. A. RIGAMONTI | Via Salvo D'Acquisto, 2 | Varese    | 0332289300 | 0332214856 | farmacia_brunella@libero.it | urbana            |                       | true      | 45.822059 | 8.818115 | (45.822059, 8.818115) |
-| 303        | ASL della Provincia di Como   | 2100             | CO0392           | Farmacia Tagliabue Dr. Diego Maria             | VIA ADUA, 9             | Magreglio | 031965123  |            | farmmagreglio@tiscalinet.it | rurale sussidiata | true                  | true      | 45.92146  | 9.26228  | (45.92146, 9.26228)   |
+ id | url                       | name              | aka 
+ 1  | http://linkeddata.center/ | LinkedData.Center | LDC
+ 2  | https://github.org/       | GitHub            | 
 
-and produces this rdf file:
+
+and produces something similar tothis rdf file:
 
 ```turtle
-@prefix botk: <http://linkeddata.center/botk/v1#> .
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix kees: <http://linkeddata.center/kees/v1#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
-@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix void: <http://rdfs.org/ns/void#> .
-@prefix wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<geo:45.822059,8.818115> schema:latitude "45.822059"^^xsd:float ;
-    schema:longitude "8.818115"^^xsd:float .
-
-<http://salute.gov.it/resource/farmacie#3876> a schema:LocalBusiness;
-    dct:identifier "3876" ;
-    schema:address <http://salute.gov.it/resource/farmacie#3876_address> ;
-    schema:alternateName "Farmacia DELLA BRUNELLA Dr. Prof. A. RIGAMONTI" ;
-    schema:email <file:///base/data/home/apps/s%7Erdf-translator/1.380697414950152317/FARMACIA_BRUNELLA@LIBERO.IT> ;
-    schema:faxNumber "0332214856" ;
-    schema:telephone "0332289300" .
-
-<http://salute.gov.it/resource/farmacie#3876_address> a schema:PostalAddress ;
-    schema:addressCountry "IT" ;
-    schema:addressLocality "VARESE" ;
-    schema:description "VIA SALVO D'ACQUISTO, 2, VARESE" ;
-    schema:streetAddress "VIA SALVO D'ACQUISTO, 2" .
-
-...
-
-<> prov:generatedAtTime "2017-08-14T08:24:03+00:00"^^xsd:dateTime;dct:source <urn:dataset:example2>;foaf:primaryTopic <#dataset>.
-<#dataset> a void:Dataset; void:datadump <>;void:triples 274 ;void:entities 18.
-# Generated 274 good triples from 18 entities (0 ignored), 0 errors
-
+<urn:yp:registry:1> 
+    dct:identifier "1" ;
+    foaf:page <http://linkeddata.center/> ;
+    schema:alternateName 
+    		"LinkedData.Center", "LDC" 
+.
+<urn:yp:registry:2> 
+    dct:identifier "2" ;
+    foaf:page <https://github.org/> ;
+    schema:alternateName 
+    		"GitHub"
+. 
 ```
 
 The the dataset processing is driven by the SimpleCsvGateway class that uses a set of options that you can override:

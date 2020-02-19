@@ -29,8 +29,26 @@ abstract class AbstractModel
 	 *		                   ),
 	 * )
 	 */
-	protected static $DEFAULT_OPTIONS  = array();
-	
+    protected static $DEFAULT_OPTIONS  = array(
+        'uri'				=> array(
+            'filter'    => FILTER_CALLBACK,
+            'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+            'flags'  	=> FILTER_REQUIRE_SCALAR,
+        ),
+        'base'				=> array(
+            'default'	=> 'urn:local:',
+            'filter'    => FILTER_CALLBACK,
+            'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
+            'flags'  	=> FILTER_REQUIRE_SCALAR,
+        ),
+        'id'				=> array(
+            'filter'    => FILTER_CALLBACK,
+            'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
+            'flags'  	=> FILTER_REQUIRE_SCALAR,
+        )
+    );
+    
+    
 	/**
 	 * known vocabularies
 	 */
@@ -38,7 +56,8 @@ abstract class AbstractModel
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
 		'owl'		=> 'http://www.w3.org/2002/07/owl#',
-		'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
+	    'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
+	    'dc'	    =>  'http://purl.org/dc/elements/1.1/',
 		'dct' 		=> 'http://purl.org/dc/terms/',
 		'void' 		=> 'http://rdfs.org/ns/void#',
 		'prov' 		=> 'http://www.w3.org/ns/prov#',
@@ -50,7 +69,8 @@ abstract class AbstractModel
 		'daq'		=> 'http://purl.org/eis/vocab/daq#',
 		'skos'		=> 'http://www.w3.org/2004/02/skos/core#',
 		'kees'		=> 'http://linkeddata.center/kees/v1#',
-		'botk'		=> 'http://linkeddata.center/botk/v1#',
+	    'botk'		=> 'http://linkeddata.center/botk/v1#',
+	    'oa'	    =>  'http://www.w3.org/ns/oa#',
 	);
 	
 
