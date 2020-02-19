@@ -1,5 +1,6 @@
 # BOTK\Core
-**MAINTENANCE version. Please switch to v8 release**
+
+**MAINTENANCE of BOTK version 7 vranch. Please switch to master for latest release**
 
 Super lightweight classes and ontologies for developing smart gateways to populate a business knowlege base.
 
