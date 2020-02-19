@@ -7,9 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [8.0.0]
 
-A project refactory that moves away specific ontology model and keeping only the core classes.
+A project re-factory that removes specific ontology model just keeping only the core classes.
 
-## removed
+### removed
 
 - all models except things
 - all unused test
