@@ -177,16 +177,18 @@ abstract class AbstractModel
 	/**
 	 * returns an uri
 	 */
-	public function getUri($id=null)
+	public function getUri($id=null, $suffix='')
 	{
 	    assert(!empty($this->data['base'])) ;
+	    
+	    $base = (array)$this->data['base']; // base coud be an array
 	    
 	    if (empty($id)) {
 	        $idGenerator=$this->uniqueIdGenerator;
 	        $id=$idGenerator($this->data);
 	    }
 
-		return $this->data['base'] . $id;
+	    return $base[0] . $id . $suffix;
 	}
 
 	

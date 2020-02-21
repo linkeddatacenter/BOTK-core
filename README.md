@@ -1,3 +1,4 @@
+![logo](http://linkeddata.center/resources/v4/logo/Logo-colori-trasp_oriz-640x220.png)
 # BOTK\Core
 [![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/BOTK-core)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/?branch=master)

@@ -28,17 +28,20 @@ class SampleSchemaThingTest extends TestCase
     /**
      * @dataProvider uris
      */	
-	public function testGetUri($data, $expectedData)
+	public function testGetUri($data, $id, $suffix, $expectedData)
 	{
 	    $obj = BOTK\Model\SampleSchemaThing::fromArray($data);
 		$obj->setIdGenerator(function($d){return'abc';});
-		$this->assertEquals($expectedData, $obj->getUri());
+		$this->assertEquals($expectedData, $obj->getUri($id,$suffix));
 	}
 	public function uris()
     {
     	return array( 
-	    	array( array(),	'urn:resource:abc'),
-	    	array( array('base'=>'http://example.com/resource/'),	'http://example.com/resource/abc'),
+	    	array( array(),	null, '', 'urn:resource:abc'),
+	    	array( array('base'=>'http://example.com/resource/'), null , '',	'http://example.com/resource/abc'),    
+    	    array( array(),	null, '-test', 'urn:resource:abc-test'),
+    	    array( array(),	'hello', '-test', 'urn:resource:hello-test'),
+    	    array( array('base'=>'http://example.com/resource/'),'my' , '-test',	'http://example.com/resource/my-test'),   
 		);
    	}
 

@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [8.1.1]
+
 ### added
 
 - code quality badge
@@ -12,6 +14,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 ### fixed
 
 - fixed default model in FactsFactory (interface bug)
+- added getUri suffix optional parameter (interface bug)
+- bug in getURI
 
 ## [8.1.0]
 
@@ -346,7 +350,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.1...HEAD
+[8.1.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.1...8.1.0
 [8.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.0...8.0.0
 [8.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.0.0...7.7.1
 [7.7.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.7.1...7.7.0
