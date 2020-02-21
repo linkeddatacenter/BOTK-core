@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+ 
+SD_INCLUDE testing
+
+SD_LEARN urn:test:graph tests/system/data/example1.csv "|in|out|.ttl|tests/system/gateways/example1.php"
+
+SD_DATA_TEST tests/system/tests
+
+SD_THATS_ALL_FOLKS

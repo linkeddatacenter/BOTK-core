@@ -13,9 +13,7 @@ Super lightweight base classes for developing smart gateways to populate RDF kno
 The package is available on [Packagist](https://packagist.org/packages/botk/core).
 You can install it using [Composer](http://getcomposer.org):
 
-```
-composer require botk/core
-```
+	composer require botk/core
 
 ## Overview
 
@@ -42,28 +40,25 @@ With BOTK libraries it is easy to create "gateways" ie processors that get in st
 For example this code snippet:
 
 ```php
-<?php
-require_once __DIR__.'/../vendor/autoload.php';
-
 $options = [
-	'factsProfile' => [
-		'model' => 'Thing',
-		'modelOptions' => [
-			'base' => [ 'default'=> 'urn:yp:registry:' ]
-		],
-		'datamapper'	=> function($rawdata){
-			$data = array();
-			$data['id'] = $rawdata[0];
-			$data['homepage'] =  $rawdata[1];
-			$data['alternateName'] = [ $rawdata[2], $rawdata[3]] ;
-			return $data;
-		},
-		'rawdataSanitizer' => function( $rawdata){
-			return is_empty($rawdata[0])?false:$rawdata;
-		},	
-	],
-	'skippFirstLine'	=> false,
-	'fieldDelimiter' => '|'
+    'factsProfile' => [
+        'model' => 'SampleSchemaThing',
+        'modelOptions' => [
+            'base' => [ 'default'=> 'urn:yp:registry:' ]
+        ],
+        'datamapper'	=> function($rawdata){
+            $data = array();
+            $data['identifier'] = $rawdata[0];
+            $data['homepage'] =  $rawdata[1];
+            $data['alternateName'] = [ $rawdata[2], $rawdata[3]] ;
+            return $data;
+        },
+        'rawdataSanitizer' => function( $rawdata){
+            return (count($rawdata)==4)?$rawdata:false;
+        },
+     ],
+    'skippFirstLine'	=> true,
+    'fieldDelimiter' => ','
 ];
 
 BOTK\SimpleCsvGateway::factory($options)->run();
@@ -71,31 +66,23 @@ BOTK\SimpleCsvGateway::factory($options)->run();
 
 processes this csv dataset:
 
- id | url                       | name              | aka 
- 1  | http://linkeddata.center/ | LinkedData.Center | LDC
- 2  | https://github.org/       | GitHub            | 
+	 id,url,name,aka 
+	 1,http://linkeddata.center/,LinkedData.Center,LDC
+	 2,https://github.org/,GitHub,
 
 
-and produces something similar tothis rdf file:
+and produces something similar to this RDF turtle file:
+	
+	@prefix schema: <http://schema.org/> .
+	
+	<urn:yp:registry:1> 
+		schema:alternateName "LDC","LinkedData.Center" ;
+	    schema:url <http://linkeddata.center/> .
+	
+	<urn:yp:registry:2> 
+		schema:alternateName "GitHub" ;
+	    schema:url <https://github.org/> .
 
-```turtle
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix schema: <http://schema.org/> .
-
-<urn:yp:registry:1> 
-    dct:identifier "1" ;
-    foaf:page <http://linkeddata.center/> ;
-    schema:alternateName 
-    		"LinkedData.Center", "LDC" 
-.
-<urn:yp:registry:2> 
-    dct:identifier "2" ;
-    foaf:page <https://github.org/> ;
-    schema:alternateName 
-    		"GitHub"
-. 
-```
 
 The the dataset processing is driven by the SimpleCsvGateway class that uses a set of options that you can override:
 
@@ -158,7 +145,7 @@ a field definition drives the process of data cleansing and rdf generation that 
 Note that not always a field  generate just a RDF triple: sometime the rdf generation processing requires to create blank nodes or to reference named node.
 For named node generation the 'base' uri namespace is normally used ("urn:local:." by default)
 
-See [more examples here](tests/functional).
+See [more examples here](tests/system/gateways).
 
 
 ## Contributing to this project

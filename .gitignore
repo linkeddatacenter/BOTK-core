@@ -1,5 +1,7 @@
 composer.phar
 /work/
+**.cache
+**distrib/
 /vendor/
 /.vagrant/
 .project

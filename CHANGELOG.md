@@ -5,9 +5,18 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 ## [Unreleased]
 
 
+## [8.1.0]
+
+Various bug fixed on v8 interface
+
+### added
+
+- system tests
+
 ## [8.0.0]
 
 A project re-factory that removes specific ontology model just keeping only the core classes.
+Not good for production
 
 ### removed
 
@@ -329,7 +338,8 @@ Completelly rewitten
 - Moved from google code
 - Code, doc and tests completed
 
-[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.0.0...HEAD
+[Unreleased]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.0...HEAD
+[8.1.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.1.0...8.0.0
 [8.0.0]:  https://github.com/linkeddatacenter/BOTK-core/compare/8.0.0...7.7.1
 [7.7.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.7.1...7.7.0
 [7.6.1]:  https://github.com/linkeddatacenter/BOTK-core/compare/7.6.1...7.6.0

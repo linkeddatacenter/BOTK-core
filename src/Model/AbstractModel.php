@@ -30,22 +30,12 @@ abstract class AbstractModel
 	 * )
 	 */
     protected static $DEFAULT_OPTIONS  = array(
-        'uri'				=> array(
-            'filter'    => FILTER_CALLBACK,
-            'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
-            'flags'  	=> FILTER_REQUIRE_SCALAR,
-        ),
         'base'				=> array(
-            'default'	=> 'urn:local:',
+            'default'	=> 'urn:resource:',
             'filter'    => FILTER_CALLBACK,
             'options' 	=> '\BOTK\Filters::FILTER_VALIDATE_URI',
             'flags'  	=> FILTER_REQUIRE_SCALAR,
         ),
-        'id'				=> array(
-            'filter'    => FILTER_CALLBACK,
-            'options' 	=> '\BOTK\Filters::FILTER_SANITIZE_ID',
-            'flags'  	=> FILTER_REQUIRE_SCALAR,
-        )
     );
     
     
@@ -54,23 +44,7 @@ abstract class AbstractModel
 	 */
 	protected static $VOCABULARY  = array(
 		'rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-		'rdfs'		=> 'http://www.w3.org/2000/01/rdf-schema#',
-		'owl'		=> 'http://www.w3.org/2002/07/owl#',
 	    'xsd' 		=> 'http://www.w3.org/2001/XMLSchema#',
-	    'dc'	    =>  'http://purl.org/dc/elements/1.1/',
-		'dct' 		=> 'http://purl.org/dc/terms/',
-		'void' 		=> 'http://rdfs.org/ns/void#',
-		'prov' 		=> 'http://www.w3.org/ns/prov#',
-		'sd'		=> 'http://www.w3.org/ns/sparql-service-description#',
-		'schema'	=> 'http://schema.org/',
-		'wgs' 		=> 'http://www.w3.org/2003/01/geo/wgs84_pos#',
-		'foaf' 		=> 'http://xmlns.com/foaf/0.1/',
-		'qb'		=> 'http://purl.org/linked-data/cube#',
-		'daq'		=> 'http://purl.org/eis/vocab/daq#',
-		'skos'		=> 'http://www.w3.org/2004/02/skos/core#',
-		'kees'		=> 'http://linkeddata.center/kees/v1#',
-	    'botk'		=> 'http://linkeddata.center/botk/v1#',
-	    'oa'	    =>  'http://www.w3.org/ns/oa#',
 	);
 	
 
@@ -201,22 +175,18 @@ abstract class AbstractModel
 
 
 	/**
-	 * a generic implementation that use uri, base and id property (all optionals)
+	 * returns an uri
 	 */
-	public function getUri()
+	public function getUri($id=null)
 	{
-		if(!empty($this->data['uri'])){
-			$uri =  $this->data['uri'];
-		} elseif(!empty($this->data['base'])) {
-			$idGenerator=$this->uniqueIdGenerator;
-			$uri = $this->data['base'];
-			$uri.=empty($this->data['id'])?$idGenerator($this->data):$this->data['id'];
-		} else{
-			$idGenerator=$this->uniqueIdGenerator;
-			$uri = 'urn:local:botk:'.$idGenerator($this->data);
-		}
-		
-		return $uri;
+	    assert($this->data['base']) ;
+	    
+	    if (empty($id)) {
+	        $idGenerator=$this->uniqueIdGenerator;
+	        $id=$idGenerator($this->data);
+	    }
+
+		return $this->data['base'] . $id;
 	}
 
 	

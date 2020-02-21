@@ -142,20 +142,23 @@ class FactsFactory implements FactsFactoryInterface {
 	public function generateLinkedDataFooter()
 	{
 		$now = date('c');
-		$rdf = "\n<> ";
-		$this->counter['triple'] += 6;
+		$rdf = "
+#@prefix dct: <http://purl.org/dc/terms/> .
+#@prefix void: <http://rdfs.org/ns/void#> .
+#@prefix prov: <http://www.w3.org/ns/prov#> .
+";
 
 		// add  provenance info
-		$rdf .= "prov:generatedAtTime \"$now\"^^xsd:dateTime;";
+		$rdf .= "#<> prov:generatedAtTime \"$now\"^^xsd:dateTime;";
 		if(!empty($this->profile['source'])){
 			$rdf.= "dct:source <{$this->profile['source']}>;";	
-			$this->counter['triple']++;
 		}
+		
 		
 		// add dataset info and a human readable comment as last line
 		$rdf.= "foaf:primaryTopic <#dataset>.\n";
-		$rdf.= "<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
-		$rdf.= "# Generated {$this->counter['triple']} good triples from {$this->counter['entity']} entities ({$this->counter['insane']} ignored), {$this->counter['error']} errors\n";
+		$rdf.= "#<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
+		$rdf.= "#Generated {$this->counter['triple']} good triples from {$this->counter['entity']} entities ({$this->counter['insane']} ignored), {$this->counter['error']} errors\n";
 		
 		return $rdf;
 	}

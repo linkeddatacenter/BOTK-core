@@ -8,10 +8,17 @@ namespace BOTK;
  * 	- to deny empty values if the data is invalid filter MUST returns false
  */
 class Filters {
-	
-	 const UNITS_REGEXP = '/(hundred|thousand|million|billion)/i';
 
-	
+    /**
+     * a set of predefind filters
+     */
+    const LITERAL = ['filter'=> FILTER_DEFAULT, 'flags'=> FILTER_FORCE_ARRAY] ;
+    const URL = ['filter'=>FILTER_CALLBACK, 'options'=>'\BOTK\Filters::FILTER_SANITIZE_HTTP_URL', 'flags'=> FILTER_FORCE_ARRAY] ;
+    const URI = ['filter'=>FILTER_CALLBACK, 'options'=>'\BOTK\Filters::FILTER_VALIDATE_URI', 'flags'=> FILTER_FORCE_ARRAY] ;
+    const GGMMYYYY = ['filter'=>FILTER_CALLBACK, 'options'=>'\BOTK\Filters::FILTER_SANITIZE_GGMMYYYY_DATE', 'flags'=> FILTER_FORCE_ARRAY] ;
+    const IDENTIFIER = ['filter'=>FILTER_CALLBACK, 'options'=>'\BOTK\Filters::FILTER_SANITIZE_ID', 'flags'=> FILTER_FORCE_ARRAY] ;
+    
+    
     /**
      * Validate a URI according to RFC 3986 (+errata)
      * (See: http://www.rfc-editor.org/errata_search.php?rfc=3986)
@@ -21,7 +28,8 @@ class Filters {
      */
 	public static function FILTER_VALIDATE_URI($uri)
 	{
-		return preg_match('/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/', $uri)
+		#return preg_match('/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/', $uri)
+		return preg_match('/\w+:(\/?\/?)[^\s]+/', $uri)
 			?$uri
 			:false;
 	}
@@ -74,7 +82,7 @@ class Filters {
 	{
 		$value = \mb_strtolower($value, 'UTF-8');
 		$value = preg_replace('/[^\p{L}0-9]+/u', ' ', $value);
-		$value = preg_replace('/\s+/', '_', trim($value));
+		$value = preg_replace('/\s+/', '-', trim($value));
 		
 		return $value?:false;
 	}
@@ -97,37 +105,39 @@ class Filters {
 	public static function FILTER_SANITIZE_BOOLEAN($value)
 	{
 		$value = trim($value);
-		if( preg_match('/^(false|T|0|ko|no)/i', $value)) {
+		if( preg_match('/^(false|F|0|ko|no)/i', $value)) {
 			$value = 'false';
-		} elseif( preg_match('/^(true|F|1|ok|yes)/i', $value)) {
+		} elseif( preg_match('/^(true|T|1|ok|yes)/i', $value)) {
 			$value = 'true';
 		} else {
-			$value = null;
+			$value = false;
 		};
 		return $value;
 	}
 
 
-	public static function FILTER_SANITIZE_DATETIME($value)
+	public static function FILTER_SANITIZE_GGMMYYYY_DATE($value)
 	{
-		return trim($value)?date('c',strtotime($value)):null;
+	    $value = str_replace('/', '-', $value);
+	    $value = str_replace('.', '-', $value);
+	    $d = \DateTime::createFromFormat('d-m-Y H:i:s', trim($value).' 00:00:00', new \DateTimeZone("UTC") );
+	    $errors = \DateTime::getLastErrors();
+	    if (!$d || !empty($errors['warning_count'])) {
+	        return false;
+	    }
+	    return $d->format('c');
 	}
 	
-
-	// Normalization of language: TBD
-	// see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-	public static function FILTER_SANITIZE_LANGUAGE($value)
+	
+	public static function FILTER_SANITIZE_MMGGYYYY_DATE($value)
 	{
-		if( preg_match('/^[it]/i', $value)) $value = 'it';
-		return trim($value)?$value:null;
+	    $value = str_replace('/', '-', $value);
+	    $value = str_replace('.', '-', $value);
+	    $d = \DateTime::createFromFormat('m-d-Y H:i:s', trim($value).' 00:00:00', new \DateTimeZone("UTC")  );
+	    $errors = \DateTime::getLastErrors();
+	    if (!$d || !empty($errors['warning_count'])) {
+	        return false;
+	    }
+	    return $d->format('c');
 	}
-
-
-	public static function LEFT_PAD_INT_WITH_ZERO($value, $size)
-	{
-		$intValue = (int) $value;
-		$value = str_pad( $intValue, $size, '0', STR_PAD_LEFT );
-		return ($intValue>0 && strlen($value)==$size)?$value:null;	
-	}
-
 }
