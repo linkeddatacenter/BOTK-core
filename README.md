@@ -1,5 +1,6 @@
 # BOTK\Core
 [![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/BOTK-core)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/BOTK-core.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core)
 [![Latest Version](https://img.shields.io/packagist/v/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
 [![Total Downloads](https://img.shields.io/packagist/dt/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)

@@ -32,7 +32,7 @@ class FactsFactory implements FactsFactoryInterface {
 	public function __construct( array $profile =array() )
 	{
 		$defaults = array(
-			'model'					  => 'LocalBusiness',
+			'model'					  => 'SampleSchemaThing',
 			'modelOptions'			  => array(),
 			'entityThreshold'		  => 100, // min numbers of entity that trigger error resilence computation.
 			'resilienceToErrors' 	  => 0.3, // if more than 30% of error throws a TooManyErrorException

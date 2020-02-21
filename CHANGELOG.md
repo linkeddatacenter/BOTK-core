@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+### added
+
+- code quality badge
+- added more unit tests
+
+### fixed
+
+- fixed default model in FactsFactory (interface bug)
 
 ## [8.1.0]
 
