@@ -70,7 +70,7 @@ class Levenshtein extends AbstractReasoner
 	    $targets=[];
 	    
 	    while (($data=fgetcsv($this->inputStream)) && isset($data[1])) {
-	        assert( $data[0] && $data[1] ) ;
+	        assert( !empty($data[0]) && !empty($data[1]) ) ;
 	        
 	        $subjectUri=$data[0];
 	        $string=$data[1];
@@ -92,7 +92,7 @@ class Levenshtein extends AbstractReasoner
 	    
 	    while (($data = fgetcsv($this->inputStream)) !== FALSE) {
 	       
-	        assert( $data[0] && $data[1] ) ;
+	        assert(!empty($data[0]) && !empty($data[1]) ) ;
 	        
 	        list ($uri, $token)=$data;
 	        if( $closestUri=$this->findClosestUriToToken( strtolower($token), $targets) ){

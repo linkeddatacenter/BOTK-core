@@ -179,7 +179,7 @@ abstract class AbstractModel
 	 */
 	public function getUri($id=null)
 	{
-	    assert($this->data['base']) ;
+	    assert(!empty($this->data['base'])) ;
 	    
 	    if (empty($id)) {
 	        $idGenerator=$this->uniqueIdGenerator;
