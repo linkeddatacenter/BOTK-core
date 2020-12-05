@@ -49,7 +49,7 @@ class AbstractModelTest extends TestCase
 	public function testAsString()
 	{		
 		$obj = DummyModel::fromArray(array());
-		$s= $obj->getTurtleHeader() ."\n<urn:a:b> owl:sameAs <urn:a:b> .";
+		$s= $obj->getTurtleHeader('urn:resource:') ."\n<urn:a:b> owl:sameAs <urn:a:b> .";
 		
 		$this->assertEquals($s,  (string)$obj);
 	}

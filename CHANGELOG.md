@@ -4,6 +4,17 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+
+## [8.2.0]
+
+### fixed
+
+- bugs #12 #13  
+
+## removed
+
+- system tests with old relase of sdaas
+
 ## [8.1.1]
 
 ### added
