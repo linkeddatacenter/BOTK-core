@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+
+## [8.2.0]
+
+### added
+
+- issue #13 : added the possibility to specyfy custom pramba (i.e. @base) un turtle heading
+
 ## [8.1.1]
 
 ### added

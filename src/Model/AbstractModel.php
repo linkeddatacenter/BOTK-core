@@ -149,7 +149,11 @@ abstract class AbstractModel
 		$vocabulariers = static::getVocabularies();
 		$header = empty($base)?'': "@base <$base> .\n";
 		foreach( $vocabulariers as $prefix=>$ns ){
-			$header.="@prefix $prefix: <$ns> .\n";
+		    if( substr($prefix, 0,1) == '@' ) {
+		        $header.="$prefix <$ns> .\n";
+		    } else {
+		        $header.="@prefix $prefix: <$ns> .\n";
+		    }
 		}
 		
 		return $header;
