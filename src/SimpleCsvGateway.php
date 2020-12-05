@@ -49,8 +49,6 @@ class SimpleCsvGateway
 	
 	public function run()
 	{
-		echo $this->factsFactory->generateLinkedDataHeader();
-	
 	    while ($rawdata = $this->readRawData()) {
 	    	if($this->currentRow==1 && $this->options['skippFirstLine']){
 	    	    $this->message ("# Header skipped\n");
@@ -58,7 +56,8 @@ class SimpleCsvGateway
 			}
     		try {
     			$facts =$this->factsFactory->factualize($rawdata);
-	    		echo $facts->asTurtleFragment(), "\n";
+    			// on first line write headers
+    			echo ($this->currentRow==1)?$facts->asLinkedData():$facts->asTurtleFragment() , "\n";
 				$droppedFields = $facts->getDroppedFields();
 		    	if(!empty($droppedFields) && $this->options['missingFactsIsError']) {
 		    	    $this->message ("\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n");

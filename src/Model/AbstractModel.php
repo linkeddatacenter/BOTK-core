@@ -75,7 +75,7 @@ abstract class AbstractModel
 		//http://stackoverflow.com/questions/22377022/using-array-merge-to-initialize-static-class-variable-in-derived-class-based-on
 		$thisClass = get_called_class();
 		$parentClass = get_parent_class($thisClass);
-		$exists = method_exists($parentClass, __FUNCTION__); 
+		$exists = $parentClass?method_exists($parentClass, __FUNCTION__):false; 
 		return $exists ? 
 			self::mergeOptions($parentClass::constructOptions(), $thisClass::$DEFAULT_OPTIONS) : 
 			$thisClass::$DEFAULT_OPTIONS;		
@@ -97,8 +97,10 @@ abstract class AbstractModel
 		}
 
 		// ensure data are sanitized and validated
-		$sanitizedData = array_filter( filter_var_array($data, $options));
-		
+		$sanitizedData = array_filter( filter_var_array($data, $options), function ($var){
+		    return !is_null($var);
+		});
+			
 		// find and register dropped fields
 		foreach($data as $property=>$value){
 			if($value && empty($sanitizedData[$property])){
@@ -137,7 +139,7 @@ abstract class AbstractModel
 		//http://stackoverflow.com/questions/22377022/using-array-merge-to-initialize-static-class-variable-in-derived-class-based-on
 		$thisClass = get_called_class();
 		$parentClass = get_parent_class($thisClass);
-		$exists = method_exists($parentClass, __FUNCTION__); 
+		$exists = $parentClass?method_exists($parentClass, __FUNCTION__):false; 
 		return $exists ? 
 			array_merge($parentClass::getVocabularies(), $thisClass::$VOCABULARY) : 
 			$thisClass::$VOCABULARY;
@@ -149,11 +151,7 @@ abstract class AbstractModel
 		$vocabulariers = static::getVocabularies();
 		$header = empty($base)?'': "@base <$base> .\n";
 		foreach( $vocabulariers as $prefix=>$ns ){
-		    if( substr($prefix, 0,1) == '@' ) {
-		        $header.="$prefix <$ns> .\n";
-		    } else {
-		        $header.="@prefix $prefix: <$ns> .\n";
-		    }
+	        $header.="@prefix $prefix: <$ns> .\n";
 		}
 		
 		return $header;
@@ -185,7 +183,7 @@ abstract class AbstractModel
 	{
 	    assert(!empty($this->data['base'])) ;
 	    
-	    $base = (array)$this->data['base']; // base coud be an array
+	    $base = (array)$this->data['base']; // base could be an array
 	    
 	    if (empty($id)) {
 	        $idGenerator=$this->uniqueIdGenerator;
@@ -231,7 +229,8 @@ abstract class AbstractModel
 	 */		
 	public function asLinkedData() 
 	{
-		return $this->getTurtleHeader() ."\n". $this->asTurtleFragment();
+	    $base = $this->data['base']?? null;
+	    return $this->getTurtleHeader($base) ."\n". $this->asTurtleFragment();
 	}
 	
 	
