@@ -37,7 +37,8 @@ class FactsFactory implements FactsFactoryInterface {
 			'entityThreshold'		  => 100, // min numbers of entity that trigger error resilence computation.
 			'resilienceToErrors' 	  => 0.3, // if more than 30% of error throws a TooManyErrorException
 			'resilienceToInsanes'	  => 0.9, // if more than 90% of unacceptable data throws a TooManyErrorException
-			'source' 			  	  => null,	
+		    'source' 			  	  => null,
+		    'documentURL' 	          => null,	// used if printing metadata to specify source file URL use empty string for <>
 			'datamapper'			  => function($rawdata){return $rawdata;},
 			'dataCleaner' 		  	  => get_class().'::REMOVE_EMPTY',
 			'factsErrorDetector' 	  => get_class().'::NOT_EMPTY_FACTS',
@@ -135,32 +136,23 @@ class FactsFactory implements FactsFactoryInterface {
 	
 	public function generateLinkedDataHeader()
 	{
-		return call_user_func($this->modelClass.'::getTurtleHeader'); 
+	    $metadata='';
+	    if(!is_null($this->profile['documentURL'])) {
+	        // Requires foaf:,  dct: and void: prefixes to be defined in model
+	        $metadata.= "\n<{$this->profile['documentURL']}> a foaf:Document .\n";
+	        if(!empty($this->profile['source'])){
+	            $metadata .= "<{$this->profile['documentURL']}> dct:source <{$this->profile['source']}>. \n";
+	        }
+	        $metadata .= "[] a void:Dataset; void:datadump <{$this->profile['documentURL']}>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
+	        
+	    }
+	    return call_user_func($this->modelClass.'::getTurtleHeader') . $metadata;
 	}
 	
 	
 	public function generateLinkedDataFooter()
 	{
-		$now = date('c');
-		$rdf = "
-#@prefix dct: <http://purl.org/dc/terms/> .
-#@prefix void: <http://rdfs.org/ns/void#> .
-#@prefix prov: <http://www.w3.org/ns/prov#> .
-";
-
-		// add  provenance info
-		$rdf .= "#<> prov:generatedAtTime \"$now\"^^xsd:dateTime;";
-		if(!empty($this->profile['source'])){
-			$rdf.= "dct:source <{$this->profile['source']}>;";	
-		}
-		
-		
-		// add dataset info and a human readable comment as last line
-		$rdf.= "foaf:primaryTopic <#dataset>.\n";
-		$rdf.= "#<#dataset> a void:Dataset; void:datadump <>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
-		$rdf.= "#Generated {$this->counter['triple']} good triples from {$this->counter['entity']} entities ({$this->counter['insane']} ignored), {$this->counter['error']} errors\n";
-		
-		return $rdf;
+	    return "#Generated {$this->counter['triple']} good triples from {$this->counter['entity']} entities ({$this->counter['insane']} ignored), {$this->counter['error']} errors\n";
 	}
 
 

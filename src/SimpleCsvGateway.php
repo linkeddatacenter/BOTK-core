@@ -50,9 +50,12 @@ class SimpleCsvGateway
 	public function run()
 	{
 	    while ($rawdata = $this->readRawData()) {
-	    	if($this->currentRow==1 && $this->options['skippFirstLine']){
-	    	    $this->message ("# Header skipped\n");
-	    		continue;
+	        if($this->currentRow==1) {
+	            echo $this->factsFactory->generateLinkedDataHeader();
+	            if ( $this->options['skippFirstLine']){
+    	    	    $this->message ("# Header skipped\n");
+    	    		continue;
+	            }
 			}
     		try {
     			$facts =$this->factsFactory->factualize($rawdata);
