@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [8.2.2]
+
+### fixed
+
+- regression
+
 ## [8.2.1]
 
 ### added

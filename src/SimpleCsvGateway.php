@@ -60,7 +60,7 @@ class SimpleCsvGateway
     		try {
     			$facts =$this->factsFactory->factualize($rawdata);
     			// on first line write headers
-    			echo ($this->currentRow==1)?$facts->asLinkedData():$facts->asTurtleFragment() , "\n";
+    			echo $facts->asTurtleFragment() , "\n";
 				$droppedFields = $facts->getDroppedFields();
 		    	if(!empty($droppedFields) && $this->options['missingFactsIsError']) {
 		    	    $this->message ("\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n");
