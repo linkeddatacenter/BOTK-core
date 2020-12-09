@@ -4,6 +4,24 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## [8.2.1]
+
+### added
+
+- added 'dct', 'void', and 'foaf' prefix to the Abstract Model
+- documentUri to options to drive metadata printing
+
+### fixed
+
+- bug #15
+
+### removed
+
+- provenance info
+
+### changed
+
+- footer
 
 ## [8.2.0]
 
