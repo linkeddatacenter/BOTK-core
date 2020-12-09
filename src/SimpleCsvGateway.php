@@ -52,7 +52,7 @@ class SimpleCsvGateway
 	    while ($rawdata = $this->readRawData()) {
 	        if($this->currentRow==1) {
 	            echo $this->factsFactory->generateLinkedDataHeader();
-	            if { $this->options['skippFirstLine']){
+	            if ( $this->options['skippFirstLine']){
     	    	    $this->message ("# Header skipped\n");
     	    		continue;
 	            }
