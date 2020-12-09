@@ -146,7 +146,7 @@ class FactsFactory implements FactsFactoryInterface {
 	        $metadata .= "[] a void:Dataset; void:datadump <{$this->profile['documentURL']}>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
 	        
 	    }
-	    $base = $this->profile[modelOptions]['base']['default']?? null;
+	    $base = $this->profile['modelOptions']['base']['default']?? null;
 	    return call_user_func($this->modelClass.'::getTurtleHeader',$base) . $metadata;
 	}
 	
