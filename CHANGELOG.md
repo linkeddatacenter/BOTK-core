@@ -4,6 +4,17 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## 8.2.5
+
+### added
+
+- compatibility with php 8 ( issue #19)
+
+### removed
+
+- obsolete system tests and their dependencies with old SDaaS platform versions
+
+
 ## 8.2.4
 
 ### fixed
