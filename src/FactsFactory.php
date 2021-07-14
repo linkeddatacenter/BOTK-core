@@ -36,9 +36,9 @@ class FactsFactory implements FactsFactoryInterface {
 			'modelOptions'			  => array(),
 			'entityThreshold'		  => 100, // min numbers of entity that trigger error resilence computation.
 			'resilienceToErrors' 	  => 0.3, // if more than 30% of error throws a TooManyErrorException
-			'resilienceToInsanes'	  => 0.9, // if more than 90% of unacceptable data throws a TooManyErrorException
-		    'source' 			  	  => null,
+		    'resilienceToInsanes'	  => 0.9, // if more than 90% of unacceptable data throws a TooManyErrorException
 		    'documentURL' 	          => null,	// used if printing metadata to specify source file URL use empty string for <>
+		    'source' 			  	  => null,
 			'datamapper'			  => function($rawdata){return $rawdata;},
 			'dataCleaner' 		  	  => get_class().'::REMOVE_EMPTY',
 			'factsErrorDetector' 	  => get_class().'::NOT_EMPTY_FACTS',
@@ -78,6 +78,7 @@ class FactsFactory implements FactsFactoryInterface {
 	    }
 	    return array_filter($a);
 	}
+	
 	
 	/**
 	 * a default for dataValidator callback  
@@ -143,8 +144,7 @@ class FactsFactory implements FactsFactoryInterface {
 	        if(!empty($this->profile['source'])){
 	            $metadata .= "<{$this->profile['documentURL']}> dct:source <{$this->profile['source']}>. \n";
 	        }
-	        $metadata .= "[] a void:Dataset; void:datadump <{$this->profile['documentURL']}>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";
-	        
+	        $metadata .= "[] a void:Dataset; dct:format \"text/turtle\" ; void:datadump <{$this->profile['documentURL']}>;void:triples {$this->counter['triple']} ;void:entities {$this->counter['entity']}.\n";	        
 	    }
 	    $base = $this->profile['modelOptions']['base']['default']?? null;
 	    return call_user_func($this->modelClass.'::getTurtleHeader',$base) . $metadata;

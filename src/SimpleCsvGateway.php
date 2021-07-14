@@ -45,13 +45,17 @@ class SimpleCsvGateway
 	        echo $message;
 	    }
 	}
-	
+
+	// hoocks 
+	public function onStart() {}
+	public function onSuccess() {}
 	
 	public function run()
 	{
 	    while ($rawdata = $this->readRawData()) {
 	        if($this->currentRow==1) {
 	            echo $this->factsFactory->generateLinkedDataHeader();
+	            $this->onStart();
 	            if ( $this->options['skippFirstLine']){
     	    	    $this->message ("# Header skipped\n");
     	    		continue;
@@ -71,6 +75,7 @@ class SimpleCsvGateway
 			} 
 	    }
 		
-		echo $this->factsFactory->generateLinkedDataFooter();		
+		echo $this->factsFactory->generateLinkedDataFooter();	
+		$this->onSuccess();
 	}
 }
