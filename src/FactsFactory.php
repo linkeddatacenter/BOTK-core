@@ -93,7 +93,7 @@ class FactsFactory implements FactsFactoryInterface {
 	 * create facts from rawdata. Please nothe that null facts does not means always an error (i.e. no facts is a fact).
 	 * if you do not want empty facts use dataValidator
 	 */
-	public function factualize($rawData,  &$globalStorage=NULL)
+	public function factualize($rawData,  object $globalStorage=null)
 	{
 	    
 		$rawdataSanitizer = $this->profile['rawdataSanitizer'];
@@ -105,7 +105,7 @@ class FactsFactory implements FactsFactoryInterface {
 			$dataCleaner = $this->profile['dataCleaner'];
 			$factsErrorDetector = $this->profile['factsErrorDetector'];
 			$data =$dataCleaner($datamapper($validRawData));
-			$facts = call_user_func_array($this->modelClass.'::fromArray', [$data, $this->profile['modelOptions'], &$globalStorage]);
+			$facts = call_user_func($this->modelClass.'::fromArray', $data, $this->profile['modelOptions'], $globalStorage);
 			$this->counter['triple'] += $facts->getTripleCount();
 			if($error=$factsErrorDetector($facts)){
 				$this->counter['error']++;

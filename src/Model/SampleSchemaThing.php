@@ -59,8 +59,10 @@ class SampleSchemaThing extends AbstractModel implements \BOTK\ModelInterface
 			
 			// Just for testing purposes
 			// use $this->globalstorage just to communicate something to the calling stack
-			
-			$this->globalstorage= [ "SampleSchemaThing" ];
+			$storage=$this->getStorageObject();
+			if(is_a($storage, '\stdClass')){ 
+			 $this->getStorageObject()->testData="testData";
+			}
 		}
 
 		return $this->rdf;

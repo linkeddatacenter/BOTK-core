@@ -58,7 +58,7 @@ abstract class AbstractModel
 	protected $tripleCount=0; //lazy created
 	protected $uniqueIdGenerator=null; // dependency injections
 	protected $droppedFields = array();
-	protected $globalStorage;
+	protected $globalStorage = null;
 	
 
 	protected static function mergeOptions( array $options1, array $options2 )
@@ -89,7 +89,7 @@ abstract class AbstractModel
 	/**
 	 * Do not call directlty constructor, use fromArray or other factory methodsinstead
 	 */
-	protected function __construct(array $data =  [], array $customOptions = [], &$globalStorage = null) 
+	protected function __construct(array $data =  [], array $customOptions = [], object $globalStorage = null) 
     { 		
  		$options = self::mergeOptions(self::constructOptions(),$customOptions);
 		
@@ -116,7 +116,7 @@ abstract class AbstractModel
 		$this->options = $options;
 		$this->data = $sanitizedData;
 		$this->setIdGenerator(function($data){return uniqid();});
-		$this->globalStorage = &$globalStorage;
+		$this->globalStorage = $globalStorage;
     }
 	
 	
@@ -124,7 +124,7 @@ abstract class AbstractModel
 	/**
 	 * Create an instance from an associative array
 	 */
-    public static function fromArray(array $data, array $customOptions = [] , &$globalStorage = null)
+    public static function fromArray(array $data, array $customOptions = [] , object $globalStorage = null)
 	{
 	    return new static($data,$customOptions,$globalStorage);
 	}
@@ -133,12 +133,18 @@ abstract class AbstractModel
 	/**
 	 * Create an instance from an generic standard object
 	 */
-	public static function fromStdObject( \stdClass $obj, array $customOptions = array(), &$globalStorage = null)
+	public static function fromStdObject( \stdClass $obj, array $customOptions = array(), object $globalStorage = null)
 	{
 	    return static::fromArray((array)$obj,$customOptions,$globalStorage);
 	}
 
-
+	
+	public function getStorageObject()
+	{
+	    return $this->globalStorage;
+	}
+	
+	
 	public static function getVocabularies()
 	{
 		//http://stackoverflow.com/questions/22377022/using-array-merge-to-initialize-static-class-variable-in-derived-class-based-on

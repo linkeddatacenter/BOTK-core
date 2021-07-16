@@ -10,8 +10,8 @@ class SimpleCsvGatewayTest extends TestCase
         $fpOut = fopen('/tmp/output.ttl', 'w');
         
         $options = [
-            'inputStream'      => $fpIn,
-            'outputStream'      => $fpOut,
+            'inputStream'  => $fpIn,
+            'outputStream' => $fpOut,
             'factsProfile' => [
                 'model' => 'SampleSchemaThing',
                 'modelOptions' => [
@@ -38,7 +38,7 @@ class SimpleCsvGatewayTest extends TestCase
         fclose($fpIn);
         fclose($fpOut);
 
-        $this->assertEquals(['SampleSchemaThing'],$factory->getStorage());
+        $this->assertEquals('testData',$factory->getStorage()->testData);
         $this->assertEquals(file_get_contents('/tmp/output.ttl'),file_get_contents(__DIR__.'/output.ttl'));
     }
 

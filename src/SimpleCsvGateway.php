@@ -10,7 +10,7 @@ class SimpleCsvGateway
 	protected $options;
 	protected $factsFactory;
 	protected $currentRow = 0;
-	protected $storage = [];
+	protected $storage = null;
 	
 	
 	public static function factory(array $options)
@@ -19,7 +19,7 @@ class SimpleCsvGateway
 	}
 	
 	
-	public function __construct(array $options)
+	public function __construct(array $options, object $storage = null)
 	{
 		$defaults = array(
 			'factsProfile'		=> array(),
@@ -33,6 +33,7 @@ class SimpleCsvGateway
 		);
 		$this->options = array_merge($defaults,$options);
 		$this->factsFactory = new \BOTK\FactsFactory($options['factsProfile']);
+		$this->storage= is_null($storage)?(new \stdClass):$storage;
 	}
 	
 	

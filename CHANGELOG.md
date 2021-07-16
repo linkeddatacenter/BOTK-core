@@ -9,7 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 ### added
 
 - 'dataInStream'  and 'dataOutStream' new options in SimpleCsvGateway
-- factualize accepts an extra array argument (by reference) for an optional global storage
+- SimpleCsvGateway and FactsFactory.factualize accept an extra argument 
+  for a storage object to be used to store data visible to the with caller stack
 - SimpleCsvGateway unit test
 
 ## 8.2.5
