@@ -1,0 +1,11 @@
+@base <urn:yp:registry:> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <http://schema.org/> .
+# Header skipped
+<urn:yp:registry:A> schema:url <http://home/A>;schema:identifier "A";schema:alternateName "nameA1";schema:alternateName "nameA2".
+<urn:yp:registry:B> schema:url <http://home/B>;schema:identifier "B";schema:alternateName "nameB1";schema:alternateName "nameB2".
+#Generated 8 good triples from 2 entities (0 ignored), 0 errors

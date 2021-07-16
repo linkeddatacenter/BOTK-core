@@ -27,7 +27,7 @@ class FactsFactoryTest extends TestCase
 		$facts = $factsFactory->factualize($rawdata);
 		$structuredData = $facts->asArray();
 		$this->assertInstanceOf('\BOTK\Model\SampleSchemaThing', $facts);
-		$this->assertEquals($structuredData['identifier'], ['1']);
+		$this->assertEquals($structuredData['identifier'], '1');
 		$this->assertEquals($structuredData['homepage'], 'http://linkeddata.center');
 		$this->assertEquals(2, count($structuredData['alternateName']));
 	}

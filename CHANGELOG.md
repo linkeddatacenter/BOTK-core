@@ -8,8 +8,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ### added
 
-- onStart and on succesHook in SimpleCsvGateway
--
+- 'dataInStream'  and 'dataOutStream' new options in SimpleCsvGateway
+- factualize accepts an extra array argument (by reference) for an optional global storage
+- SimpleCsvGateway unit test
 
 ## 8.2.5
 

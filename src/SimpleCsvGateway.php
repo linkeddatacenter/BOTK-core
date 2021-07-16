@@ -10,6 +10,7 @@ class SimpleCsvGateway
 	protected $options;
 	protected $factsFactory;
 	protected $currentRow = 0;
+	protected $storage = [];
 	
 	
 	public static function factory(array $options)
@@ -27,6 +28,8 @@ class SimpleCsvGateway
 			'skippFirstLine'	=> true,
 			'fieldDelimiter' 	=> ',',
 		    'silent'            => false,
+		    'inputStream'      => STDIN,
+		    'outputStream'     => STDOUT,
 		);
 		$this->options = array_merge($defaults,$options);
 		$this->factsFactory = new \BOTK\FactsFactory($options['factsProfile']);
@@ -36,35 +39,43 @@ class SimpleCsvGateway
 	protected function readRawData()
 	{
 		$this->currentRow++;
-		return fgetcsv(STDIN, $this->options['bufferSize'], $this->options['fieldDelimiter']);
+		return fgetcsv($this->options['inputStream'], $this->options['bufferSize'], $this->options['fieldDelimiter']);
 	}
 	
 	protected function message($message)
 	{
 	    if (!$this->options['silent']){
-	        echo $message;
+	        fputs($this->options['outputStream'],  $message);
 	    }
 	}
 
-	// hoocks 
-	public function onStart() {}
-	public function onSuccess() {}
+	public function getStorage()
+	{
+	    return $this->storage;
+	}
+	
+	
+	public function setStorage($data=[])
+	{
+	    $this->storage = $data;
+	    return $this;
+	}
 	
 	public function run()
 	{
 	    while ($rawdata = $this->readRawData()) {
 	        if($this->currentRow==1) {
-	            echo $this->factsFactory->generateLinkedDataHeader();
-	            $this->onStart();
+	            fputs($this->options['outputStream'], $this->factsFactory->generateLinkedDataHeader());
 	            if ( $this->options['skippFirstLine']){
     	    	    $this->message ("# Header skipped\n");
     	    		continue;
 	            }
 			}
     		try {
-    			$facts =$this->factsFactory->factualize($rawdata);
+    		    $facts =$this->factsFactory->factualize($rawdata, $this->storage );
     			// on first line write headers
-    			echo $facts->asTurtleFragment() , "\n";
+    			fputs($this->options['outputStream'], $facts->asTurtleFragment() );
+    			fputs($this->options['outputStream'], "\n");
 				$droppedFields = $facts->getDroppedFields();
 		    	if(!empty($droppedFields) && $this->options['missingFactsIsError']) {
 		    	    $this->message ("\n# WARNING MISSING FACT on row {$this->currentRow}: dropped ".implode(",", $droppedFields)."\n");
@@ -75,7 +86,6 @@ class SimpleCsvGateway
 			} 
 	    }
 		
-		echo $this->factsFactory->generateLinkedDataFooter();	
-		$this->onSuccess();
+	    fputs( $this->options['outputStream'], $this->factsFactory->generateLinkedDataFooter());
 	}
 }
