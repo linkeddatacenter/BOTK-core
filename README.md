@@ -1,6 +1,6 @@
 ![logo](http://linkeddata.center/resources/v4/logo/Logo-colori-trasp_oriz-640x220.png)
 # BOTK\Core
-[![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/BOTK-core)
+[![Build Status](https://img.shields.io/travis/linkeddatacenter/BOTK-core.svg?style=flat-square)](http://travis-ci.com/linkeddatacenter/BOTK-core)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/BOTK-core.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/BOTK-core)
 [![Latest Version](https://img.shields.io/packagist/v/botk/core.svg?style=flat-square)](https://packagist.org/packages/botk/core)
