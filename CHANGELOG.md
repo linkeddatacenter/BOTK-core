@@ -4,6 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [changelog
 
 ## [Unreleased]
 
+## 8.3.0
+
+### added
+
+- 'dataInStream'  and 'dataOutStream' new options in SimpleCsvGateway
+- SimpleCsvGateway and FactsFactory.factualize accept an extra argument 
+  for a storage object to be used to store data visible to the with caller stack
+- SimpleCsvGateway unit test
+
 ## 8.2.5
 
 ### added

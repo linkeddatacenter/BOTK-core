@@ -10,7 +10,7 @@ class SampleSchemaThing extends AbstractModel implements \BOTK\ModelInterface
     
     
 	protected static $DEFAULT_OPTIONS  = array(
-	    'identifier'        => \BOTK\Filters::LITERAL,
+	    'identifier'        => ['filter'=> FILTER_DEFAULT, 'flags'=> FILTER_REQUIRE_SCALAR],
 		'homepage'			=> \BOTK\Filters::URL,
 	    'subject'			=> \BOTK\Filters::URI,
 	    'image'			    => \BOTK\Filters::URL,
@@ -24,7 +24,7 @@ class SampleSchemaThing extends AbstractModel implements \BOTK\ModelInterface
 	public function asTurtleFragment()
 	{
 		if(is_null($this->rdf)) {
-			$uri = $this->getUri();
+		    $uri = $this->getUri($this->data['identifier']);
 			
 	 		// serialize uri properties
 			$this->rdf = "<$uri> ";
@@ -57,6 +57,12 @@ class SampleSchemaThing extends AbstractModel implements \BOTK\ModelInterface
 				$this->rdf = ''; // no serialize if uri has no attributes
 			}
 			
+			// Just for testing purposes
+			// use $this->globalstorage just to communicate something to the calling stack
+			$storage=$this->getStorageObject();
+			if(is_a($storage, '\stdClass')){ 
+			 $this->getStorageObject()->testData="testData";
+			}
 		}
 
 		return $this->rdf;

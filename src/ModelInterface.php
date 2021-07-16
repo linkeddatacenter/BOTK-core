@@ -3,8 +3,8 @@ namespace BOTK;
 
 Interface ModelInterface 
 {
-	public static function fromArray(array $data);
-	public static function fromStdObject( \stdClass $data);
+    public static function fromArray(array $data, array $customOptions = [] ,  object $globalStorage=null);
+    public static function fromStdObject( \stdClass $data, array $customOptions = [] , object  $globalStorage=null);
 	
 	public static function getVocabularies();
 	public static function getTurtleHeader($base=null);
@@ -12,6 +12,7 @@ Interface ModelInterface
 	public function getOptions();
 	public function getTripleCount();
 	public function getDroppedFields();
+	public function getStorageObject();
 	
 	public function asStdObject();
 	public function asArray();
