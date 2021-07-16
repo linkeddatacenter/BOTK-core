@@ -10,8 +10,9 @@ build:
     environment:
         php:
             version: 8.0
-    before:
-        - composer require phpunit/phpunit:^9 --dev
+    dependencies:
+        before:
+            - composer require phpunit/phpunit:^9 --dev
     tests:
         override:
             -
