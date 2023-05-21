@@ -1,19 +1,12 @@
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false" 
-         cacheTokens="true"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         verbose="false">
-    <filter>
-        <whitelist>
-            <directory>src/</directory>
-        </whitelist>
-    </filter>
-    <testsuite name="unit">
-        <directory>tests/unit/</directory>
-    </testsuite>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <coverage/>
+  <testsuite name="unit">
+    <directory>tests/unit/</directory>
+  </testsuite>
+  <source>
+    <include>
+      <directory>src/</directory>
+    </include>
+  </source>
 </phpunit>

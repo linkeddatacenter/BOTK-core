@@ -1,8 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/) and [changelog format](http://keepachangelog.com/)
+This project adheres to [Semantic Versioning](http://semver.org/) and [keepchangelog format](http://keepachangelog.com/)
+From 9.0.0, this project adheres to the [conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0/)
+
 
 ## [Unreleased]
+
+## 9.0.0
+
+### Added
+- docs: adopted conventional commits
+- 
+### Changed
+- feat(composer)!: requires PHP >= 8.2 
+- feat(composer)!: requires phpunit 10
+- fix(tests): unit tests compatibility
 
 ## 8.3.0
 

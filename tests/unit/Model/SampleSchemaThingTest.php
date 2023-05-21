@@ -34,7 +34,7 @@ class SampleSchemaThingTest extends TestCase
 		$obj->setIdGenerator(function($d){return'abc';});
 		$this->assertEquals($expectedData, $obj->getUri($id,$suffix));
 	}
-	public function uris()
+	public static function uris()
     {
     	return array( 
 	    	array( array(),	null, '', 'urn:resource:abc'),

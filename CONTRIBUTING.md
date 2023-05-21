@@ -32,7 +32,7 @@ Retrieve BOTK-core's dependencies using [Composer](http://getcomposer.org/):
 
 Unit tests are performed through PHPUnit. To launch unit tests:
 
-	docker run --rm -v $PWD/.:/app -w /app --entrypoint vendor/bin/phpunit php
+	docker run --rm -v $PWD/.:/app -w /app --entrypoint vendor/bin/phpunit php:8.2
 
 
 

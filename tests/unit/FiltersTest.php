@@ -11,7 +11,7 @@ final class FiltersTest extends TestCase
 	{
 		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_TOKEN($data));
 	}
-	public function tokens()
+	public static function tokens()
     {
     	return array( 
     		array( 'abc d e #1',	'ABCDE1'), 
@@ -31,7 +31,7 @@ final class FiltersTest extends TestCase
 	{
 		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_EMAIL($data));
 	}
-	public function emails()
+	public static function emails()
     {
     	return array( 
     		array( 'abC@Example.com',		'ABC@EXAMPLE.COM'), 
@@ -49,7 +49,7 @@ final class FiltersTest extends TestCase
 	{
 		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_ID($data));
 	}
-	public function ids()
+	public static function ids()
     {
     	return array( 
     		array( 'abC@Example.com',		'abc-example-com'), 
@@ -71,7 +71,7 @@ final class FiltersTest extends TestCase
 	{
 		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_TURTLE_STRING($data));
 	}
-	public function turtle_strings()
+	public static function turtle_strings()
     {
     	return array( 
     		array( 'abc',							'abc'), 
@@ -94,7 +94,7 @@ final class FiltersTest extends TestCase
 	{
 		$this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_HTTP_URL($data));
 	}
-	public function httpUrls()
+	public static function httpUrls()
     {
     	return array( 
     		array( 'www.example.com',				'http://www.example.com'),
@@ -116,7 +116,7 @@ final class FiltersTest extends TestCase
    	{
    	    $this->assertEquals($expectedData, BOTK\Filters::FILTER_VALIDATE_URI($data));
    	}
-   	public function httpUris()
+   	public static function httpUris()
    	{
    	    return array(
    	        array( 'http://www.example.com',				'http://www.example.com'),
@@ -136,7 +136,7 @@ final class FiltersTest extends TestCase
    	{
    	    $this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_GGMMYYYY_DATE($data));
    	}
-   	public function GGMMYYYYdates()
+   	public static function GGMMYYYYdates()
    	{
    	    return array(
    	        array( '20/09/2020', '2020-09-20T00:00:00+00:00'),
@@ -161,7 +161,7 @@ final class FiltersTest extends TestCase
    	{
    	    $this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_MMGGYYYY_DATE($data));
    	}
-   	public function MMGGYYYYdates()
+   	public static function MMGGYYYYdates()
    	{
    	    return array(
    	        array( '09/29/2020', '2020-09-29T00:00:00+00:00'),
@@ -186,7 +186,7 @@ final class FiltersTest extends TestCase
    	{
    	    $this->assertEquals($expectedData, BOTK\Filters::FILTER_SANITIZE_BOOLEAN($data));
    	}
-   	public function booleans()
+   	public static function booleans()
    	{
    	    return array(
    	        array( 'true', 'true'),
