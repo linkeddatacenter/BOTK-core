@@ -9,6 +9,7 @@
 
 Super lightweight base classes for developing smart gateways to populate RDF knowlege base.
 
+> **This package approaching EOL - will be archived on 2025 Q4**
 
 ## Installation
 
